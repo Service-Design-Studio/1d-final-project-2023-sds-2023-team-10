@@ -64,12 +64,21 @@ const MainLayout: React.FC<{ children: any }> = ({ children }) => {
           }}
           className="flex justify-center items-center"
         >
-          <Image
-            src="/echolestia.png"
-            alt="Tetrix logo"
-            width="125"
-            height="70"
-          ></Image>
+          {!collapsed ? (
+            <Image
+              src="/echolestia horizontal.png"
+              alt="Tetrix logo"
+              width="100"
+              height="40"
+            ></Image>
+          ) : (
+            <Image
+              src="/echolestia.png"
+              alt="Tetrix logo"
+              width="125"
+              height="70"
+            />
+          )}
         </div>
 
         <Menu
