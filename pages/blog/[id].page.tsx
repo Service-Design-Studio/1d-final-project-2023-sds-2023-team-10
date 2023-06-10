@@ -36,11 +36,11 @@ const BlogPostPage = () => {
               {blogPost.date}
             </Text>
             <Text className="text-green-700 mb-4">{blogPost.blog}</Text>
-            <Text className="text-green-700 mb-4">Read more...</Text>
+            <Text className="text-green-700 mb-4">Read more... {id}</Text>
             <Text className="text-green-900">- M -</Text>
           </>
         ) : (
-          <Text>Loading...</Text>
+          <Text>Loading... </Text>
         )}
       </Box>
     </BlogLayout>
