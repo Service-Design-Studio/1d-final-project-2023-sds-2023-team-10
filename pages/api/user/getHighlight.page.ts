@@ -14,12 +14,12 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const userId = req.query.userId as string;
-  const blogId = req.query.blogId as string;
+  const highlightId = req.query.highlightId as string;
 
-  if (typeof userId === "string" && typeof blogId === "string") {
+  if (typeof userId === "string" && typeof highlightId === "string") {
     const highlights = await getUserHighlights(userId, filePath);
     console.log(highlights);
-    const highlight = highlights?.find((h) => h.highlight.id === blogId);
+    const highlight = highlights?.find((h) => h.highlight.id === highlightId);
 
     if (highlight) {
       res.status(200).json(highlight);

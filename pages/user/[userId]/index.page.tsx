@@ -72,7 +72,6 @@ const HighlightCard = ({
 
 export default function HighlightsPage() {
   const router = useRouter();
-  console.log("test" + router.query);
   const { userId } = router.query;
 
   const { userHighlights, loading } = useUserHighlights(userId as string);
