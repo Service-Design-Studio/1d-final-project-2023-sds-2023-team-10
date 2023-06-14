@@ -62,12 +62,12 @@ const ReadMoreBlogCard = ({ blogPost }: { blogPost: BlogPost }) => {
   return (
     <Card>
       <CardHeader padding={0}>
-        <Heading size="md" className="card-title" fontFamily={"lora"}>
+        <Heading size="md" fontFamily={"lora"}>
           {blogPost.title}
         </Heading>
       </CardHeader>
       <CardBody padding={0}>
-        <Text className="card-date" fontFamily={"sans-serif"} color="gray">
+        <Text fontFamily={"sans-serif"} color="gray">
           {blogPost.date}
         </Text>
       </CardBody>
@@ -75,7 +75,7 @@ const ReadMoreBlogCard = ({ blogPost }: { blogPost: BlogPost }) => {
   );
 };
 
-const BlogPostPage = () => {
+export default function BlogPostPage() {
   const router = useRouter();
   const { id } = router.query;
 
@@ -96,19 +96,19 @@ const BlogPostPage = () => {
     <BlogLayout>
       <Box bg="green-300" p="6" fontFamily="serif, lora">
         <>
-          <Heading as="h1" mb="4" className="text-green-900">
+          <Heading as="h1" mb="4">
             {singleBlogPost.title}
           </Heading>
           <Text fontSize="sm" color="gray.500" mb="4">
             {singleBlogPost.date}
           </Text>
-          <Text className="text-green-700 mb-4">{singleBlogPost.blog}</Text>
-          <Text className="text-green-900">- M -</Text>
+          <Text>{singleBlogPost.blog}</Text>
+          <Text>- M -</Text>
         </>
         {allBlogPostByUser.blogs.length > 0 && (
           <>
             <h2>Read more..</h2>
-            <div className="flex flex-row space-x-5">
+            <div>
               {allBlogPostByUser.blogs.map((blogPost: any) => {
                 return (
                   <div style={{ minWidth: "300px" }}>
@@ -122,6 +122,4 @@ const BlogPostPage = () => {
       </Box>
     </BlogLayout>
   );
-};
-
-export default BlogPostPage;
+}

@@ -39,7 +39,6 @@ const Navbar = () => {
         </Link>
         <Link href="/faq">
           <Button colorScheme="gray" variant="ghost" mr="4">
-            FAQ
           </Button>
         </Link>
       </Box>
