@@ -1,0 +1,4 @@
+[
+  { "type": "client", "id": "1", "phoneNumber": "John" },
+  { "type": "admin", "id": "2", "phoneNumber": "Admin" }
+]

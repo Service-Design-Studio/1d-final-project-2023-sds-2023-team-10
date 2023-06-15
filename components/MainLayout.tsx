@@ -10,7 +10,7 @@ import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import Image from 'next/image';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Footer } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -44,84 +44,25 @@ const items: MenuItem[] = [
 ];
 
 const MainLayout: React.FC<{ children: any }> = ({ children }) => {
-  const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Sider
-        collapsible
-        collapsed={collapsed}
-        onCollapse={(value) => setCollapsed(value)}
-      >
-        <div
-          style={{
-            height: 64,
-            margin: 16,
-            background: 'rgba(255, 255, 255, 1)',
-          }}
-          className="flex justify-center items-center"
-        >
-          {!collapsed ? (
-            <Image
-              src="/echolestia horizontal.png"
-              alt="Tetrix logo"
-              width="100"
-              height="40"
-            ></Image>
-          ) : (
-            <Image
-              src="/echolestia.png"
-              alt="Tetrix logo"
-              width="125"
-              height="70"
-            />
-          )}
-        </div>
-
+      <Header style={{ padding: 0, backgroundColor: '#1976D2' }}>
         <Menu
           theme="dark"
           defaultSelectedKeys={['1']}
-          mode="inline"
+          mode="horizontal"
           items={items}
         />
-      </Sider>
-      <Layout className="site-layout">
-        <Header style={{ padding: 0, backgroundColor: '#1976D2' }}>
-          {/* <div
-            className="rounded-xl my-1 mx-2"
-            style={{
-              justifySelf: 'flex-start',
-              width: '20%',
-              background: 'white',
-              height: '80%',
-              maxWidth: '160px',
-            }}
-          >
-           <Image
-              src="/Tetrix-White-Logo.png"
-              alt="Tetrix logo"
-              width="160"
-              height="50"
-            ></Image> 
-          </div> */}
-        </Header>
-        <Content style={{ margin: '0 16px' }}>
-          {/* <Breadcrumb style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
-          </Breadcrumb> */}
-          {children}
-        </Content>
-        <Footer style={{ textAlign: 'center' }}>
-          © Copyright Echolestia 2023.
-        </Footer>
-      </Layout>
+      </Header>
+      <Content style={{ margin: '0 16px' }}>{children}</Content>
+      <Footer style={{ textAlign: 'center' }}>
+        © Copyright Echolestia 2023.
+      </Footer>
     </Layout>
-
-    // MainLayout code
   );
 };
 
