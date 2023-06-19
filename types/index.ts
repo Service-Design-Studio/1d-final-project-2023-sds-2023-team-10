@@ -3,8 +3,8 @@ export type Message = {
   receiverId: string;
   timestamp: Date;
   sentimentAnalysisScore: number;
-  content: 'Hello, how are you?';
-  type: 'text';
+  content: "Hello, how are you?";
+  type: "text";
 };
 
 export type ChatRoom = {
@@ -19,7 +19,7 @@ export type ChatRoom = {
 };
 
 export type User = {
-  type: 'admin' | 'client' | 'ai';
+  type: "admin" | "client" | "ai";
   id: string;
   profile?: string;
   properties?: {
