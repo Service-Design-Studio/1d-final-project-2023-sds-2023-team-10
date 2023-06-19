@@ -28,3 +28,14 @@ export type User = {
   username?: string;
   phoneNumber?: string;
 };
+
+export type Article = {
+  id: string;
+  publishedDate: Date;
+  createdDate: Date;
+  title: string;
+  author: string;
+  imgUrl: string;
+  url: string;
+  userGroup: string[];
+};

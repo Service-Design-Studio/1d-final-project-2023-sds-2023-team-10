@@ -1,11 +1,8 @@
 import React, { useState } from "react";
-import { PlusOutlined } from "@ant-design/icons";
-import { Button, DatePicker, Form, Input, Upload, Space, Tag } from "antd";
+import { Button, DatePicker, Form, Input, Space } from "antd";
 import MainLayout from "../../../components/MainLayout";
 
-const { RangePicker } = DatePicker;
-const { TextArea } = Input;
-const tags = [
+const category = [
   "Pregnancy",
   "Postpartum",
   "Infant Care",
@@ -19,6 +16,14 @@ const tags = [
   "1st Trimester",
   "2nd Trimester",
   "3rd Trimester",
+];
+const tags = [
+  "Pregnant teens",
+  "Pregnant adults",
+  "Partners",
+  "Parents",
+  "Friends",
+  "New Parents",
 ];
 
 const normFile = (e: any) => {
@@ -47,7 +52,13 @@ const ArticleForm: React.FC = () => {
   };
 
   const onFinish = (values: any) => {
-    console.log(values);
+    let processedValues = {
+      ...values,
+      createdDate: new Date(),
+      id: Math.floor(Math.random() * 1000000),
+      userGroup: selectedTags,
+    };
+    console.log(processedValues);
   };
 
   const onReset = () => {
@@ -57,30 +68,46 @@ const ArticleForm: React.FC = () => {
 
   return (
     <>
-      <div className="flex items-centre min-h-screen justify-center m-8">
+      <div className="flex items-centre min-h-screen min-w-full justify-center my-8">
         <div>
           <h1 className="text-3xl font-bold">Add an Article</h1>
           <Form
-            labelCol={{ span: 4 }}
+            labelCol={{ span: 6 }}
             wrapperCol={{ span: 14 }}
             layout="horizontal"
             style={{ maxWidth: 600 }}
             form={form}
             onFinish={onFinish}
           >
-            <Form.Item label="Article Title" name="title">
+            <Form.Item
+              label="Article Title"
+              name="title"
+              rules={[{ required: true }]}
+            >
               <Input placeholder="Enter the article title" />
             </Form.Item>
-            <Form.Item label="Article Link" name="articleLink">
+            <Form.Item
+              label="Article Link"
+              name="url"
+              rules={[{ required: true }]}
+            >
               <Input placeholder="Enter the article URL" />
             </Form.Item>
-            <Form.Item label="Author" name="author">
+            <Form.Item
+              label="Author"
+              name="author"
+              rules={[{ required: true }]}
+            >
               <Input placeholder="Enter the article author" />
             </Form.Item>
-            <Form.Item label="DatePicker" name="datePicker">
+            <Form.Item
+              label="Date Published"
+              name="publishedDate"
+              rules={[{ required: true }]}
+            >
               <DatePicker />
             </Form.Item>
-            <Form.Item
+            {/* <Form.Item
               label="Upload Article "
               name="upload"
               valuePropName="fileList"
@@ -92,12 +119,14 @@ const ArticleForm: React.FC = () => {
                   <div style={{ marginTop: 8 }}>Upload</div>
                 </div>
               </Upload>
+            </Form.Item> */}
+            <Form.Item label="Image Link" name="imgURL">
+              <Input placeholder="Enter the article URL" />
             </Form.Item>
-
-            <Form.Item name="tags" label="Tags" style={{ display: "none" }}>
-              <Input />
-            </Form.Item>
-            <Form.Item label="Tags">
+            <Form.Item
+              label="Select target groups"
+              rules={[{ required: true }]}
+            >
               <Space wrap>
                 {tags.map((tag) => (
                   <Button

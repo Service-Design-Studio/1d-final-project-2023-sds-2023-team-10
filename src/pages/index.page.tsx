@@ -1,5 +1,6 @@
-import Image from 'next/image';
-import MainLayout from '../../components/MainLayout';
+import Image from "next/image";
+import MainLayout from "../../components/MainLayout";
+import { ConfigProvider } from "antd";
 
 export default function Home() {
   return (
