@@ -5,7 +5,24 @@
         "createdDate": "2023-06-15T00:00:00Z",
         "title": "5 Things to Do After a Surprise Pregnancy",
         "author": "Camille Noe Pagán",
-        "imgUrl": "https://cdn.pixabay.com/photo/2015/09/21/14/24/zombie-949916_960_720.jpg",
+        "imgUrl": "https://cdn.pixabay.com/photo/2017/04/02/23/06/baby-2197097_1280.jpg",
+        "url": "https://www.webmd.com/baby/features/5-things-to-do-after-a-surprise-pregnancy", 
+        "userGroup":
+            [
+                "married_pregnant_women",
+                "boyfriends_of_pregnant_women", 
+                "parents", 
+                "unmarried_pregnant_women"
+            ]
+    }
+    ,
+    {
+        "id": "id",
+        "publishedDate": "2015-02-19T00:00:00Z",
+        "createdDate": "2023-06-15T00:00:00Z",
+        "title": "5 Things to Do After a Surprise Pregnancy",
+        "author": "Camille Noe Pagán",
+        "imgUrl": "https://cdn.pixabay.com/photo/2017/04/02/23/06/baby-2197097_1280.jpg",
         "url": "https://www.webmd.com/baby/features/5-things-to-do-after-a-surprise-pregnancy", 
         "userGroup":
             [

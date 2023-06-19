@@ -51,14 +51,43 @@ const ArticleForm: React.FC = () => {
     }
   };
 
-  const onFinish = (values: any) => {
+  const onFinish = async (values: any) => {
     let processedValues = {
       ...values,
-      createdDate: new Date(),
+      // Dont include the milliseconds
+      publishedDate: values.publishedDate.toISOString().substring(0, 19) + "Z",
+      createdDate: new Date().toISOString().substring(0, 19) + "Z",
       id: Math.floor(Math.random() * 1000000),
       userGroup: selectedTags,
     };
-    console.log(processedValues);
+    console.log(
+      "Making post request with the following data to API",
+      processedValues
+    );
+
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(processedValues),
+    };
+
+    const response = await fetch(
+      "https://rubybackend-rgegurmvca-as.a.run.app/articles",
+      requestOptions
+    );
+
+    if (response.ok) {
+      const jsonData = await response.json();
+      console.log("Article created successfully", jsonData);
+    } else {
+      console.log(
+        "Error creating article",
+        response.status,
+        response.statusText
+      );
+    }
   };
 
   const onReset = () => {
