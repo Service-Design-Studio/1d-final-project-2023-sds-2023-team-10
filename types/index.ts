@@ -30,12 +30,12 @@ export type User = {
 };
 
 export type Article = {
-  id: string;
-  publishedDate: Date;
-  createdDate: Date;
+  id: number;
+  published_date: Date;
+  created_date: Date;
   title: string;
   author: string;
-  imgUrl: string;
+  img_url: string;
   url: string;
-  userGroup: string[];
+  user_group: string[];
 };

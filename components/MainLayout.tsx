@@ -1,10 +1,9 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import {
   DesktopOutlined,
   FileOutlined,
   PieChartOutlined,
-  TeamOutlined,
-  UserOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
@@ -17,11 +16,13 @@ type MenuItem = Required<MenuProps>["items"][number];
 function getItem(
   label: React.ReactNode,
   key: React.Key,
+  href: string,
   icon?: React.ReactNode,
   children?: MenuItem[]
 ): MenuItem {
   return {
     key,
+    href,
     icon,
     children,
     label,
@@ -29,11 +30,11 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem("Chat", "1", <PieChartOutlined />),
-  getItem("Chatbot", "2", <DesktopOutlined />),
-  getItem("Articles", "9", <FileOutlined />, [
-    getItem("View Articles", "10"),
-    getItem("Create Article", "11"),
+  getItem("Chat", "/chat", "1", <PieChartOutlined />),
+  getItem("Chatbot", "/chat2", "2", <DesktopOutlined />),
+  getItem("Articles", "/articles", "9", <FileOutlined />, [
+    getItem("View Articles", "/articles", "10"),
+    getItem("Create Article", "/articles/new", "11"),
   ]),
 ];
 
@@ -41,13 +42,25 @@ const MainLayout: React.FC<{ children: any }> = ({ children }) => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+  const router = useRouter();
 
+  // Keep track of the selected item menu
+  const [selectedKeys, setSelectedKeys] = useState<Array<string>>([
+    router.pathname,
+  ]);
+
+  const handleMenuClick = (event: any) => {
+    const { key } = event;
+    setSelectedKeys([key]);
+    router.push(key);
+  };
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Header style={{ padding: 0, backgroundColor: "#1976D2" }}>
         <Menu
           theme="dark"
-          defaultSelectedKeys={["1"]}
+          selectedKeys={selectedKeys}
+          onClick={handleMenuClick}
           mode="horizontal"
           items={items}
         />

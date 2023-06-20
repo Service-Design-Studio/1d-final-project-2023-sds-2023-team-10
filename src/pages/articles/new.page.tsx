@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Button, DatePicker, Form, Input, Space } from "antd";
 import MainLayout from "../../../components/MainLayout";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 const category = [
   "Pregnancy",
@@ -36,23 +38,7 @@ const normFile = (e: any) => {
 const ArticleForm: React.FC = () => {
   const [form] = Form.useForm();
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-
-  const [content, setContent] = useState("");
-
-  useEffect(() => {
-    const func = async () => {
-      const res = await fetch("/api/article", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      console.log(res);
-      const data = await res.json();
-      setContent(data);
-    };
-    func();
-  }, []);
+  const router = useRouter();
 
   const toggleTag = (tag: string) => {
     if (selectedTags.includes(tag)) {
@@ -69,40 +55,41 @@ const ArticleForm: React.FC = () => {
   };
 
   const onFinish = async (values: any) => {
-    let processedValues = {
+    const processedValues = {
       ...values,
       // Dont include the milliseconds
-      publishedDate: values.publishedDate.toISOString().substring(0, 19) + "Z",
-      createdDate: new Date().toISOString().substring(0, 19) + "Z",
+      published_date:
+        values.published_date.toISOString().substring(0, 19) + "Z",
+      created_date: new Date().toISOString().substring(0, 19) + "Z",
       id: Math.floor(Math.random() * 1000000),
-      userGroup: selectedTags,
+      user_group: selectedTags,
+      img_url: values.imgURL,
     };
     console.log(
       "Making post request with the following data to API",
       processedValues
     );
 
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(processedValues),
-    };
-
-    const response = await fetch(
-      "https://rubybackend-rgegurmvca-as.a.run.app/articles",
-      requestOptions
+    const createArticleResponse = await axios.post(
+      "/api/articles",
+      JSON.stringify(processedValues),
+      {
+        headers: {
+          accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
     );
 
-    if (response.ok) {
-      const jsonData = await response.json();
+    if (createArticleResponse.status === 200) {
+      const jsonData = await createArticleResponse;
       console.log("Article created successfully", jsonData);
+      router.push("/articles");
     } else {
       console.log(
         "Error creating article",
-        response.status,
-        response.statusText
+        createArticleResponse.status,
+        createArticleResponse.statusText
       );
     }
   };
@@ -114,7 +101,6 @@ const ArticleForm: React.FC = () => {
 
   return (
     <>
-      {JSON.stringify(content)}
       <div className="flex items-centre min-h-screen min-w-full justify-center my-8">
         <div>
           <h1 className="text-3xl font-bold">Add an Article</h1>
@@ -149,7 +135,7 @@ const ArticleForm: React.FC = () => {
             </Form.Item>
             <Form.Item
               label="Date Published"
-              name="publishedDate"
+              name="published_date"
               rules={[{ required: true }]}
             >
               <DatePicker />
