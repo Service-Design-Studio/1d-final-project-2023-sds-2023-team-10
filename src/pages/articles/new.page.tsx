@@ -64,20 +64,22 @@ const ArticleForm: React.FC = () => {
       "Making post request with the following data to API",
       processedValues
     );
-
+  
     const requestOptions = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(processedValues),
+      noCors: true
     };
-
+  
     const response = await fetch(
       "https://rubybackend-rgegurmvca-as.a.run.app/articles",
+      // { method: "POST" }
       requestOptions
     );
-
+  
     if (response.ok) {
       const jsonData = await response.json();
       console.log("Article created successfully", jsonData);
@@ -89,6 +91,7 @@ const ArticleForm: React.FC = () => {
       );
     }
   };
+  
 
   const onReset = () => {
     form.resetFields();
