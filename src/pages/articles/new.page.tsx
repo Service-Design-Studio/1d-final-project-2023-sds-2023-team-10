@@ -1,29 +1,29 @@
-import React, { useState } from "react";
-import { Button, DatePicker, Form, Input, Space } from "antd";
-import MainLayout from "../../../components/MainLayout";
+import React, { useEffect, useState } from 'react';
+import { Button, DatePicker, Form, Input, Space } from 'antd';
+import MainLayout from '../../../components/MainLayout';
 
 const category = [
-  "Pregnancy",
-  "Postpartum",
-  "Infant Care",
-  "Dealing with anxiety",
-  "Dealing with depression",
-  "Financial struggles",
-  "Adoption",
-  "Abortion",
-  "Miscarriage",
-  "Parenting",
-  "1st Trimester",
-  "2nd Trimester",
-  "3rd Trimester",
+  'Pregnancy',
+  'Postpartum',
+  'Infant Care',
+  'Dealing with anxiety',
+  'Dealing with depression',
+  'Financial struggles',
+  'Adoption',
+  'Abortion',
+  'Miscarriage',
+  'Parenting',
+  '1st Trimester',
+  '2nd Trimester',
+  '3rd Trimester',
 ];
 const tags = [
-  "Pregnant teens",
-  "Pregnant adults",
-  "Partners",
-  "Parents",
-  "Friends",
-  "New Parents",
+  'Pregnant teens',
+  'Pregnant adults',
+  'Partners',
+  'Parents',
+  'Friends',
+  'New Parents',
 ];
 
 const normFile = (e: any) => {
@@ -36,6 +36,23 @@ const normFile = (e: any) => {
 const ArticleForm: React.FC = () => {
   const [form] = Form.useForm();
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+  const [content, setContent] = useState('');
+
+  useEffect(() => {
+    const func = async () => {
+      const res = await fetch('/api/article', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log(res);
+      const data = await res.json();
+      setContent(data);
+    };
+    func();
+  }, []);
 
   const toggleTag = (tag: string) => {
     if (selectedTags.includes(tag)) {
@@ -55,35 +72,35 @@ const ArticleForm: React.FC = () => {
     let processedValues = {
       ...values,
       // Dont include the milliseconds
-      publishedDate: values.publishedDate.toISOString().substring(0, 19) + "Z",
-      createdDate: new Date().toISOString().substring(0, 19) + "Z",
+      publishedDate: values.publishedDate.toISOString().substring(0, 19) + 'Z',
+      createdDate: new Date().toISOString().substring(0, 19) + 'Z',
       id: Math.floor(Math.random() * 1000000),
       userGroup: selectedTags,
     };
     console.log(
-      "Making post request with the following data to API",
+      'Making post request with the following data to API',
       processedValues
     );
 
     const requestOptions = {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(processedValues),
     };
 
     const response = await fetch(
-      "https://rubybackend-rgegurmvca-as.a.run.app/articles",
+      'https://rubybackend-rgegurmvca-as.a.run.app/articles',
       requestOptions
     );
 
     if (response.ok) {
       const jsonData = await response.json();
-      console.log("Article created successfully", jsonData);
+      console.log('Article created successfully', jsonData);
     } else {
       console.log(
-        "Error creating article",
+        'Error creating article',
         response.status,
         response.statusText
       );
@@ -97,6 +114,7 @@ const ArticleForm: React.FC = () => {
 
   return (
     <>
+      {JSON.stringify(content)}
       <div className="flex items-centre min-h-screen min-w-full justify-center my-8">
         <div>
           <h1 className="text-3xl font-bold">Add an Article</h1>
@@ -161,7 +179,7 @@ const ArticleForm: React.FC = () => {
                   <Button
                     key={tag}
                     onClick={() => toggleTag(tag)}
-                    type={selectedTags.includes(tag) ? "primary" : "default"}
+                    type={selectedTags.includes(tag) ? 'primary' : 'default'}
                   >
                     {tag}
                   </Button>
