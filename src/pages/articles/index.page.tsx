@@ -28,12 +28,21 @@ const ArticlesPage: React.FC = () => {
     url,
     userGroup,
   };
-  const [articles, setArticles] = useState<Article[]>([placeholderArticle]);
+
+  const [articles, setArticles] = useState<Article[]>([]);
+
+  const fetchArticles = async () => {
+    const response = await fetch("../api/articles");
+    const data = await response.json();
+    setArticles(data);
+  };
+
   useEffect(() => {
+    fetchArticles();
     console.log(articles);
 
     return () => {
-      setArticles([placeholderArticle]);
+      setArticles([]);
     };
   }, []);
 

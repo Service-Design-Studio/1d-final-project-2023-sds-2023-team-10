@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, DatePicker, Form, Input, Space } from "antd";
 import MainLayout from "../../../components/MainLayout";
 
@@ -37,6 +37,23 @@ const ArticleForm: React.FC = () => {
   const [form] = Form.useForm();
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
+  const [content, setContent] = useState("");
+
+  useEffect(() => {
+    const func = async () => {
+      const res = await fetch("/api/article", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(res);
+      const data = await res.json();
+      setContent(data);
+    };
+    func();
+  }, []);
+
   const toggleTag = (tag: string) => {
     if (selectedTags.includes(tag)) {
       setSelectedTags(selectedTags.filter((t) => t !== tag));
@@ -64,22 +81,20 @@ const ArticleForm: React.FC = () => {
       "Making post request with the following data to API",
       processedValues
     );
-  
+
     const requestOptions = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(processedValues),
-      noCors: true
     };
-  
+
     const response = await fetch(
       "https://rubybackend-rgegurmvca-as.a.run.app/articles",
-      // { method: "POST" }
       requestOptions
     );
-  
+
     if (response.ok) {
       const jsonData = await response.json();
       console.log("Article created successfully", jsonData);
@@ -91,7 +106,6 @@ const ArticleForm: React.FC = () => {
       );
     }
   };
-  
 
   const onReset = () => {
     form.resetFields();
@@ -100,6 +114,7 @@ const ArticleForm: React.FC = () => {
 
   return (
     <>
+      {JSON.stringify(content)}
       <div className="flex items-centre min-h-screen min-w-full justify-center my-8">
         <div>
           <h1 className="text-3xl font-bold">Add an Article</h1>
