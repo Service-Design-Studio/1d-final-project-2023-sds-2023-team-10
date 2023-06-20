@@ -5,39 +5,44 @@ const Navbar = ({ active, children, onNavClick }: any) => {
   return (
     <Box>
       {/* Top Navbar */}
-      <Box bg="purple.500" w="100%" p={4} color="white">
+      <Box bg="purple.500" w="100%" p={4} color="white" display={"fixed"}>
         <Text fontSize="lg" fontWeight="bold" textAlign="center">
           Guiding Hand
         </Text>
       </Box>
       {children}
+      {children}
+      {children}
+      {children}
 
       {/* Bottom Navbar */}
-      <Flex
-        bottom="0"
-        bg="white"
-        w="100%"
-        borderTop="1px"
-        borderColor="gray.200"
-        p={3}
-        justifyContent="space-around"
-      >
-        <NavItem
-          icon={<EmailIcon boxSize={6} />}
-          active={active === "messages"}
-          onClick={() => onNavClick("messages")}
-        />
-        <NavItem
-          icon={<DragHandleIcon boxSize={6} />}
-          active={active === "home"}
-          onClick={() => onNavClick("home")}
-        />
-        <NavItem
-          icon={<InfoIcon boxSize={6} />}
-          active={active === "profile"}
-          onClick={() => onNavClick("profile")}
-        />
-      </Flex>
+      <div className="fixed" style={{ minWidth: "375px", top: "635px" }}>
+        <Flex
+          bottom="0"
+          bg="white"
+          w="100%"
+          borderTop="1px"
+          borderColor="gray.200"
+          p={3}
+          justifyContent="space-around"
+        >
+          <NavItem
+            icon={<EmailIcon boxSize={6} />}
+            active={active === "messages"}
+            onClick={() => onNavClick("messages")}
+          />
+          <NavItem
+            icon={<DragHandleIcon boxSize={6} />}
+            active={active === "home"}
+            onClick={() => onNavClick("home")}
+          />
+          <NavItem
+            icon={<InfoIcon boxSize={6} />}
+            active={active === "profile"}
+            onClick={() => onNavClick("profile")}
+          />
+        </Flex>
+      </div>
     </Box>
   );
 };
