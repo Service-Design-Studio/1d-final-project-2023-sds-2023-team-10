@@ -29,7 +29,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <ChakraProvider theme={theme}>
       <div
         className="mx-auto p-4 bg-gray-100 border-2 border-gray-500"
-        style={{ maxWidth: "375px", minHeight: "812px" }}
+        style={{ maxWidth: "375px", height: "700px" }}
       >
         <Component {...pageProps} />
       </div>

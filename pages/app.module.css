@@ -155,7 +155,6 @@
 }
 
 .backButton {
-  composes: button;
   margin-right: auto;
   color: #77838f;
 }
@@ -165,7 +164,6 @@
 }
 
 .skipButton {
-  composes: button;
   margin-left: auto;
   color: #77838f;
 }
