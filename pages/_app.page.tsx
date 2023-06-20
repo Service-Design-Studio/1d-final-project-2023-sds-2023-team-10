@@ -27,7 +27,12 @@ const theme = extendTheme({
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
-      <Component {...pageProps} />
+      <div
+        className="mx-auto p-4 bg-gray-100 border-2 border-gray-500"
+        style={{ maxWidth: "375px", minHeight: "812px" }}
+      >
+        <Component {...pageProps} />
+      </div>
     </ChakraProvider>
   );
 }

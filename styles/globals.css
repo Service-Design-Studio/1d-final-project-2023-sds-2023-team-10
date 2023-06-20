@@ -4,6 +4,17 @@
 body {
   overscroll-behavior: none;
 }
+
+:root {
+  --primary-color: #bb6192;
+  --secondary-color: #77838f;
+
+  --text-grey: #77838f;
+  --gh-pink: #bb6192;
+  --gh-grey: #77838f;
+  --gh-pink-lightened: #e28aba;
+}
+
 /* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
