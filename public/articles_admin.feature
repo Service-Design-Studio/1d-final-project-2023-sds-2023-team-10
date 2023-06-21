@@ -1,7 +1,7 @@
 Feature: Admin Dashboard - Articles
     As a medical practitioner/professional/counsellor
-    So that users can view articles which are curated properly for them
-    I want to be able to view, create and delete articles through the admin platform.
+    I want to be able to view, create and delete articles through the admin platform
+    So that users can view articles which are curated properly for them.
 
     Scenario: Admin can navigate to view articles
         Given I have proceeded to the admin dashboard
