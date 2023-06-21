@@ -33,6 +33,7 @@ const ArticlesPage: React.FC = () => {
   };
 
   const [articles, setArticles] = useState<Article[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const fetchArticles = async () => {
     const createArticleResponse = await axios.get("/api/articles", {
@@ -72,7 +73,9 @@ const ArticlesPage: React.FC = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     fetchArticles();
+    setIsLoading(false);
     console.log("articles", articles);
 
     return () => {
@@ -87,10 +90,11 @@ const ArticlesPage: React.FC = () => {
     return articles.map((article) => (
       <Card
         key={article.id}
-        className="m-4 max-w-full"
+        className="mx-auto w-500"
         cover={
           <img alt={article.title} src={article.img_url} className="flex " />
         }
+        loading={isLoading}
         extra={
           <Popconfirm
             title="Are you sure you want to delete this article?"
@@ -128,10 +132,22 @@ const ArticlesPage: React.FC = () => {
   return (
     <MainLayout>
       <div className="flex-col justify-center min-h-screen min-w-full">
-        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4"> */}
-        <div className="">
-          {/* {renderArticles()} */}
-          {renderArticles()}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 p-4">
+          {isLoading ? (
+            <div className="flex justify-center align-middle">
+              <div>
+                <h1>Loading...</h1>
+              </div>
+            </div>
+          ) : articles.length === 0 ? (
+            <div className="flex justify-center align-middle">
+              <div>
+                <h1>You have no articles, please create a new article!</h1>
+              </div>
+            </div>
+          ) : (
+            renderArticles()
+          )}
         </div>
       </div>
     </MainLayout>
