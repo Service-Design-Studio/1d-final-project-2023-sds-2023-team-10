@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Article } from "../../../types";
 import article from "../dummyJSON/article.json";
-import { Card, Popconfirm, message } from "antd";
+import { Button, Card, Popconfirm, Spin, message } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 // import Meta from "antd/es/card/Meta";
 import MainLayout from "../../../components/MainLayout";
 import axios from "axios";
 import Meta from "antd/lib/card/Meta";
+import Image from "next/image";
+
+const handleUrlButton = (url: string) => {
+  window.open(url, "_blank");
+};
 
 const ArticlesPage: React.FC = () => {
   // import all the articles
@@ -36,6 +41,7 @@ const ArticlesPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const fetchArticles = async () => {
+    setIsLoading(true);
     const createArticleResponse = await axios.get("/api/articles", {
       headers: {
         accept: "application/json",
@@ -51,6 +57,11 @@ const ArticlesPage: React.FC = () => {
         };
       }
     );
+    setTimeout(() => {
+      console.log("test");
+      setArticles(fetchedArticles);
+      setIsLoading(false);
+    }, 1000);
     setArticles(fetchedArticles);
   };
 
@@ -73,9 +84,8 @@ const ArticlesPage: React.FC = () => {
   };
 
   useEffect(() => {
-    setIsLoading(true);
     fetchArticles();
-    setIsLoading(false);
+
     console.log("articles", articles);
 
     return () => {
@@ -85,14 +95,33 @@ const ArticlesPage: React.FC = () => {
 
   console.log("articles", articles);
 
+  if (isLoading) {
+    return (
+      <MainLayout>
+        <div className="flex h-screen w-full items-center justify-center">
+          <div className="flex flex-col items-center justify-center">
+            <Spin size="large" />
+            <h1 className="text-4xl">Loading articles...</h1>
+          </div>
+        </div>
+      </MainLayout>
+    );
+  }
+
   // Create a function to render the articles as a list of Card components.
   const renderArticles = () => {
     return articles.map((article) => (
       <Card
         key={article.id}
-        className="mx-auto w-500"
+        className="w-full"
         cover={
-          <img alt={article.title} src={article.img_url} className="flex " />
+          <div className="w-full">
+            <img
+              alt={article.title}
+              src={article.img_url}
+              className="w-full h-auto mx-auto object-cover"
+            />
+          </div>
         }
         loading={isLoading}
         extra={
@@ -108,9 +137,9 @@ const ArticlesPage: React.FC = () => {
           </Popconfirm>
         }
       >
-        <Meta title={article.title} description={article.author} />
+        <Meta />
         <h1 className="text-gray-600 mt-2">Title: {article.title}</h1>
-        <h2 className="text-gray-600 mt-2">Author: {article.author}</h2>
+        <h3 className="text-gray-600 mt-2">Author: {article.author}</h3>
         <p className="text-gray-600 mt-2">
           Published Date:{" "}
           {article.published_date &&
@@ -121,7 +150,9 @@ const ArticlesPage: React.FC = () => {
           {article.created_date &&
             article.created_date.toISOString().substring(0, 10)}
         </p>
-        <p className="text-gray-600">{article.url}</p>
+        <Button type="primary" onClick={() => handleUrlButton(article.url)}>
+          Visit Link
+        </Button>
         <p className="text-gray-600">
           User Group: {article.user_group.join(", ")}
         </p>

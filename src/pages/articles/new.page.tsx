@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, DatePicker, Form, Input, Space } from "antd";
+import { Button, DatePicker, Form, Input, Space, message } from "antd";
 import MainLayout from "../../../components/MainLayout";
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -27,6 +27,8 @@ const tags = [
   "Friends",
   "New Parents",
 ];
+const DEFAULT_IMG_URL =
+  "https://www.shutterstock.com/blog/wp-content/uploads/sites/5/2020/02/Usign-Gradients-Featured-Image.jpg";
 
 const normFile = (e: any) => {
   if (Array.isArray(e)) {
@@ -63,7 +65,7 @@ const ArticleForm: React.FC = () => {
       created_date: new Date().toISOString().substring(0, 19) + "Z",
       id: Math.floor(Math.random() * 1000000),
       user_group: selectedTags,
-      img_url: values.imgURL,
+      img_url: values.imgURL ? values.imgURL : DEFAULT_IMG_URL,
     };
     console.log(
       "Making post request with the following data to API",
