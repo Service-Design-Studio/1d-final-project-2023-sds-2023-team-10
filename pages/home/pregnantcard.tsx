@@ -20,6 +20,7 @@ function PregnantCard({ week, imageUrl }: any) {
       boxShadow="lg"
       textColor="white"
       cursor="pointer"
+      maxW="350px"
       onClick={handleClick}
       zIndex={20}
       h={expanded ? "-webkit-fit-content" : "150"} // adjusts the height based on whether the card is expanded\

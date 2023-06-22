@@ -21,6 +21,7 @@ const RecommendedArticle: React.FC<RecommendedArticleProps> = ({
       overflow="hidden"
       variant="outline"
       margin="1"
+      maxW={345}
       borderRadius={20}
     >
       <Image

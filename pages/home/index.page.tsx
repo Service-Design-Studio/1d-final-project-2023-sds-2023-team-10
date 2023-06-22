@@ -4,7 +4,6 @@ import AppLayout from "@/components/AppLayout";
 import { Heading, Spinner } from "@chakra-ui/react";
 import PregnantCard from "./pregnantcard";
 import ArticleList from "./ArticleList";
-import RecommendedArticle from "./RecommendedArticle";
 
 function Home() {
   const [user, setUser] = useState<any>(null);
