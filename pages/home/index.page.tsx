@@ -41,7 +41,7 @@ function Home() {
         Hello, {user.first_name} {user.last_name}!
       </Heading>
 
-      {user.pregnancy_week && (
+      {user.pregnancy_week !== null && user.pregnancy_week !== undefined && (
         <PregnantCard
           week={user.pregnancy_week}
           body={bodyText}
