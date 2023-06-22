@@ -14,9 +14,6 @@ function Home() {
     setUser(data.data);
   };
 
-  const bodyText =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing eces pulvinar. nenatis augue, at pretium orci. D ultrices nulla quis, congue elit. Nunc lobortis, orci sed aliquet cursus, lorem tellus laoreet nibhrat. Aliquam id egestas quam.";
-
   useEffect(() => {
     fetch();
   }, []);
@@ -44,13 +41,11 @@ function Home() {
       {user.pregnancy_week !== null && user.pregnancy_week !== undefined && (
         <PregnantCard
           week={user.pregnancy_week}
-          body={bodyText}
           imageUrl={
             "https://hips.hearstapps.com/hmg-prod/images/cute-cat-photos-1593441022.jpg?crop=1.00xw:0.753xh;0,0.153xh&resize=1200:*"
           }
         />
       )}
-      <RecommendedArticle />
       <ArticleList />
     </AppLayout>
   );

@@ -5,6 +5,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 
 // 1. Import `extendTheme`
 import { extendTheme } from "@chakra-ui/react";
+import "@fontsource/mulish"; // Defaults to weight 400
 
 // 2. Call `extendTheme` and pass your custom values
 const theme = extendTheme({
@@ -22,6 +23,10 @@ const theme = extendTheme({
       900: "#063229",
     },
   },
+  fonts: {
+    heading: "Mulish",
+    body: "Mulish",
+  },
 });
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -33,6 +38,7 @@ export default function App({ Component, pageProps }: AppProps) {
           minWidth: "375px",
           height: "700px",
           marginLeft: "calc(50vw - 200px)",
+          zIndex: "-1",
         }}
       ></div>
       <Component {...pageProps} />

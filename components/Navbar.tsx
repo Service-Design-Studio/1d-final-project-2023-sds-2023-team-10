@@ -12,11 +12,11 @@ const Navbar = ({ active, children, onNavClick }: any) => {
   return (
     <Box>
       {/* Top Navbar */}
-      <Box bg="purple.500" w="100%" p={4} color="white" display={"fixed"}>
+      {/* <Box bg="purple.500" w="100%" p={4} color="white" display={"fixed"}>
         <Text fontSize="lg" fontWeight="bold" textAlign="center">
           Guiding Hand
         </Text>
-      </Box>
+      </Box> */}
       {children}
       {/* Space under children so that the navbar doesnt block the last article */}
       <Box marginBottom={275}></Box>
