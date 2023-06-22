@@ -1,5 +1,12 @@
 import { Box, Flex, Text, Icon } from "@chakra-ui/react";
-import { EmailIcon, DragHandleIcon, InfoIcon } from "@chakra-ui/icons";
+import {
+  EmailIcon,
+  DragHandleIcon,
+  InfoIcon,
+  ChatIcon,
+} from "@chakra-ui/icons";
+import { RiHomeFill } from "react-icons/ri";
+import { FaUserAlt } from "react-icons/fa";
 
 const Navbar = ({ active, children, onNavClick }: any) => {
   return (
@@ -16,28 +23,30 @@ const Navbar = ({ active, children, onNavClick }: any) => {
       {children}
 
       {/* Bottom Navbar */}
-      <div className="fixed" style={{ minWidth: "375px", top: "635px" }}>
+      <div className="fixed" style={{ minWidth: "345px", top: "625px" }}>
         <Flex
           bottom="0"
           bg="white"
           w="100%"
           borderTop="1px"
           borderColor="gray.200"
+          borderRadius={25}
+          boxShadow={"2xl"}
           p={3}
           justifyContent="space-around"
         >
           <NavItem
-            icon={<EmailIcon boxSize={6} />}
+            icon={<ChatIcon boxSize={6} />}
             active={active === "messages"}
             onClick={() => onNavClick("messages")}
           />
           <NavItem
-            icon={<DragHandleIcon boxSize={6} />}
+            icon={<Icon as={RiHomeFill} boxSize={6} />}
             active={active === "home"}
             onClick={() => onNavClick("home")}
           />
           <NavItem
-            icon={<InfoIcon boxSize={6} />}
+            icon={<Icon as={FaUserAlt} boxSize={6} />}
             active={active === "profile"}
             onClick={() => onNavClick("profile")}
           />

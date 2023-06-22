@@ -10,7 +10,7 @@ export default function AppLayout({ children }: any) {
     router.push(`/${page}`);
   };
   return (
-    <Box maxW="375px" mx="auto" px={3}>
+    <Box maxW="375px" mx="auto" px={3} backgroundColor="blackAlpha.25">
       <Navbar active={router.pathname.slice(1)} onNavClick={handleNavClick}>
         <div className="py-5" style={{ minHeight: "545px" }}>
           {children}
