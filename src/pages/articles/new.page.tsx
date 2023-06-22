@@ -176,11 +176,11 @@ const ArticleForm: React.FC = () => {
             </Form.Item>
 
             <div className="flex justify-between">
-              <Button htmlType="button" onClick={onReset} className="inline">
+              <Button htmlType="button" data-testid="reset-button" onClick={onReset} className="inline">
                 Reset
               </Button>
               <Form.Item>
-                <Button type="primary" htmlType="submit" className="inline">
+                <Button type="primary" htmlType="submit" data-testid="submit-article-button" className="inline">
                   Submit
                 </Button>
               </Form.Item>
