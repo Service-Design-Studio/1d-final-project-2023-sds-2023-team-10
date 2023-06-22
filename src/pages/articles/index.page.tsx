@@ -105,10 +105,12 @@ const ArticlesPage: React.FC = () => {
           <Popconfirm
             title="Are you sure you want to delete this article?"
             onConfirm={() => deleteArticle(article.id)}
-            okText="Yes"
-            cancelText="No"
+            okText={<span data-testid={`yes-button-${article.id}`}>Yes</span>}
+            cancelText={<span data-testid={`no-button-${article.id}`}>No</span>}
           >
-            <div className="flex items-center justify-center w-8 h-8 bg-red-300 text-white rounded-full">
+            <div className="flex items-center justify-center w-8 h-8 bg-red-300 text-white rounded-full"
+            data-testid={`delete-article-button-${article.id}`}
+            >
               <DeleteOutlined />
             </div>
           </Popconfirm>
