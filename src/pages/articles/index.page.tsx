@@ -14,29 +14,6 @@ const handleUrlButton = (url: string) => {
 };
 
 const ArticlesPage: React.FC = () => {
-  // import all the articles
-  const {
-    id,
-    published_date,
-    created_date,
-    title,
-    author,
-    img_url,
-    url,
-    user_group,
-  } = article[0];
-
-  const placeholderArticle: Article = {
-    id,
-    published_date: new Date(published_date),
-    created_date: new Date(created_date),
-    title,
-    author,
-    img_url,
-    url,
-    user_group,
-  };
-
   const [articles, setArticles] = useState<Article[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -150,7 +127,11 @@ const ArticlesPage: React.FC = () => {
           {article.created_date &&
             article.created_date.toISOString().substring(0, 10)}
         </p>
-        <Button type="primary" onClick={() => handleUrlButton(article.url)}>
+        <Button
+          type="primary"
+          data-testid="visit-article-button"
+          onClick={() => handleUrlButton(article.url)}
+        >
           Visit Link
         </Button>
         <p className="text-gray-600">

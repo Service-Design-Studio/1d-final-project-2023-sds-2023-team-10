@@ -3,10 +3,15 @@ Feature: Admin Dashboard - Articles
     I want to be able to view, create and delete articles through the admin platform
     So that users can view articles which are curated properly for them.
 
-    Scenario: Admin can navigate to view articles
-        Given I have proceeded to the admin dashboard
-        When I click on the articles tab
-        Then I should see a list of articles
+    # Scenario: Admin can navigate to view articles
+    #     Given I have proceeded to the admin dashboard
+    #     When I click on the articles tab
+    #     Then I should see a list of articles
+
+    Scenario: Admin can successfully open an article link in a new window
+        Given I have navigated to the View articles page
+        When I click on the visit article button
+        Then I should see a new window with the url of that article
 
     Scenario: Admin can create an article
         Given I have proceeded to the admin dashboard

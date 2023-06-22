@@ -31,7 +31,12 @@ function getItem(
 
 const items: MenuItem[] = [
   getItem("Chat", "/chat", "1", <PieChartOutlined />),
-  getItem("Chatbot", "/chat2", "2", <DesktopOutlined />),
+  getItem(
+    "Chatbot",
+    "/chat2",
+    "2",
+    <DesktopOutlined data-testid="articles-tab" />
+  ),
   getItem("Articles", "/articles", "9", <FileOutlined />, [
     getItem("View Articles", "/articles", "10"),
     getItem("Create Article", "/articles/new", "11"),
