@@ -6,6 +6,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 // 1. Import `extendTheme`
 import { extendTheme } from "@chakra-ui/react";
 import "@fontsource/mulish"; // Defaults to weight 400
+import { useRouter } from "next/router";
 
 // 2. Call `extendTheme` and pass your custom values
 const theme = extendTheme({
@@ -30,6 +31,12 @@ const theme = extendTheme({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+
+  if (router.pathname ==="/"){
+    return (<Component {...pageProps} />)
+  }
+
   return (
     <ChakraProvider theme={theme}>
       <div
