@@ -2,16 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Article } from "../../types";
 import axios from "axios";
 import {
-  Button,
   Card,
   CardBody,
-  CardFooter,
   Heading,
   Image,
   Spinner,
   Stack,
   Text,
 } from "@chakra-ui/react";
+import RecommendedArticle from "./RecommendedArticle";
 
 const handleUrlButton = (url: string) => {
   window.open(url, "_blank");
@@ -53,7 +52,7 @@ const ArticleList: React.FC = () => {
       setArticles(fetchedArticles);
       setIsLoading(false);
     }, 1000);
-    setArticles(fetchedArticles);
+    // setArticles(fetchedArticles);
   };
 
   if (isLoading) {
@@ -69,43 +68,69 @@ const ArticleList: React.FC = () => {
 
   // Create a function to render the articles as a list of Card components.
   const renderArticles = () => {
-    return articles.map((article) => (
-      <Card
-        direction={{ base: "column", sm: "row" }}
-        overflow="hidden"
-        variant="outline"
-      >
-        <Image
-          objectFit="cover"
-          maxW={{ base: "100%", sm: "200px" }}
-          src={article.img_url}
-          alt={article.title}
-        />
+    return (
+      <>
+        {articles.map((article, index) => {
+          if (index === 0) {
+            return null;
+          }
 
-        <Stack>
-          <CardBody>
-            <Heading size="md">{article.title}</Heading>
-            <Text py="2">{article.author}</Text>
-            <Text py="2">{article.published_date.toLocaleDateString()}</Text>
-          </CardBody>
-
-          <CardFooter>
-            <Button
-              variant="solid"
-              colorScheme="blue"
+          return (
+            <Card
               onClick={() => handleUrlButton(article.url)}
+              direction="row"
+              overflow="hidden"
+              variant="outline"
+              margin="1"
+              height={120}
+              borderRadius={20}
             >
-              Read Article
-            </Button>
-          </CardFooter>
-        </Stack>
-      </Card>
-    ));
+              <Image
+                objectFit="cover"
+                // maxW={{ base: "100%", sm: "200px" }}
+                h="100%"
+                // maxH={{ base: "200px", sm: "100%" }}
+                w="120px"
+                borderRadius="20"
+                src={article.img_url}
+                alt={article.title}
+              />
+
+              <Stack height="100%">
+                <CardBody h={120}>
+                  <a href={article.url}>
+                    <Heading size="md">{article.title}</Heading>
+                  </a>
+                  <Text py="2">{article.author}</Text>
+                  <Text py="2">
+                    {article.published_date.toLocaleDateString()}
+                  </Text>
+                </CardBody>
+              </Stack>
+            </Card>
+          );
+        })}
+      </>
+    );
   };
 
   return (
     <>
-      <div>ArticleList</div>
+      {!isLoading && (
+        <>
+          <Heading as="h4" size="md">
+            Recommended Article
+          </Heading>
+          <RecommendedArticle
+            article={articles[0]}
+            onArticleClick={() => handleUrlButton(articles[0].url)}
+          />
+        </>
+      )}
+
+      <Heading as="h4" size="md">
+        More Articles
+      </Heading>
       <div>{renderArticles()}</div>
     </>
   );

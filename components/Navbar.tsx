@@ -18,9 +18,8 @@ const Navbar = ({ active, children, onNavClick }: any) => {
         </Text>
       </Box>
       {children}
-      {children}
-      {children}
-      {children}
+      {/* Space under children so that the navbar doesnt block the last article */}
+      <Box marginBottom={275}></Box>
 
       {/* Bottom Navbar */}
       <div className="fixed" style={{ minWidth: "345px", top: "625px" }}>
