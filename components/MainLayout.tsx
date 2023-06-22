@@ -18,7 +18,8 @@ function getItem(
   key: React.Key,
   href: string,
   icon?: React.ReactNode,
-  children?: MenuItem[]
+  children?: MenuItem[],
+  testid?: string
 ): MenuItem {
   return {
     key,
@@ -26,21 +27,27 @@ function getItem(
     icon,
     children,
     label,
+    "data-testid": testid // sets the "data-testid" attribute with the value in the testid parameter
   } as MenuItem;
 }
 
 const items: MenuItem[] = [
-  getItem("Chat", "/chat", "1", <PieChartOutlined />),
+  getItem("Chat", "/chat", "1", <PieChartOutlined />, undefined, "chat-tab"),
   getItem(
     "Chatbot",
     "/chat2",
     "2",
-    <DesktopOutlined data-testid="articles-tab" />
+    <DesktopOutlined data-testid="chatbot-icon" />,
+    undefined,
+    "chatbot-tab"
   ),
-  getItem("Articles", "/articles", "9", <FileOutlined />, [
-    getItem("View Articles", "/articles", "10"),
-    getItem("Create Article", "/articles/new", "11"),
-  ]),
+  getItem("Articles", "/articles", "9", <FileOutlined data-testid="articles-icon" />, [
+    getItem("View Articles", "/articles", "10", undefined, undefined, "view-articles-tab"),
+    getItem("Create Article", "/articles/new", "11", undefined, undefined, "create-article-tab"),
+  ],
+  "articles-tab"
+  ),
+
 ];
 
 const MainLayout: React.FC<{ children: any }> = ({ children }) => {
