@@ -395,14 +395,6 @@ function App() {
   // Page 1 Questions
   const page1 = [
     {
-      name: "I think I'm pregnant",
-      onClick: () => {
-        handleIncrement();
-
-        nextPage("I think I'm Pregnant", question, 2);
-      },
-    },
-    {
       name: "I am expecting",
       onClick: () => {
         handleIncrement();
