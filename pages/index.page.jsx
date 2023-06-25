@@ -13,9 +13,6 @@ const postDataToApi = async (data) => {
 
   console.log(response);
 
-
-
-
 };
 
 const TellUsMoreAssociate = (props) => {
@@ -103,72 +100,6 @@ const TellUsMoreAssociate = (props) => {
 
 
 
-};
-
-const TellUsMore = (props) => {
-  const [formData, setFormData] = useState({
-    anonymous: false,
-    name: "",
-    age: "",
-    number: "",
-    stage_of_life: "",
-  });
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const json = JSON.stringify(formData);
-    console.log("Form data:", json);
-    props.updateUserData(formData);
-
-    props.nextPage("IsVictim", 10, 17)
-  };
-
-
-  return (
-    <div className={styles.tellusmore}>
-      <h1>Tell us more!</h1>
-      <form>
-        <p className={styles.labelLeftAlign}>
-          <label htmlFor="anonymous" className={styles.labelLeftAlign}>Would you like to remain anonymous?</label>
-          <input type="checkbox" id="anonymous" name="anonymous" onChange={handleChange} />
-        </p >
-        <p className={styles.labelLeftAlign}>
-          <label htmlFor="name" className={styles.labelLeftAlign}>What is your name?</label>
-          <input className={styles.ghfield} type="text" id="name" name="name" onChange={handleChange} />
-        </p>
-        <p className={styles.labelLeftAlign}>
-          <label htmlFor="age" className={styles.labelLeftAlign}>What is your age?</label>
-          <input className={styles.ghfield} type="number" id="age" name="age" onChange={handleChange} />
-        </p>
-        <p className={styles.labelLeftAlign}>
-          <label htmlFor="number" className={styles.labelLeftAlign}>Your contact number (optional for emergency purposes only)</label>
-          <input className={styles.ghfield} type="text" id="number" name="number" onChange={handleChange} />
-        </p>
-
-        <p className={styles.labelLeftAlign}>
-          <label htmlFor="stage_of_life" className={styles.labelLeftAlign}>What stage of life are you in (ie. student)</label>
-          <select className={styles.labelLeftAlignField} id="stage_of_life" name="stage_of_life" onChange={handleChange}>
-            <option value="Student_Primary_School">Student (Primary School)</option>
-            <option value="Student_Secondary_School">Student (Secondary School)</option>
-            <option value="Student_Polytechnic">Student (Polytechnic)</option>
-            <option value="Student_Junior_College">Student (Junior College/Similar)</option>
-            <option value="Unemployed">Unemployed</option>
-            <option value="Working_Full_Time">Working Full-Time</option>
-            <option value="Working_Part_Time">Working Part-Time</option>
-            <option value="Searching_for_Job">Searching for job</option>
-            <option value="Foreign_Worker">Foreign worker</option>
-          </select>
-        </p>
-
-        <input className={styles.submit} type="submit" value="Submit" onClick={handleSubmit} />
-      </form>
-    </div>
-  );
 };
 
 function App() {
@@ -710,7 +641,7 @@ function App() {
           className={`${styles.onboardingPage} ${fade ? styles.fadeOut : ""}`}
         >
           <h1>Guiding Hand</h1>
-          <h2>Clarity with Care</h2>
+          <h2>Clarity with Care and Compassion</h2>
 
           <div className={styles.guidingHandHeart} />
           <div className={styles.letsgoButtonContainer}>
@@ -773,6 +704,7 @@ function App() {
           {question === 1 && (
             <div className={styles.Question}>
               <h1>How may we help?</h1>
+              <h2>Profile Setup</h2>
               <div className={styles.buttonContainer}>
                 {page1.map((buttonData, index) => (
                   <button
@@ -808,6 +740,7 @@ function App() {
           {question === 2 && <div>
             <div className={styles.Question}>
               <h1>Select any of the following symptoms you are experiencing</h1>
+              <h2>Symptoms</h2>
 
 
 
@@ -864,6 +797,7 @@ function App() {
           {question === 3 && (
             <div className={styles.Question}>
               <h1>Which describes {persp} situation?</h1>
+              <h2>Marital Status</h2>
               <div className={styles.buttonContainer}>
                 {page3.map((buttonData, index) => (
                   <button
@@ -900,6 +834,7 @@ function App() {
           {question === 4 && (
             <div className={styles.Question}>
               <h1>Which describes {persp} situation?</h1>
+              <h2>Partner</h2>
               <div className={styles.buttonContainer}>
                 {page4.map((buttonData, index) => (
                   <button
@@ -940,6 +875,7 @@ function App() {
           {question === 5 && (
             <div className={styles.Question}>
               <h1>Which describes {persp} situation?</h1>
+              <h2>Parents</h2>
               <div className={styles.buttonContainer}>
                 {page5.map((buttonData, index) => (
                   <button
@@ -996,6 +932,7 @@ function App() {
           {question === 6 && (
             <div className={styles.Question}>
               <h1>Which describes {persp} situation?</h1>
+              <h2>Baby</h2>
               <div className={styles.buttonContainer}>
                 {page6.map((buttonData, index) => (
                   <button
@@ -1050,6 +987,7 @@ function App() {
           {question === 7 && (
             <div className={styles.Question}>
               <h1>Which describes {persp} situation?</h1>
+              <h2>Baby</h2>
               <div className={styles.buttonContainer}>
                 {page7.map((buttonData, index) => (
                   <button
@@ -1103,6 +1041,7 @@ function App() {
           {question === 8 && (
             <div className={styles.Question}>
               <h1>Which describes {persp} situation?</h1>
+              <h2>Keep Baby</h2>
               <div className={styles.buttonContainer}>
                 {page8.map((buttonData, index) => (
                   <button
@@ -1157,6 +1096,7 @@ function App() {
           {question === 9 && (
             <div className={styles.Question}>
               <h1>Which describes {persp} situation?</h1>
+              <h2>Throw Baby</h2>
               <div className={styles.buttonContainer}>
                 {page9.map((buttonData, index) => (
                   <button
@@ -1214,6 +1154,7 @@ function App() {
 
             <div className={styles.tellusmore}>
               <h1>Tell us more!</h1>
+              
               <form>
                 <p className={styles.labelLeftAlign}>
                   <label htmlFor="anonymous" className={styles.labelLeftAlign}>Would you like to remain anonymous?</label>
@@ -1262,44 +1203,11 @@ function App() {
 
           )}
 
-          {question === 11 && (
-            <div className={styles.Question}>
-              <h1>Which describes your situation?</h1>
-              <div className={styles.buttonContainer}>
-                {page10.map((buttonData, index) => (
-                  <button
-                    className={styles.button}
-                    type="button"
-                    key={index}
-                    onClick={buttonData.onClick}
-                  >
-                    {buttonData.name}
-                  </button>
-                ))}
-              </div>
-
-              <div className={styles.backSkipButtons} onClick={handleBackClick}>
-                <button
-                  type="button"
-                  className={styles.backButton}
-                  onClick={handleBackClick}
-                >
-                  Back
-                </button>
-                <button
-                  type="button"
-                  className={styles.skipButton}
-                  onClick={handleSkipClick}
-                >
-                  Skip
-                </button>
-              </div>
-            </div>
-          )}
 
           {question === 16 && (
             <div className={styles.Question}>
               <h1>Which describes {persp} situation?</h1>
+              <h2>Marital Status</h2>
               <div className={styles.buttonContainer}>
                 {page16.map((buttonData, index) => (
                   <button
