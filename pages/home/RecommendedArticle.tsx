@@ -1,6 +1,14 @@
 import React from "react";
 import { Article } from "../../types";
-import { Card, Stack, CardBody, Heading, Image, Text } from "@chakra-ui/react";
+import {
+  Card,
+  Stack,
+  CardBody,
+  Heading,
+  Image,
+  Text,
+  calc,
+} from "@chakra-ui/react";
 
 type RecommendedArticleProps = {
   article: Article;
@@ -21,12 +29,12 @@ const RecommendedArticle: React.FC<RecommendedArticleProps> = ({
       overflow="hidden"
       variant="outline"
       margin="1"
-      maxW={345}
+      w="100%"
+      // maxW={345}
       borderRadius={20}
     >
       <Image
         objectFit="cover"
-        width="100%"
         maxH="200px"
         borderRadius="20"
         src={article.img_url}

@@ -33,13 +33,13 @@ const theme = extendTheme({
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
-  if (router.pathname ==="/"){
-    return (<Component {...pageProps} />)
+  if (router.pathname === "/") {
+    return <Component {...pageProps} />;
   }
 
   return (
     <ChakraProvider theme={theme}>
-      <div
+      {/* <div
         className="fixed mx-auto p-4 bg-gray-100  border-2 border-gray-500"
         style={{
           minWidth: "375px",
@@ -47,9 +47,9 @@ export default function App({ Component, pageProps }: AppProps) {
           marginLeft: "calc(50vw - 200px)",
           zIndex: "-1",
         }}
-      ></div>
+      ></div> */}
       <Component {...pageProps} />
-      <div
+      {/* <div
         className="fixed z-50"
         style={{
           backgroundColor: "white",
@@ -57,7 +57,7 @@ export default function App({ Component, pageProps }: AppProps) {
           top: "700px",
           width: "100vw",
         }}
-      ></div>
+      ></div> */}
     </ChakraProvider>
   );
 }

@@ -70,46 +70,46 @@ const ArticleList: React.FC = () => {
   const renderArticles = () => {
     return (
       <>
-        {articles.map((article, index) => {
-          if (index === 0) {
-            return null;
-          }
+        <div className="flex flex-col items-center justify-center">
+          {articles.map((article, index) => {
+            if (index === 0) {
+              return null;
+            }
 
-          return (
-            <Card
-              onClick={() => handleUrlButton(article.url)}
-              direction="row"
-              overflow="hidden"
-              variant="outline"
-              margin="1"
-              height={120}
-              borderRadius={20}
-            >
-              <Image
-                objectFit="cover"
-                // maxW={{ base: "100%", sm: "200px" }}
-                h="100%"
-                // maxH={{ base: "200px", sm: "100%" }}
-                w="120px"
-                borderRadius="20"
-                src={article.img_url}
-                alt={article.title}
-              />
+            return (
+              <Card
+                onClick={() => handleUrlButton(article.url)}
+                direction="row"
+                overflow="hidden"
+                variant="outline"
+                margin="1"
+                height={120}
+                borderRadius={20}
+              >
+                <Image
+                  objectFit="cover"
+                  h="100%"
+                  w="120px"
+                  borderRadius="20"
+                  src={article.img_url}
+                  alt={article.title}
+                />
 
-              <Stack height="100%">
-                <CardBody h={120}>
-                  <a href={article.url}>
-                    <Heading size="md">{article.title}</Heading>
-                  </a>
-                  <Text py="2">{article.author}</Text>
-                  <Text py="2">
-                    {article.published_date.toLocaleDateString()}
-                  </Text>
-                </CardBody>
-              </Stack>
-            </Card>
-          );
-        })}
+                <Stack height="100%">
+                  <CardBody h={120}>
+                    <a href={article.url}>
+                      <Heading size="md">{article.title}</Heading>
+                    </a>
+                    <Text py="2">{article.author}</Text>
+                    <Text py="2">
+                      {article.published_date.toLocaleDateString()}
+                    </Text>
+                  </CardBody>
+                </Stack>
+              </Card>
+            );
+          })}
+        </div>
       </>
     );
   };
@@ -118,7 +118,7 @@ const ArticleList: React.FC = () => {
     <>
       {!isLoading && (
         <>
-          <Heading as="h4" size="md">
+          <Heading as="h3" size={"lg"} textAlign={"left"} className="p-4">
             Recommended Article
           </Heading>
           <RecommendedArticle
@@ -128,7 +128,7 @@ const ArticleList: React.FC = () => {
         </>
       )}
 
-      <Heading as="h4" size="md">
+      <Heading as="h3" size={"lg"} textAlign={"left"} className="p-4">
         More Articles
       </Heading>
       <div>{renderArticles()}</div>

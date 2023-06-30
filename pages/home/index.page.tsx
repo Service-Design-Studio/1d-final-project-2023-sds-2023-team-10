@@ -19,21 +19,22 @@ function Home() {
 
   if (!user)
     return (
-      <AppLayout>
-        <div
-          className="flex items-center justify-center min-h-full"
-          style={{ minHeight: "500px" }}
-        >
-          <Spinner />
-        </div>
-      </AppLayout>
+      // <AppLayout>
+      <div
+        className="flex items-center justify-center min-h-full"
+        style={{ minHeight: "500px" }}
+      >
+        <Spinner />
+      </div>
+      // </AppLayout>
     );
 
   console.log(user);
 
   return (
-    <AppLayout>
-      <Heading as="h3" size="md" className="mb-2">
+    // <AppLayout>
+    <div className="flex flex-col justify-center min-h-full mx-auto px-4 max-w-screen-sm">
+      <Heading as="h3" size="xl" className="mb-2 text-left p-4">
         Hello, {user.first_name} {user.last_name}!
       </Heading>
 
@@ -41,12 +42,13 @@ function Home() {
         <PregnantCard
           week={user.pregnancy_week}
           imageUrl={
-            "https://hips.hearstapps.com/hmg-prod/images/cute-cat-photos-1593441022.jpg?crop=1.00xw:0.753xh;0,0.153xh&resize=1200:*"
+            "https://s3.eu-central-1.amazonaws.com/uploads.mangoweb.org/shared-prod/visegradfund.org/uploads/2021/03/depositphotos_121233300-stock-illustration-female-default-avatar-gray-profile.jpg"
           }
         />
       )}
       <ArticleList />
-    </AppLayout>
+    </div>
+    // </AppLayout>
   );
 }
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Text, Image, VStack } from "@chakra-ui/react";
+import { Box, Text, Image, VStack, Collapse } from "@chakra-ui/react";
 import { descriptions } from "./pregnantCardDescription";
 
 function PregnantCard({ week, imageUrl }: any) {
@@ -7,7 +7,6 @@ function PregnantCard({ week, imageUrl }: any) {
 
   const body = descriptions["firstTrimester"];
   const handleClick = () => {
-    console.log("clicked");
     setExpanded(!expanded);
   };
 
@@ -20,11 +19,9 @@ function PregnantCard({ week, imageUrl }: any) {
       boxShadow="lg"
       textColor="white"
       cursor="pointer"
-      maxW="350px"
       onClick={handleClick}
-      zIndex={20}
-      h={expanded ? "-webkit-fit-content" : "150"} // adjusts the height based on whether the card is expanded\
-      className={`${expanded ? "items-start" : "items-center"}`}
+      // className={`${expanded ? "items-start" : "items-center"}`}
+      // h={expanded ? "-webkit-fit-content" : "150"} // adjusts the height based on whether the card is expanded\
     >
       <Box className={`flex w-1/3 aspect-square items-center mr-2 py-1`}>
         <Image
@@ -35,16 +32,20 @@ function PregnantCard({ week, imageUrl }: any) {
           aspectRatio={1 / 1}
           mx="auto"
           w="80%"
+          maxH={130}
+          maxW={130}
         />
       </Box>
-      <VStack className="flex flex-col w-2/3" align="start">
-        <Text fontSize="sm" fontWeight="bold">
-          Week {week} Pregnancy
-        </Text>
-        <Text fontSize="xs">
-          {expanded ? body : `${body.substring(0, 80)}...`}
-        </Text>
-        {!expanded && <Text fontSize="xs">{`See more`}</Text>}
+      <VStack align="start" className="flex flex-col w-2/3">
+        <Collapse startingHeight={130} in={expanded}>
+          <Text fontSize="md" fontWeight="bold">
+            Week {week} Pregnancy
+          </Text>
+          <Text fontSize="xs" textAlign={"justify"} className="py-4">
+            {body}
+          </Text>
+        </Collapse>
+        {!expanded && <Text fontSize="xs">{`See more...`}</Text>}
       </VStack>
     </Box>
   );
