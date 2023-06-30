@@ -32,6 +32,7 @@ const RecommendedArticle: React.FC<RecommendedArticleProps> = ({
       w="100%"
       // maxW={345}
       borderRadius={20}
+      cursor={"pointer"}
     >
       <Image
         objectFit="cover"

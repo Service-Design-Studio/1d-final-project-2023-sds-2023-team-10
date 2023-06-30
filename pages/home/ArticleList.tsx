@@ -85,6 +85,7 @@ const ArticleList: React.FC = () => {
                 margin="1"
                 height={120}
                 borderRadius={20}
+                cursor={"pointer"}
               >
                 <Image
                   objectFit="cover"
@@ -97,9 +98,7 @@ const ArticleList: React.FC = () => {
 
                 <Stack height="100%">
                   <CardBody h={120}>
-                    <a href={article.url}>
-                      <Heading size="md">{article.title}</Heading>
-                    </a>
+                    <Heading size="md">{article.title}</Heading>
                     <Text py="2">{article.author}</Text>
                     <Text py="2">
                       {article.published_date.toLocaleDateString()}
