@@ -5,19 +5,14 @@ export const baseUrl = "https://rubybackend-rgegurmvca-as.a.run.app";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
-    console.log("called");
-
     const { user_id } = req.query;
 
     try {
-      const result = await axios.get(
-        `${baseUrl}/chat_rooms_for_user/${user_id}`,
-        {
-          headers: {
-            accept: "application/json",
-          },
-        }
-      );
+      const result = await axios.get(`${baseUrl}/users/${user_id}`, {
+        headers: {
+          accept: "application/json",
+        },
+      });
       return res.status(200).json(result.data);
     } catch (error) {
       console.error(error);

@@ -4,14 +4,11 @@ import { UserOutlined } from "@ant-design/icons";
 import { User, ChatRoom, Message } from "../../../types";
 import MainLayout from "../../../components/MainLayout";
 import axios from "axios";
-import VirtualList from "rc-virtual-list";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
+
 import MessagesBar from "./MessageBar";
-
-const { Sider, Content, Footer } = Layout;
-const { Title } = Typography;
-
-const ADMIN_USER_ID = 1;
+import ContactsBar from "./ContactsBar";
+import AnalysisBar from "./AnalysisBar";
+export const ADMIN_USER_ID = 1;
 
 const ChatPageLayout = ({
   contactsBar,
@@ -33,68 +30,37 @@ const ChatPageLayout = ({
   );
 };
 
-const AnalysisBar = () => {
-  return <div className="flex flex-row">analysisbar </div>;
-};
-
-const ContactsBar = ({ contacts, setSelectedChatId }: any) => {
-  return (
-    <List style={{ width: "100%" }}>
-      <VirtualList data={contacts} height={800} itemKey="id">
-        {(chatroom: any) => {
-          console.log("USER", chatroom);
-          return (
-            <List.Item
-              key={chatroom.id}
-              className="cursor-pointer"
-              onClick={() => {
-                setSelectedChatId(chatroom.id);
-              }}
-            >
-              <List.Item.Meta
-                avatar={
-                  <Avatar
-                    src={chatroom.opponent_picture}
-                    size={"large"}
-                    icon={<UserOutlined />}
-                  />
-                }
-                title={
-                  chatroom.opponent_first_name && chatroom.opponent_second_name
-                    ? `${chatroom.opponent_first_name} ${chatroom.opponent_second_name}`
-                    : "Guest user " + chatroom.id
-                }
-                description={chatroom.last_message?.content}
-              />
-              <Badge
-                className="site-badge-count-109"
-                count={
-                  chatroom.unread_messages_count > 0
-                    ? chatroom.unread_messages_count
-                    : 0
-                }
-                style={{ backgroundColor: "#52c41a" }}
-              />
-              <ExclamationCircleOutlined />
-            </List.Item>
-          );
-        }}
-      </VirtualList>
-    </List>
-  );
-};
-
 const fetchContacts = async (callback: any) => {
-  const response = await axios.get(`/api/chat/${ADMIN_USER_ID}`);
+  const response = await axios.get(`/api/chat_rooms_for_user/${ADMIN_USER_ID}`);
   const contacts = response.data;
   callback(contacts);
   return contacts;
 };
 
 const ChatPage: React.FC = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [contacts, setContacts] = useState<any>([]);
   const [selectedChatId, setSelectedChatId] = useState<string>("");
+  const [chatRoomData, setChatRoomData] = useState<any>({}); // this also have message inside
+  const [loadingChatRoomData, setLoadingChatRoomData] = useState(false);
+
+  const fetchChatRoomData = async () => {
+    try {
+      const response = await axios.get(
+        `/api/chat_rooms_with_messages/${selectedChatId}`
+      );
+      setChatRoomData(response.data);
+      setLoadingChatRoomData(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    setLoadingChatRoomData(true);
+    fetchChatRoomData();
+  }, [selectedChatId]);
+
   useEffect(() => {
     setLoading(true);
     fetchContacts((c: any) => {
@@ -122,12 +88,28 @@ const ChatPage: React.FC = () => {
         }
         messagesBar={
           selectedChatId ? (
-            <MessagesBar selectedChatId={selectedChatId} />
+            <MessagesBar
+              fetchChatRoomData={fetchChatRoomData}
+              chatRoomData={chatRoomData}
+              loading={loadingChatRoomData}
+              selectedChatId={selectedChatId}
+            />
           ) : (
             <div> Select a contact to get started.</div>
           )
         }
-        analysisBar={<AnalysisBar />}
+        analysisBar={
+          selectedChatId ? (
+            <AnalysisBar
+              fetchChatRoomData={fetchChatRoomData}
+              chatRoomData={chatRoomData}
+              loading={loadingChatRoomData}
+              selectedChatId={selectedChatId}
+            />
+          ) : (
+            <div> Select a contact to get started.</div>
+          )
+        }
       />
     </MainLayout>
   );
