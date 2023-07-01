@@ -23,6 +23,7 @@ const AnalysisBar = ({
   loading,
 }: any) => {
   const [userData, setUserData] = useState<any>();
+  const [isLoadingUserData, setIsLoadingUserData] = useState(false);
 
   const opponentId =
     chatRoomData.user1_id == 1 ? chatRoomData.user2_id : chatRoomData.user1_id;
@@ -35,13 +36,15 @@ const AnalysisBar = ({
     } catch (error) {
       console.log(error);
     }
+    setIsLoadingUserData(false);
   };
 
   useEffect(() => {
+    setIsLoadingUserData(true);
     fetchUserData(opponentId);
-  }, [selectedChatId]);
+  }, [selectedChatId, chatRoomData]);
 
-  if (loading) {
+  if (loading || isLoadingUserData) {
     return <Spin></Spin>;
   }
 

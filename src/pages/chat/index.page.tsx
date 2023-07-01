@@ -45,6 +45,7 @@ const ChatPage: React.FC = () => {
   const [loadingChatRoomData, setLoadingChatRoomData] = useState(false);
 
   const fetchChatRoomData = async () => {
+    if (!selectedChatId || selectedChatId.length === 0) return;
     try {
       const response = await axios.get(
         `/api/chat_rooms_with_messages/${selectedChatId}`
@@ -59,7 +60,7 @@ const ChatPage: React.FC = () => {
   useEffect(() => {
     setLoadingChatRoomData(true);
     fetchChatRoomData();
-  }, [selectedChatId]);
+  }, [selectedChatId, contacts]);
 
   useEffect(() => {
     setLoading(true);
