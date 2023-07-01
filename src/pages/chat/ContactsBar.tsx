@@ -2,17 +2,24 @@ import VirtualList from "rc-virtual-list";
 import { Layout, List, Avatar, Divider, Typography, Spin, Badge } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 
-const ContactsBar = ({ contacts, setSelectedChatId }: any) => {
+const ContactsBar = ({ contacts, setSelectedChatId, selectedChatId }: any) => {
   return (
     <List style={{ width: "100%" }}>
       <VirtualList data={contacts} height={800} itemKey="id">
         {(chatroom: any) => {
+          console.log(chatroom.id, selectedChatId);
+
           return (
             <List.Item
               key={chatroom.id}
-              className="cursor-pointer hover:bg-pink-100"
+              className={`cursor-pointer hover:bg-pink-100}`}
               onClick={() => {
                 setSelectedChatId(chatroom.id);
+              }}
+              style={{
+                backgroundColor: `${
+                  chatroom.id === selectedChatId ? "rgb(251 207 232)" : ""
+                }`,
               }}
             >
               <List.Item.Meta

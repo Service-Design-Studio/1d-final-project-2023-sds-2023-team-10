@@ -85,6 +85,7 @@ const ChatPage: React.FC = () => {
           <ContactsBar
             contacts={contacts}
             setSelectedChatId={setSelectedChatId}
+            selectedChatId={selectedChatId}
           />
         }
         messagesBar={
