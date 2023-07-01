@@ -21,7 +21,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       return res.status(200).json(result.data);
     } catch (error) {
-      return res.status(error.response.status).json(error.response.data);
+      return res.status(500).json(error);
     }
   } else {
     // Unexpected request method

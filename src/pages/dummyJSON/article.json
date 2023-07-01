@@ -1,36 +1,32 @@
 [
-    {
-        "id": "id",
-        "published_date": "2015-02-19T00:00:00Z",
-        "created_date": "2023-06-15T00:00:00Z",
-        "title": "5 Things to Do After a Surprise Pregnancy",
-        "author": "Camille Noe Pagán",
-        "img_url": "https://cdn.pixabay.com/photo/2017/04/02/23/06/baby-2197097_1280.jpg",
-        "url": "https://www.webmd.com/baby/features/5-things-to-do-after-a-surprise-pregnancy", 
-        "user_group":
-            [
-                "married_pregnant_women",
-                "boyfriends_of_pregnant_women", 
-                "parents", 
-                "unmarried_pregnant_women"
-            ]
-    }
-    ,
-    {
-        "id": "id",
-        "published_date": "2015-02-19T00:00:00Z",
-        "created_date": "2023-06-15T00:00:00Z",
-        "title": "5 Things to Do After a Surprise Pregnancy",
-        "author": "Camille Noe Pagán",
-        "img_url": "https://cdn.pixabay.com/photo/2017/04/02/23/06/baby-2197097_1280.jpg",
-        "url": "https://www.webmd.com/baby/features/5-things-to-do-after-a-surprise-pregnancy", 
-        "user_group":
-            [
-                "married_pregnant_women",
-                "boyfriends_of_pregnant_women", 
-                "parents", 
-                "unmarried_pregnant_women"
-            ]
-    }
+  {
+    "id": 0,
+    "published_date": "2023-07-01T05:36:34.600Z",
+    "created_date": "2023-07-01T05:36:34.600Z",
+    "title": "string",
+    "author": "string",
+    "img_url": "string",
+    "url": "string",
+    "user_group": ["string"]
+  },
+  {
+    "id": 1,
+    "published_date": "2023-07-01T05:36:34.600Z",
+    "created_date": "2023-07-01T05:36:34.600Z",
+    "title": "string",
+    "author": "string",
+    "img_url": "string",
+    "url": "string",
+    "user_group": ["string"]
+  },
+  {
+    "id": 2,
+    "published_date": "2023-07-01T05:36:34.600Z",
+    "created_date": "2023-07-01T05:36:34.600Z",
+    "title": "string",
+    "author": "string",
+    "img_url": "string",
+    "url": "string",
+    "user_group": ["string"]
+  }
 ]
-  

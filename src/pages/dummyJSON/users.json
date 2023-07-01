@@ -1,4 +1,21 @@
 [
-  { "type": "client", "id": "1", "phoneNumber": "John" },
-  { "type": "admin", "id": "2", "phoneNumber": "Admin" }
+  {
+    "id": 0,
+    "user_type": "string",
+    "profile": "string",
+    "first_name": "string",
+    "second_name": "string",
+    "age": 0,
+    "occupation": "string",
+    "username": "string",
+    "phone_number": "string",
+    "gender": "string",
+    "pregnant": true,
+    "marital_status": "string",
+    "pregnancy_week": 0,
+    "is_anonymous_login": true,
+    "survey_result": "string",
+    "email": "string",
+    "password": "string"
+  }
 ]
