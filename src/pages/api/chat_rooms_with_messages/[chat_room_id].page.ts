@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import axios, { AxiosError } from "axios";
 
-export const baseUrl = "https://rubybackend-rgegurmvca-as.a.run.app";
+export const baseUrl = "https://rubybackend-xnabw36hha-as.a.run.app";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {

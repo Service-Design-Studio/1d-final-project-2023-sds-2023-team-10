@@ -14,7 +14,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     // const data = JSON.parse(fileContents);
 
     // const result = await fetch(
-    //   "https://rubybackend-rgegurmvca-as.a.run.app/articles",
+    //   "https://rubybackend-xnabw36hha-as.a.run.app/articles",
     //   {
     //     method: "POST",
     //     headers: {
@@ -26,7 +26,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     console.log("backend received", req.body);
 
     const result = await axios.post(
-      "https://rubybackend-rgegurmvca-as.a.run.app/articles",
+      "https://rubybackend-xnabw36hha-as.a.run.app/articles",
       JSON.stringify(req.body),
       {
         headers: {
@@ -42,7 +42,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (req.method === "GET") {
     const result = await axios.get(
-      "https://rubybackend-rgegurmvca-as.a.run.app/articles",
+      "https://rubybackend-xnabw36hha-as.a.run.app/articles",
       {
         headers: {
           accept: "application/json",
@@ -56,7 +56,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export function APIGetArticles(): Promise<AxiosResponse<any>> {
-  return axios.get("https://rubybackend-rgegurmvca-as.a.run.app/articles", {
+  return axios.get("https://rubybackend-xnabw36hha-as.a.run.app/articles", {
     headers: {
       accept: "application/json",
     },

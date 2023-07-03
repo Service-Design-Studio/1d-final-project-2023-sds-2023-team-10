@@ -11,7 +11,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (method === "DELETE") {
     try {
       const result = await axios.delete(
-        `https://rubybackend-rgegurmvca-as.a.run.app/articles/${id}`,
+        `https://rubybackend-xnabw36hha-as.a.run.app/articles/${id}`,
         {
           headers: {
             accept: "application/json",
