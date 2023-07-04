@@ -1,15 +1,13 @@
 import AppLayout from "@/components/AppLayout";
 import React from "react";
 import MessagePanel from "./components/MessagePanel";
-import ContactPanel from "./components/ContactPanel";
-export const ADMIN_USER_ID = 1;
 
-function Messages() {
+const ChatRoom = () => {
   return (
     <AppLayout>
-      <ContactPanel />
+      <MessagePanel />
     </AppLayout>
   );
-}
+};
 
-export default Messages;
+export default ChatRoom;
