@@ -11,6 +11,8 @@
   font-family: "Mulish", sans-serif;
 }
 
+
+/* ONBOARDING PAGE DESIGNS */
 .onboardingPage {
   width: 100%;
   height: 100%;
@@ -24,14 +26,14 @@
   transform: translateX(-5%);
 }
 
-.onboardingPage>h1 {
+.onBoarding>h1 {
   margin-top: 20vh;
   margin-bottom: 1px;
   font-size: 3em;
   color: var(--primary-color);
 }
 
-.onboardingPage>h2 {
+.onBoarding>h2 {
   margin-top: 10px;
   color: #77838f;
   font-weight: 300;
@@ -62,13 +64,87 @@
   background-color: var(--gh-pink-lightened);
 }
 
-.questions {
-  opacity: 1;
-  animation: fadeInFromRight 0.5s ease-in;
+
+.privacyPolicyButton {
+  color: #0070f3;
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.Start {
+  text-align: center;
+}
+.Start > h1 {
+  margin-top: 10px;
+  color: #77838f;
+  font-weight: 300;
+  font-size: 1.5rem;
+  margin-bottom:10px;
+
+}
+
+.Start > h2 {
+  font-size: 1.1rem;
+  color: #666;
+  margin-top: 1rem;
+  margin-left:20px;
+  margin-right:20px;
+}
+
+
+/* Question Page Style */
+/* THIS MARKS THE START OF MY DESCENT TO MADNESS */
+
+.QuestionPage > h1 {
+  margin-top: 10px;
+  color: #77838f;
+  font-weight: 300;
+  font-size: 1.5rem;
+  margin-bottom:10px;
+
+}
+
+.container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  justify-content: center;  /* Vertically aligns all child elements */
+  height: 80vh;             /* This is the height of the viewport. Adjust if you need it shorter.*/
+}
+
+.questions {
+  margin: 10px 0;
+  color:var(--gh-grey);
+  font-size:1.3rem;
+  opacity: 1;
+  animation: fadeInFromRight 0.5s ease-in;
+  text-align: center;  /* Horizontally center the questions */
+}
+
+.selected {
+  color: var(--gh-pink);
+}
+
+
+.questions:hover{
+  cursor:pointer;
+
+}
+
+.questions:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.options {
+  color:var(--gh-grey);
+  opacity:1;
+  margin-bottom: 40px;
+  margin: 20px 0;  /* This gives the options a little space above and below */
+  display: flex;
+  flex-direction: column;
+  align-items: center;  /* Horizontally center the options */
 }
 
 .startQuestionnaire {
@@ -108,8 +184,6 @@
   border-radius: 10px;
   margin-bottom: 10px;
   margin-top: 10%;
-
-
 }
 
 .progress {
@@ -119,6 +193,7 @@
   border-radius: 10px;
 
 }
+
 
 .questionnaire {
   animation: fadeInFromRight 0.5s ease-in;
