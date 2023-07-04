@@ -22,7 +22,7 @@ const Navbar = ({ active, children, onNavClick }: any) => {
       <Box marginBottom={275}></Box>
 
       {/* Bottom Navbar */}
-      <div className="fixed" style={{ minWidth: "345px", top: "625px" }}>
+      <Box position="fixed" bottom={2} insetX={0} w="full" maxW={375} mx="auto">
         <Flex
           bottom="0"
           bg="white"
@@ -50,7 +50,7 @@ const Navbar = ({ active, children, onNavClick }: any) => {
             onClick={() => onNavClick("profile")}
           />
         </Flex>
-      </div>
+      </Box>
     </Box>
   );
 };

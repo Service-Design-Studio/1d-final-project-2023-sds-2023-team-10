@@ -35,12 +35,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export function APIGetArticles(): Promise<AxiosResponse<any>> {
-  return axios.get("https://rubybackend-rgegurmvca-as.a.run.app/users", {
-    headers: {
-      accept: "application/json",
-    },
-  });
-}
-
 export default handler;

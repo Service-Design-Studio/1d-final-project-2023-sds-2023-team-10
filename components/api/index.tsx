@@ -1,7 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 import React from "react";
 
-export const BACKEND_URL = "https://rubybackend-rgegurmvca-as.a.run.app/";
+// export const BACKEND_URL = "https://rubybackend-rgegurmvca-as.a.run.app/";
+export const BACKEND_URL = "https://rubybackend-xnabw36hha-as.a.run.app/";
 
 export function index() {
   return <div>index</div>;
@@ -9,6 +10,14 @@ export function index() {
 
 export function APIGetArticles(group: string): Promise<AxiosResponse<any>> {
   return axios.get(`${BACKEND_URL}/by_user_group/${group}`, {
+    headers: {
+      accept: "application/json",
+    },
+  });
+}
+
+export function APIGetAllArticles(): Promise<AxiosResponse<any>> {
+  return axios.get(`${BACKEND_URL}/articles`, {
     headers: {
       accept: "application/json",
     },

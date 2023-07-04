@@ -43,9 +43,7 @@ const RecommendedArticle: React.FC<RecommendedArticleProps> = ({
       />
       <CardBody h={120}>
         <Stack height="100%">
-          <a href={article.url}>
-            <Heading size="md">{article.title}</Heading>
-          </a>
+          <Heading size="md">{article.title}</Heading>
           <Text py="2">{article.author}</Text>
           <Text py="2">{article.published_date.toLocaleDateString()}</Text>
         </Stack>
