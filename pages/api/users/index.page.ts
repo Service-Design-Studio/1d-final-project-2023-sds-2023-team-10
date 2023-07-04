@@ -6,7 +6,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     console.log("backend received", req.body);
 
     const result = await axios.post(
-      "https://rubybackend-rgegurmvca-as.a.run.app/users",
+      "https://rubybackend-xnabw36hha-as.a.run.app/users",
       JSON.stringify(req.body),
       {
         headers: {
@@ -22,7 +22,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (req.method === "GET") {
     const result = await axios.get(
-      "https://rubybackend-rgegurmvca-as.a.run.app/users",
+      "https://rubybackend-xnabw36hha-as.a.run.app/users",
       {
         headers: {
           accept: "application/json",
@@ -34,5 +34,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(200).json(data);
   }
 };
+
+export function APIGetArticles(): Promise<AxiosResponse<any>> {
+  return axios.get("https://rubybackend-xnabw36hha-as.a.run.app/users", {
+    headers: {
+      accept: "application/json",
+    },
+  });
+}
 
 export default handler;
