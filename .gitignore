@@ -36,3 +36,5 @@ next-env.d.ts
 
 environments/serviceAccount.json
 .env*
+
+service_account.json

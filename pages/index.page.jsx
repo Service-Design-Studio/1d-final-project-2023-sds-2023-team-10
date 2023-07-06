@@ -6,7 +6,12 @@ import axios from "axios";
 
 
 const postDataToApi = async (data) => {
+const postDataToApi = async (data) => {
 
+  const response = await axios.post("/api/users", data, {
+    headers: {
+      accept: "application/json",
+    },
   const response = await axios.post("/api/users", data, {
     headers: {
       accept: "application/json",
@@ -117,7 +122,21 @@ const RenderQuestionPage_MultiSelect = ({
   const renderOptions = () => {
     return Object.entries(options).map(([option, question], index) => {
       const isSelected = !!selectedOptions[option];
+  // Render options
+  const renderOptions = () => {
+    return Object.entries(options).map(([option, question], index) => {
+      const isSelected = !!selectedOptions[option];
 
+      return (
+        <div
+          className={`${styles.questions} ${isSelected ? styles.selected : ''}`}
+          key={index}
+          onClick={() => toggleOption(option, question)}
+        >
+          {option}
+        </div>
+      );
+    });
       return (
         <div
           className={`${styles.questions} ${isSelected ? styles.selected : ''}`}
@@ -130,6 +149,10 @@ const RenderQuestionPage_MultiSelect = ({
     });
   };
 
+  // Handle submit
+  const handleSubmit = () => {
+    console.log(selectedOptions)
+    onSubmit(selectedOptions);
   // Handle submit
   const handleSubmit = () => {
     console.log(selectedOptions)
@@ -244,6 +267,7 @@ function App() {
     setQuestion(userPath[userPath.length - 1]); 
     setUserPath(newPath); 
   };
+  
   
   const handleSkipClick = () => {
     setUserData(prevState => ({...prevState, [question]: "skipped"}));
@@ -533,6 +557,7 @@ function App() {
               type="button"
               className={styles.letsgoButton}
               onClick={() => {setPage("questionnaire");setUserPath(prevPath => [...prevPath, question])}}
+              onClick={() => {setPage("questionnaire");setUserPath(prevPath => [...prevPath, question])}}
             >
               I'll give it a shot
             </button>
@@ -545,6 +570,8 @@ function App() {
       )}
 
       {/* Questonnaire */}
+      
+
       
 
       {page === "questionnaire" && (
