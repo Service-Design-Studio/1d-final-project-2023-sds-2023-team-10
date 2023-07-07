@@ -19,7 +19,7 @@ const category = [
   "2nd Trimester",
   "3rd Trimester",
 ];
-const tags = [
+const defaultTags = [
   "Pregnant teens",
   "Pregnant adults",
   "Partners",
@@ -39,7 +39,9 @@ const normFile = (e: any) => {
 
 const ArticleForm: React.FC = () => {
   const [form] = Form.useForm();
+  const [tags, setTags] = useState<string[]>(defaultTags);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState<string>("");
   const router = useRouter();
 
   const toggleTag = (tag: string) => {
@@ -53,6 +55,17 @@ const ArticleForm: React.FC = () => {
       form.setFieldsValue({
         tags: [...selectedTags, tag],
       });
+    }
+  };
+
+  const handleAddNewTag = (newTag: string) => {
+    if (newTag.trim()) {
+      // You can push the new tag to selected tags directly or let the user select it
+      setSelectedTags((prevTags) => [...prevTags, newTag]);
+      setTags((prevTags) => [...prevTags, newTag]);
+
+      // Clear the input field
+      setTagInput("");
     }
   };
 
@@ -168,7 +181,16 @@ const ArticleForm: React.FC = () => {
                 ))}
               </Space>
             </Form.Item>
-
+            <Form.Item label="Add New Tag">
+              <Input
+                value={tagInput}
+                onChange={(e) => setTagInput(e.target.value)}
+                placeholder="Enter a new tag"
+              />
+              <Button onClick={() => handleAddNewTag(tagInput)} type="primary">
+                Add
+              </Button>
+            </Form.Item>
             <div className="flex justify-between">
               <Button
                 htmlType="button"

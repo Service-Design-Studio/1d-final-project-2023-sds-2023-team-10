@@ -35,7 +35,6 @@ const ArticlesPage: React.FC = () => {
       }
     );
     setTimeout(() => {
-      console.log("test");
       setArticles(fetchedArticles);
       setIsLoading(false);
     }, 1000);
@@ -108,8 +107,9 @@ const ArticlesPage: React.FC = () => {
             okText={<span data-testid={`yes-button-${article.id}`}>Yes</span>}
             cancelText={<span data-testid={`no-button-${article.id}`}>No</span>}
           >
-            <div className="flex items-center justify-center w-8 h-8 bg-red-300 text-white rounded-full"
-            data-testid={`delete-article-button-${article.id}`}
+            <div
+              className="flex items-center justify-center w-8 h-8 bg-red-300 text-white rounded-full"
+              data-testid={`delete-article-button-${article.id}`}
             >
               <DeleteOutlined />
             </div>

@@ -20,6 +20,8 @@
     "react/jsx-boolean-value": 0,
     "react/jsx-wrap-multilines": 0,
     "react/require-default-props": 0,
+    "react/react-in-jsx-scope": "off",
+        "react/function-component-definition": "off",
     "lines-between-class-members": 0,
     "react/jsx-props-no-spreading": 0,
     "react/jsx-curly-brace-presence": 0,
@@ -50,6 +52,8 @@
       "plugins": ["react", "@typescript-eslint"],
       "rules": {
         "indent": ["error", 2, { "SwitchCase": 1 }],
+        "react/react-in-jsx-scope": "off",
+        "react/function-component-definition": "off",
         "@typescript-eslint/ban-types": [
           "error",
           {
