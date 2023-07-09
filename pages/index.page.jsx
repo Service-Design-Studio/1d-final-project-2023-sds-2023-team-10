@@ -3,14 +3,42 @@ import styles from "./app.module.css";
 import { useRouter } from "next/router";
 import axios from "axios";
 
-const postDataToApi = async (data) => {
-  const response = await axios.post("/api/users", data, {
-    headers: {
-      accept: "application/json",
-    },
-  });
+const sendToAPI = async (formData,userData) => {
+  console.log(userData)
 
-  console.log(response);
+  const Model = 
+  {
+    "user_type": (!formData.username || !formData.password || !formData.email) ? "Anonymous" : "Registered",
+    "profile": "string",
+    "first_name": formData.first_name,
+    "second_name": formData.second_name,
+    "age": formData.age,
+    "occupation": formData.occupation,
+    "username": formData.username ? formData.username : "Unregistered",
+    "phone_number": formData.phone_number,
+    "gender": formData.gender,
+    "pregnant": formData.pregnant ? true : false,
+    "marital_status": formData.marital_status,
+    "pregnancy_week": formData.pregnancy_week,
+    "is_anonymous_login": (!formData.username || !formData.password || !formData.email) ? "Anonymous" : "Registered",
+    "survey_result": userData,
+    "email": formData.email ? formData.email : "Unregistered",
+    "password": formData.password ? formData.password : "Unregistered",
+  }
+
+  try {
+    const response = await axios.post("/api/users", Model, {
+      headers: {
+        Accept: "application/json",
+      },
+    });
+
+    console.log(response.data);
+  } catch (error) {
+    console.log('There was an error!', error);
+  };
+
+
 };
 
 const BackSkipButtons = ({ handleBackClick, handleSkipClick }) => {
@@ -178,12 +206,42 @@ function App() {
 
   const router = useRouter();
 
+  const [ showNext, setShowNext ] = useState(false);
+
+
+
+
+
+
+  function sendDataToAPI() {
+    event.preventDefault();
+
+    // The form data
+    var formData = new FormData(document.querySelector('#userForm'));
+
+    // An object to hold the form data
+    var formObject = {};
+
+    // Fill the formObject with the form data
+    for(var pair of formData.entries()){
+        formObject[pair[0]] = pair[1];
+    } 
+
+    // Alert form object
+    alert(JSON.stringify(formObject, null, 4));
+    
+    // Return false to prevent form from submitting, since we're handling it manually
+    return false;
+
+  }
   // Callback for when an option is selected
   const handleOptionSelected = (selectedOption, nextQuestionIndex) => {
-    console.log(nextQuestionIndex);
+    
     if (nextQuestionIndex === "articles") {
       router.push("/home");
       return; // return from the function after routing
+
+
     } else {
       setUserData((prevState) => ({
         ...prevState,
@@ -236,6 +294,34 @@ function App() {
     setUserData((prevState) => ({ ...prevState, [question]: "skipped" }));
     setQuestion(skipData[question]);
   };
+
+  const handleChange = (event) => {
+    setForm({
+      ...form,
+      [event.target.name]: event.target.value,
+    });
+  };
+  
+  // Declare your form submission handler
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    sendToAPI(form,userData);
+  };
+
+  const [form, setForm] = useState({
+    first_name: '',
+    second_name: '',
+    age: '',
+    occupation: '',
+    phone_number: '',
+    gender: '',
+    pregnant: false,
+    pregnancy_week: '',
+    email: '',
+    username: '',
+    password: '',
+    marital_status:'',
+  });
 
   const question1Dict = {
     "Yes, I confirmed it with a pregnancy test kit and it is positive": 5,
@@ -305,17 +391,17 @@ function App() {
   };
 
   const question13Dict = {
-    "Know more about adoption": "articles",
+    "Know more about adoption": "submit-articles",
     "I need help to decide": "chat",
   };
 
   const question14Dict = {
-    "Know more about fostering": "articles",
+    "Know more about fostering": "submit-articles",
     "I need help to decide": "chat",
   };
 
   const question15Dict = {
-    "Know more about childcare support": "articles",
+    "Know more about childcare support": "submit-articles",
     "I need help to decide": "chat",
   };
 
@@ -326,7 +412,7 @@ function App() {
   };
 
   const question17Dict = {
-    "Know more about abortion": "articles",
+    "Know more about abortion": "submit-articles",
     "I need help to decide": "chat",
   };
 
@@ -342,7 +428,7 @@ function App() {
   };
 
   const question20Dict = {
-    "Know more about abortion": "articles",
+    "Know more about abortion": "submit-articles",
     "She needs help to decide": "chat",
   };
 
@@ -358,24 +444,24 @@ function App() {
   };
 
   const question23Dict = {
-    "How to prepare for parenthood": "articles",
-    "What to expect during pregnancy, labour, and delivery": "articles",
+    "How to prepare for parenthood": "submit-articles",
+    "What to expect during pregnancy, labour, and delivery": "submit-articles",
     "What help is available?": "chat",
   };
 
   const question24Dict = {
-    Fostering: "articles",
-    Adoption: "articles",
+    Fostering: "submit-articles",
+    Adoption: "submit-articles",
     "I need help to decide": "chat",
   };
 
   const question25Dict = {
-    "Know more about adoption": "articles",
+    "Know more about adoption": "submit-articles",
     "I need help to decide": "chat",
   };
 
   const question26Dict = {
-    "Know more about fostering": "articles",
+    "Know more about fostering": "submit-articles",
     "I need help to decide": "chat",
   };
 
@@ -470,6 +556,19 @@ function App() {
     24: "chat",
     25: "chat",
     26: "chat",
+  };
+
+  const [isPregnant, setIsPregnant] = useState(false);
+
+  const [maritalStatus, setMaritalStatus] = useState('');
+
+  const handleSelectChange = event => {
+    setMaritalStatus(event.target.value);
+
+    setForm({
+      ...form,
+      ['marital_status']: event.target.value,
+    });
   };
 
   return (
@@ -707,6 +806,114 @@ function App() {
               )
             );
           })}
+
+
+
+          {
+            question === "submit-articles" && (
+              <div>
+                <h1>Let us know more about you!</h1>
+                <form onSubmit={handleSubmit}>
+                {showNext === false && (
+                  <div>
+                  <div style={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1em'}}>
+                    <div>
+                      <input type="text" id="fname" name="first_name" placeholder="First Name" onChange={handleChange}/><br/>
+                    </div>
+                    <div>
+                  
+                    <input type="text" id="sname" name="second_name" placeholder="Second Name" onChange={handleChange}/><br/>
+                  </div>
+                  <div>
+                    
+                    <input type="number" id="age" name="age" placeholder="Age" onChange={handleChange}/><br/>
+                  </div>
+                  <div>
+                
+                    <input type="text" id="occupation" name="occupation" placeholder="Occupation" onChange={handleChange}/><br/>
+                  </div>
+
+                  <div>
+          
+                    <input type="tel" id="pnum" name="phone_number" placeholder="Phone Number" onChange={handleChange}/><br/>
+                  </div>
+                  <div>
+      
+                    <input type="text" id="gender" name="gender" placeholder="Gender" onChange={handleChange}/><br/>
+                  </div>
+                    <div>
+                      <label className={styles.questionLabel} htmlFor="pregnant" style={{marginRight: "32px" }}>Are you Pregnant?</label>
+                      <input 
+                          type="checkbox" 
+                          id="pregnant" 
+                          name="pregnant" 
+                          onChange={() => setIsPregnant(!isPregnant)}
+                      />
+                    </div>
+                    {isPregnant && (
+                      <div>
+                        <input type="number" id="pweek" name="pregnancy_week" placeholder="Pregnancy Week" onChange={handleChange}/><br/>
+                      </div>
+                    )}
+                    </div>
+
+                    <div className ={styles.greyed}>
+                      <label htmlFor="marital-status">Marital Status: </label>
+                      <select id="marital-status" value={maritalStatus} onChange={handleSelectChange}>
+                        <option value="">Select...</option>
+                        <option value="In a relationship">In a relationship</option>
+                        <option value="Married">Married</option>
+                        <option value="Single">Single</option>
+                      </select>
+                    </div>
+                    <button type="button" onClick={() => setShowNext(true)}>Next</button>
+           
+        
+                  </div>
+                  
+                )}
+                
+                {showNext && (
+                  <div>
+                    <h1>You may skip if you would like to remain anonymous</h1>
+                    <input
+                      className={styles.spanAcross}
+                      type="email"
+                      id="email"
+                      name="email"
+                      placeholder="Email"
+                      onChange={handleChange}
+                    /><br/>
+                    <input
+                      className={styles.spanAcross}
+                      type="text"
+                      id="uname"
+                      name="username"
+                      placeholder="Username"
+                      onChange={handleChange}
+                    /><br/>
+                    <input
+                      className={styles.spanAcross}
+                      type="password"
+                      id="pwd"
+                      name="password"
+                      placeholder="Password"
+                      onChange={handleChange}
+                    /><br/>
+                    <input type="submit" value="Submit"/>
+                  </div>
+                )}
+              </form>
+              </div>
+            )
+          }
+
+          {question === "submit-chat" && {
+
+
+          }}
+
+
         </div>
       )}
     </div>

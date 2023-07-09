@@ -426,7 +426,19 @@ input:checked+.rect {
   /* Change this value as needed */
 }
 
+.questionLabel {
+  color:var(--gh-grey)
+}
 
+.greyed {
+  margin-top:40px;
+  margin-bottom:40px;
+  color:var(--gh-grey)
+}
+
+.spanAcross {
+  width:65%;
+}
 
 @keyframes fadeInFromRight {
   from {
