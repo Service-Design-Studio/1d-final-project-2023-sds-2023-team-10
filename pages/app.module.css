@@ -162,31 +162,8 @@
   opacity:1;
   margin-bottom: 40px;
   margin: 20px 0;  /* This gives the options a little space above and below */
-  text-align: center;  /* Horizontally center the questions */
-}
-
-.selected {
-  color: var(--gh-pink);
-}
-
-
-.questions:hover{
-  cursor:pointer;
-
-}
-
-.questions:not(:last-child) {
-  margin-bottom: 10px;
-}
-
-.options {
-  color:var(--gh-grey);
-  opacity:1;
-  margin-bottom: 40px;
-  margin: 20px 0;  /* This gives the options a little space above and below */
   display: flex;
   flex-direction: column;
-  align-items: center;  /* Horizontally center the options */
   align-items: center;  /* Horizontally center the options */
 }
 
@@ -201,13 +178,11 @@
 }
 
 .startQuestionnaire>h1 {
-.startQuestionnaire>h1 {
   text-align: left;
   margin-left: 15%;
   margin-top: 10%;
 }
 
-.startQuestionnaire>h2 {
 .startQuestionnaire>h2 {
   margin-left: 15%;
   text-align: left;
@@ -224,7 +199,6 @@
 
 .progressBar {
   width: 100%;
-  width: 100%;
   height: 20px;
   background-color: #d4d4d4;
   border-radius: 10px;
@@ -234,25 +208,13 @@
 
 .progress {
 
-
   height: 100%;
   background-color: var(--gh-pink);
   border-radius: 10px;
 
-
 }
 
 
-.questionnaire {
-  animation: fadeInFromRight 0.5s ease-in;
-  text-align: center;
-  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-}
-
-.questionnaire.fadeOut {
-  opacity: 0;
-  transform: fadeOutAndTranslate (0.51)s ease-in-out forwards;
-}
 .questionnaire {
   animation: fadeInFromRight 0.5s ease-in;
   text-align: center;
@@ -306,7 +268,6 @@
 
 .backButton {
 
-
   margin-right: auto;
   color: #77838f;
 }
@@ -316,7 +277,6 @@
 }
 
 .skipButton {
-
 
   margin-left: auto;
   color: #77838f;
@@ -466,145 +426,19 @@ input:checked+.rect {
   /* Change this value as needed */
 }
 
-
-
-.checklist {
-  margin-top: 10%;
-  display: flex;
-  flex-direction: column;
+.questionLabel {
+  color:var(--gh-grey)
 }
 
-.checklistOption {
-  margin-bottom: 1rem;
-
+.greyed {
+  margin-top:40px;
+  margin-bottom:40px;
+  color:var(--gh-grey)
 }
 
-.hidden {
-  display: none;
+.spanAcross {
+  width:65%;
 }
-
-.labelLeftAlign {
-  text-align: left;
-  margin-top: 4%;
-  margin-right: 1%;
-  color: rgb(67, 17, 45);
-
-}
-
-.labelLeftAlignField {
-  text-align: left;
-  margin-top: 4%;
-  margin-right: 1%;
-  color: rgb(67, 17, 45);
-  border: 1px solid var(--gh-pink);
-  padding-bottom: 10px;
-  padding-top: 10px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-radius: 1rem;
-}
-
-
-
-.submit {
-  margin-top: 20%;
-  font-weight: bold;
-  color: var(--gh-pink);
-  cursor: pointer;
-}
-
-.submit {
-  margin-top: 20%;
-  font-weight: bold;
-  color: var(--gh-pink)
-}
-
-
-.ghfield {
-  border: 1px solid var(--gh-pink);
-  border-radius: 1rem;
-  margin-top: 2%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-.tellusmore>h1 {
-  font-size: 1.8rem;
-  margin-top: 15%;
-  margin-bottom: 10%;
-  color: var(--gh-pink)
-}
-
-.rect {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 1rem;
-  background-color: #f0f0f0;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-}
-
-input:checked+.rect {
-  color: white;
-  background-color: var(--gh-pink);
-}
-
-.formElement {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.label {
-  margin-right: 10px;
-}
-
-.lastQuestion {
-  margin-top: 2%;
-  text-align: left;
-}
-
-.textField {}
-
-.tum_question {
-  text-align: left;
-
-}
-
-.Question>h1 {
-  font-size: 1.5rem;
-  margin-bottom: 10%;
-}
-
-.roundedBorder {
-  margin-top: 5%;
-  border: 1px solid rgb(161, 47, 144);
-  border-radius: 5px;
-}
-
-
-.inputButtonContainer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.inputAlignLeft {
-  text-align: left;
-  width: 100%;
-}
-
-.fieldWidth {
-  width: 50%;
-  /* Change this value as needed */
-}
-
-
 
 @keyframes fadeInFromRight {
   from {
@@ -618,23 +452,6 @@ input:checked+.rect {
   }
 }
 
-
-
-@keyframes fadeOutAndTranslate {
-  0% {
-    opacity: 1;
-
-  }
-
-  99.5% {
-    opacity: 0;
-    transform: translateX(-5%);
-  }
-
-  0.5% {
-    transform: translateX(5%)
-  }
-}
 
 
 @keyframes fadeOutAndTranslate {
