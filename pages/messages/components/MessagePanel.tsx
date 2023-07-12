@@ -1,7 +1,11 @@
 import React from "react";
 
-const MessagePanel: React.FC = () => {
-  return <div>MessagePanel</div>;
+type MessagePanelProps = {
+  selectedChatId: number;
+};
+
+const MessagePanel: React.FC<MessagePanelProps> = ({ selectedChatId }) => {
+  return <div>MessagePanel: Selected chat is {selectedChatId}</div>;
 };
 
 export default MessagePanel;
