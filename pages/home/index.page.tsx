@@ -45,6 +45,8 @@ function Home() {
           />
         )}
         <ArticleList />
+
+        <Box marginBottom={275}></Box>
       </Box>
     </AppLayout>
   );

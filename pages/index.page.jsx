@@ -3,6 +3,7 @@ import styles from "./app.module.css";
 import { useRouter } from "next/router";
 import axios from "axios";
 
+
 const sendToAPI = async (formData,userData) => {
   console.log(userData)
 
@@ -37,6 +38,8 @@ const sendToAPI = async (formData,userData) => {
   } catch (error) {
     console.log('There was an error!', error);
   };
+  
+  
 
 
 };
@@ -213,43 +216,16 @@ function App() {
 
 
 
-  function sendDataToAPI() {
-    event.preventDefault();
-
-    // The form data
-    var formData = new FormData(document.querySelector('#userForm'));
-
-    // An object to hold the form data
-    var formObject = {};
-
-    // Fill the formObject with the form data
-    for(var pair of formData.entries()){
-        formObject[pair[0]] = pair[1];
-    } 
-
-    // Alert form object
-    alert(JSON.stringify(formObject, null, 4));
-    
-    // Return false to prevent form from submitting, since we're handling it manually
-    return false;
-
-  }
   // Callback for when an option is selected
   const handleOptionSelected = (selectedOption, nextQuestionIndex) => {
-    
-    if (nextQuestionIndex === "articles") {
-      router.push("/home");
-      return; // return from the function after routing
-
-
-    } else {
+  
       setUserData((prevState) => ({
         ...prevState,
         [question]: selectedOption,
       }));
       setUserPath((prevPath) => [...prevPath, question]);
       setQuestion(nextQuestionIndex);
-    }
+    
   };
 
   const handleMultipleOptionSelected = (selectedOption) => {
@@ -306,6 +282,7 @@ function App() {
   const handleSubmit = (event) => {
     event.preventDefault();
     sendToAPI(form,userData);
+    router.push("/home");
   };
 
   const [form, setForm] = useState({
