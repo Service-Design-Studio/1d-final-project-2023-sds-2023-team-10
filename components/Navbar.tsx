@@ -19,7 +19,6 @@ const Navbar = ({ active, children, onNavClick }: any) => {
       </Box> */}
       {children}
       {/* Space under children so that the navbar doesnt block the last article */}
-      <Box marginBottom={275}></Box>
 
       {/* Bottom Navbar */}
       <Box position="fixed" bottom={2} insetX={0} w="full" maxW={375} mx="auto">

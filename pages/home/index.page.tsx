@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AppLayout from "@/components/AppLayout";
-import { Heading, Spinner } from "@chakra-ui/react";
+import { Box, Heading, Spinner } from "@chakra-ui/react";
 import PregnantCard from "./pregnantcard";
 import ArticleList from "./ArticleList";
 
@@ -47,6 +47,8 @@ function Home() {
           />
         )}
         <ArticleList />
+
+        <Box marginBottom={275}></Box>
       </div>
     </AppLayout>
   );

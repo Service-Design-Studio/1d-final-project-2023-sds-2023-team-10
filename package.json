@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.19",
-    "@chakra-ui/react": "^2.7.0",
-    "@emotion/react": "^11.11.0",
+    "@chakra-ui/react": "^2.7.1",
+    "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@fontsource/mulish": "^5.0.3",
     "@types/node": "20.2.5",
@@ -23,6 +23,7 @@
     "eslint-config-next": "13.4.4",
     "firebase": "^9.22.1",
     "firebase-admin": "^11.9.0",
+    "framer-motion": "^5.6.0",
     "next": "13.4.4",
     "postcss": "8.4.24",
     "react": "18.2.0",

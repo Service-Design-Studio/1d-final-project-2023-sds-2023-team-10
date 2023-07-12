@@ -1,43 +1,58 @@
+import { Flex } from "@chakra-ui/react";
 import React, { useState } from "react";
+import Divider from "./Divider";
+import Footer from "./Footer";
+import Header from "./Header";
+import Messages from "./Messages";
 
 const ContactPanel = () => {
-    const [messages, setMessages] = useState([
-        { text: "Hello, how can I assist you today?", sender: "assistant" },
-        { text: "Hi! I have a question about your product.", sender: "user" },
-        { text:"Nahhh",sender:"user"}
-        // add more static messages for the demo
-    ]);
+  const [messages, setMessages] = useState([
+    { from: "computer", text: "Hi, is this a counsellor?" },
+    { from: "me", text: "Hey there! Yup!" },
+    { from: "me", text: "I need help." },
+    {
+      from: "computer",
+      text: "I'm all ears!",
+    },
+  ]);
+  const [inputMessage, setInputMessage] = useState("");
 
-    const [inputMessage, setInputMessage] = useState("");
-
-    const sendTextUser = () => {
-      if (inputMessage.trim() !== "") {
-        setMessages([...messages, {text: inputMessage, sender: "user"}]);
-        setInputMessage(""); // clear the input after sending
-      }
+  const handleSendMessage = () => {
+    if (!inputMessage.trim().length) {
+      return;
     }
+    const data = inputMessage;
+
+    setMessages((old) => [...old, { from: "me", text: data }]);
+    setInputMessage("");
+
+    setTimeout(() => {
+      setMessages((old) => [...old, { from: "computer", text: data }]);
+    }, 1000);
+  };
 
   return (
-    <div>
-      <h2>Chat</h2>
-      <div style={{height: '400px', overflow: 'auto'}}>
-          {messages.map((message, index) => (
-              <div key={index} style={{textAlign: message.sender === 'assistant' ? 'left' : 'right'}}>
-                  <p>{message.text}</p>
-              </div>
-          ))}
-      </div>
-      <div style={{marginTop: '10px'}}>
-          <input 
-              value={inputMessage}
-              onChange={(e) => setInputMessage(e.target.value)}
-              type='text' 
-              placeholder='Type your message here...' 
-              style={{width: "80%", marginRight: "10px"}}
-          />
-          <button onClick={sendTextUser}>Send</button>
-      </div>
-    </div>
+    <Flex
+      w="100%"
+      h="95vh"
+      justify="center"
+      align="center"
+      m="0"
+      p="0"
+      boxSizing="border-box"
+    >
+      <Flex w="100%" h="100%" flexDir="column">
+        <Header />
+        <Divider />
+        <Messages messages={messages} />
+        <Divider />
+        <Footer
+          inputMessage={inputMessage}
+          setInputMessage={setInputMessage}
+          handleSendMessage={handleSendMessage}
+        />
+      </Flex>
+    </Flex>
   );
 };
 
