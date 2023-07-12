@@ -438,6 +438,8 @@ input:checked+.rect {
 
 .spanAcross {
   width:65%;
+  margin-top:10px;
+  margin-bottom:10px;
 }
 
 @keyframes fadeInFromRight {
@@ -451,6 +453,54 @@ input:checked+.rect {
     transform: translateX(0);
   }
 }
+
+.submitTitle {
+  opacity:1;
+  font-size:300%;
+  margin-left:20px;
+  margin-right:20px;
+  color:var(--gh-pink);
+  margin-bottom:80px;
+  margin-top:30px;
+  font-weight: bold;
+  font-family: "Mulish", sans-serif;
+}
+
+.submitBlank {
+  padding-left:10px;
+  padding-top:10px;
+  padding-bottom:10px;
+  border-radius:20px;
+}
+
+.submitForm {
+  background:rgb(247, 247, 247);
+  padding-top:30px;
+  padding-bottom:50px;
+  margin-left:30px;
+  margin-right:30px;
+  border-radius: 30px;
+}
+
+.nextQButton {
+  font-size:130%;
+
+  color:rgb(83, 58, 71)
+  
+}
+.skipQButton {
+  margin-top:30px;
+  font-size:100%;
+
+  color:rgb(83, 58, 71);
+  
+}
+
+.buttonSubmitContainer {
+  display: flex;
+  flex-direction: column;
+}
+
 
 
 
