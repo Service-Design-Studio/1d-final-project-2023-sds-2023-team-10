@@ -1,6 +1,6 @@
 import AppLayout from "@/components/AppLayout";
 import React from "react";
-import MessagePanel from "./components/MessagePanel";
+import MessagePanel from "./components/MessagePanel2";
 import ContactPanel from "./components/ContactPanel";
 export const ADMIN_USER_ID = 1;
 
