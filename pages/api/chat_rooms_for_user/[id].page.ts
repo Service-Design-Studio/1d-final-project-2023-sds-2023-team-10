@@ -5,17 +5,7 @@ import { BACKEND_URL } from "@/components/api";
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === "GET") {
         const { query: { id } } = req;
-
-        console.log('user_id', id)
-
-        // const response = await axios.get('https://rubybackend-xnabw36hha-as.a.run.app/chat_rooms_for_user/1', {
         try {
-            // const response = await axios.get(`${BACKEND_URL}/chat_rooms_for_user/${user_id}`, {
-            //     headers: {
-            //         'accept': 'application/json'
-            //     }
-            // });
-
             const response = await axios.get(`${BACKEND_URL}chat_rooms_for_user/${id}`, {
                 headers: {
                     'accept': 'application/json'

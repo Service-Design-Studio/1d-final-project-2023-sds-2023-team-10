@@ -1,7 +1,7 @@
 import { ChatRoom, User } from "@/types";
 import { CheckCircleIcon } from "@chakra-ui/icons";
 import { Avatar, Badge, Box, List, ListItem, Text } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 type ContactPanelProps = {
   chatrooms: ChatRoom[];
@@ -17,6 +17,8 @@ const ContactPanel: React.FC<ContactPanelProps> = ({
   setSelectedChatId,
   selectedChatId,
 }) => {
+  const [backColor, setbackColor] = useState<string>("");
+
   return (
     <Box overflowY="scroll" h="800px" w="100%">
       <List spacing={4}>
@@ -26,9 +28,13 @@ const ContactPanel: React.FC<ContactPanelProps> = ({
               key={chatroom.id}
               cursor="pointer"
               _hover={{ bg: "pink.100" }}
-              bg={chatroom.id === selectedChatId ? "purple.100" : ""}
+              bg={chatroom.id !== selectedChatId ? "" : backColor}
               onClick={() => {
-                setSelectedChatId(chatroom.id);
+                setbackColor("pink.300");
+                setTimeout(() => {
+                  setbackColor("purple.100");
+                  setSelectedChatId(chatroom.id);
+                }, 200);
               }}
               p={4}
             >

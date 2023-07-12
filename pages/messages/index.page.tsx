@@ -54,7 +54,9 @@ function Messages() {
   if (selectedChatId) {
     return (
       <AppLayout>
-        <MessagePanel selectedChatId={selectedChatId} />
+        <div className="animate-slideIn">
+          <MessagePanel selectedChatId={selectedChatId} />
+        </div>
       </AppLayout>
     );
   } else {

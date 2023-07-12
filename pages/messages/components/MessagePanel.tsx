@@ -1,3 +1,4 @@
+import { Box } from "@chakra-ui/react";
 import React from "react";
 
 type MessagePanelProps = {
@@ -5,7 +6,7 @@ type MessagePanelProps = {
 };
 
 const MessagePanel: React.FC<MessagePanelProps> = ({ selectedChatId }) => {
-  return <div>MessagePanel: Selected chat is {selectedChatId}</div>;
+  return <Box>MessagePanel: Selected chat is {selectedChatId}</Box>;
 };
 
 export default MessagePanel;

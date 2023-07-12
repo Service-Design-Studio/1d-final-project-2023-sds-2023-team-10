@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AppLayout from "@/components/AppLayout";
-import { Heading, Spinner } from "@chakra-ui/react";
+import { Box, Heading, Spinner } from "@chakra-ui/react";
 import PregnantCard from "./pregnantcard";
 import ArticleList from "./ArticleList";
 
@@ -29,11 +29,9 @@ function Home() {
       </AppLayout>
     );
 
-  console.log(user);
-
   return (
     <AppLayout>
-      <div className="flex flex-col justify-center min-h-full mx-auto px-4 max-w-screen-sm">
+      <Box className="flex flex-col justify-center min-h-full mx-auto px-4 max-w-screen-sm">
         <Heading as="h3" size="xl" className="mb-2 text-left p-4">
           Hello, {user.first_name} {user.last_name}!
         </Heading>
@@ -47,7 +45,7 @@ function Home() {
           />
         )}
         <ArticleList />
-      </div>
+      </Box>
     </AppLayout>
   );
 }
