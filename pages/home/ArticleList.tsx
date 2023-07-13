@@ -51,10 +51,9 @@ const ArticleList: React.FC = () => {
       }
     );
     setTimeout(() => {
-      console.log("test");
       setArticles(fetchedArticles);
       setIsLoading(false);
-    }, 1000);
+    }, 20);
     // setArticles(fetchedArticles);
   };
 

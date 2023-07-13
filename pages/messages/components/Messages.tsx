@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { Avatar, Flex, Text } from "@chakra-ui/react";
 import { Message, User } from "@/types";
-import { DEFAULT_USER_ID } from "../index.page";
+import useUser from "@/components/useUser";
 
 type MessagesProps = {
   messages: Message[];
@@ -9,6 +9,8 @@ type MessagesProps = {
 };
 
 const Messages: React.FC<MessagesProps> = ({ messages, opponentUser }) => {
+  const [user, isLoadingUser] = useUser();
+  const userId = user?.id;
   const AlwaysScrollToBottom = () => {
     const elementRef = useRef<HTMLDivElement>(null);
     useEffect(() => elementRef.current?.scrollIntoView());
@@ -18,7 +20,7 @@ const Messages: React.FC<MessagesProps> = ({ messages, opponentUser }) => {
   return (
     <Flex w="100%" h="70%" overflowY="scroll" flexDirection="column" p="3">
       {messages.map((item, index) => {
-        if (item.sender_id === DEFAULT_USER_ID) {
+        if (item.sender_id === userId) {
           return (
             <Flex key={index} w="100%" justify="flex-end">
               <Flex

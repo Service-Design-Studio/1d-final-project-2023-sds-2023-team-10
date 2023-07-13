@@ -4,22 +4,35 @@ import MessagePanel from "./components/MessagePanel";
 import ContactPanel from "./components/ContactPanel";
 import { ChatRoom, User } from "@/types";
 import axios from "../axiosFrontend";
-import { Box, Spinner } from "@chakra-ui/react";
-import { APIGetUserInformation } from "@/components/api";
+import { Box, Spinner, Text } from "@chakra-ui/react";
+import useUser from "@/components/useUser";
+import App from "../_app.page";
+import AddChatButton from "./components/AddChatButton";
+import AddChatModal from "./components/AddChatModal";
 export const ADMIN_USER_ID = 1;
-export const DEFAULT_USER_ID = 1;
+// export const userId = 1;
 
 function Messages() {
   const [loading, setLoading] = useState(true);
   const [chatrooms, setChatRooms] = useState<ChatRoom[]>([]);
   const [selectedChatId, setSelectedChatId] = useState<number>();
-  const [chatUsers, setChatUsers] = useState<User[]>([]);
+  const [user, isLoadingUser] = useUser();
+  const [isAddChatModalOpen, setAddChatModalOpen] = useState(false);
+
+  useEffect(() => {
+    console.log("User is set to ", user);
+  }, [user]);
+  useEffect(() => {
+    console.log("Chatrooms is set to ", chatrooms);
+  }, [chatrooms]);
+
+  const userId = user?.id;
 
   const fetchChatRooms = async () => {
     try {
-      const response = await axios.get(
-        `/api/chat_rooms_for_user/${DEFAULT_USER_ID}`
-      );
+      const response = await axios.get(`/api/chat_rooms_for_user/${userId}`);
+
+      console.log("Gettting chat rooms for user", response.data);
 
       setTimeout(() => {
         setChatRooms(response.data);
@@ -31,24 +44,20 @@ function Messages() {
     }
   };
 
-  // const fetchChatUsers = async (chatrooms: ChatRoom[]) => {
-  //   chatrooms.forEach((chatroom) => {
-  //     const opponentUserId =
-  //       chatroom.user1_id === DEFAULT_USER_ID
-  //         ? chatroom.user2_id
-  //         : chatroom.user1_id;
+  const handleAddChat = () => {
+    console.log("handleAddChat", isAddChatModalOpen);
+    setAddChatModalOpen(true);
+  };
 
-  //     const chatUsers = axios.get(`/api/users/${opponentUserId}`, {
-  //       headers: {
-  //         accept: "application/json",
-  //       },
-  //     });
-  //   });
-  // };
+  const handleCloseModal = () => {
+    setAddChatModalOpen(false);
+  };
 
   useEffect(() => {
-    fetchChatRooms();
-  }, []);
+    if (userId) {
+      fetchChatRooms();
+    }
+  }, [userId]);
 
   useEffect(() => {
     console.log("change in selectedChatId", selectedChatId);
@@ -82,11 +91,25 @@ function Messages() {
   } else {
     return (
       <AppLayout>
-        <ContactPanel
-          chatrooms={chatrooms}
-          // chatUsers={chatUsers}
-          selectedChatId={selectedChatId} // set when the user clicks on a chat
-          setSelectedChatId={setSelectedChatId} // set when the user clicks on a chat
+        {loading ? (
+          <div className="flex h-screen w-full items-center justify-center">
+            <div className="flex flex-col items-center justify-center">
+              <Spinner size="large" />
+              <h1 className="text-4xl">Loading your chats...</h1>
+            </div>
+          </div>
+        ) : (
+          <ContactPanel
+            chatrooms={chatrooms}
+            selectedChatId={selectedChatId}
+            setSelectedChatId={setSelectedChatId}
+          />
+        )}
+        <AddChatButton onClick={handleAddChat} />
+        <AddChatModal
+          isOpen={isAddChatModalOpen}
+          onClose={handleCloseModal}
+          setSelectedChatId={setSelectedChatId}
         />
       </AppLayout>
     );

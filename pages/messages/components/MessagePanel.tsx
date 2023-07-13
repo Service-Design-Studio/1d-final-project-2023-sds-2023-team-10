@@ -4,7 +4,6 @@ import Divider from "./Divider";
 import Footer from "./Footer";
 import Header from "./Header";
 import Messages from "./Messages";
-import { DEFAULT_USER_ID } from "../index.page";
 import axios from "../../axiosFrontend";
 import {
   ChatRoomWithMessages,
@@ -13,6 +12,7 @@ import {
   User,
 } from "@/types";
 import { sendMessageToAPI } from "@/pages/api/messages/index.page";
+import useUser from "@/components/useUser";
 
 type MessagePanelProps = {
   selectedChatId: number;
@@ -31,16 +31,26 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
   const [loadingMessages, setLoadingMessages] = useState(true);
   const [inputMessage, setInputMessage] = useState<string>("");
 
+  const [user, isLoadingUser] = useUser();
+  const userId = user?.id;
+
   useEffect(() => {
-    fetchChatRoomsWithMessages();
-    fetchOpponentUser();
-  }, []);
+    if (selectedChatId) {
+      fetchChatRoomsWithMessages();
+    }
+  }, [selectedChatId]);
+  useEffect(() => {
+    if (userId && chatRoom) {
+      fetchOpponentUser();
+    }
+  }, [userId, chatRoom]);
 
   const fetchChatRoomsWithMessages = async () => {
     try {
       const response = await axios.get(
         `/api/chat_rooms_with_messages/${selectedChatId}`
       );
+      console.log("get chat room with messages", response.data);
       setChatRoom(response.data);
       setMessages(response.data.messages);
     } catch (error) {
@@ -52,9 +62,7 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
   const fetchOpponentUser = async () => {
     try {
       const opponentUserId =
-        chatRoom?.user1_id === DEFAULT_USER_ID
-          ? chatRoom?.user2_id
-          : chatRoom?.user1_id;
+        chatRoom?.user1_id === userId ? chatRoom?.user2_id : chatRoom?.user1_id;
       const response = await axios.get(`/api/users/${opponentUserId}`);
 
       setOpponentUser(response.data);
@@ -69,8 +77,8 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
     inputMessage: string
   ): MessageBeforeSend => {
     return {
-      sender_id: DEFAULT_USER_ID,
-      receiver_id: 1, // TODO: change this to the actual receiver id
+      sender_id: userId!,
+      receiver_id: opponentUser!.id,
       timestamp: new Date().toISOString(),
       sentiment_analysis_score: null,
       content: inputMessage,
@@ -84,7 +92,9 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
     if (!inputMessage.trim().length) {
       return;
     }
-    const newMessage = createNewMessage(DEFAULT_USER_ID, inputMessage);
+    const newMessage = createNewMessage(userId!, inputMessage);
+
+    console.log("new message", newMessage);
 
     sendMessageToAPI(newMessage);
 

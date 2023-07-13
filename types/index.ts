@@ -49,6 +49,15 @@ export interface MessageBeforeSend {
 //   messages: Message[];
 // };
 
+export interface ChatRoomBeforeSend {
+  overall_sentiment_analysis_score: number;
+  date_created: string;
+  is_ai_chat: boolean;
+  is_group_chat: boolean;
+  user1_id: number;
+  user2_id: number;
+}
+
 export interface ChatRoom {
   id: number;
   overall_sentiment_analysis_score: number;
