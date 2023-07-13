@@ -526,23 +526,23 @@ function App() {
     7: 21,
     8: 21,
     9: 10,
-    10: "chat",
-    11: "chat",
-    12: "chat",
-    13: "chat",
-    14: "chat",
-    15: "chat",
-    16: "chat",
-    17: "chat",
+    10: "submit-chat",
+    11: "submit-chat",
+    12: "submit-chat",
+    13: "submit-chat",
+    14: "submit-chat",
+    15: "submit-chat",
+    16: "submit-chat",
+    17: "submit-chat",
     18: 19,
     19: 20,
-    20: "chat",
-    21: "chat",
-    22: "chat",
-    23: "chat",
-    24: "chat",
-    25: "chat",
-    26: "chat",
+    20: "submit-chat",
+    21: "submit-chat",
+    22: "submit-chat",
+    23: "submit-chat",
+    24: "submit-chat",
+    25: "submit-chat",
+    26: "submit-chat",
   };
 
   const [isPregnant, setIsPregnant] = useState(false);
@@ -608,7 +608,7 @@ function App() {
             </button>
           </div>
 
-          <button type="button" className={styles.privacyPolicyButton}>
+          <button type="button" className={styles.privacyPolicyButton} onClick={() => {setPage("questionnaire");setQuestion("submit-articles")}}>
             Skip for now
           </button>
         </div>
@@ -648,7 +648,6 @@ function App() {
                 onSubmit={handleMultipleOptionSelected}
               />
 
-              <p>Current Question: {question}</p>
               <BackSkipButtons
                 handleBackClick={handleBackClick}
                 handleSkipClick={handleSkipClick}
@@ -666,7 +665,7 @@ function App() {
                 onSubmit={handleMultipleOptionSelected}
               />
 
-              <p>Current Question: {question}</p>
+     
               <BackSkipButtons
                 handleBackClick={handleBackClick}
                 handleSkipClick={handleSkipClick}
@@ -796,37 +795,41 @@ function App() {
 
 
 
+
+
           {
             question === "submit-articles" && (
-              <div>
-                <h1>Let us know more about you!</h1>
-                <form onSubmit={handleSubmit}>
+              <div >
+                <h1 className ={styles.submitTitle}>Let us know <br/>more about you!</h1>
+                
+                <form onSubmit={handleSubmit} className = {styles.submitForm}>
                 {showNext === false && (
                   <div>
+                    <div className={styles.submitPage}>
                   <div style={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1em'}}>
                     <div>
-                      <input type="text" id="fname" name="first_name" placeholder="First Name" onChange={handleChange}/><br/>
+                      <input className = {styles.submitBlank} type="text" id="fname" name="first_name" placeholder="First Name" onChange={handleChange}/><br/>
                     </div>
                     <div>
                   
-                    <input type="text" id="sname" name="second_name" placeholder="Second Name" onChange={handleChange}/><br/>
+                    <input className = {styles.submitBlank} type="text" id="sname" name="second_name" placeholder="Second Name" onChange={handleChange}/><br/>
                   </div>
                   <div>
                     
-                    <input type="number" id="age" name="age" placeholder="Age" onChange={handleChange}/><br/>
+                    <input className = {styles.submitBlank} type="number" id="age" name="age" placeholder="Age" onChange={handleChange}/><br/>
                   </div>
                   <div>
                 
-                    <input type="text" id="occupation" name="occupation" placeholder="Occupation" onChange={handleChange}/><br/>
+                    <input className = {styles.submitBlank} type="text" id="occupation" name="occupation" placeholder="Occupation" onChange={handleChange}/><br/>
                   </div>
 
                   <div>
           
-                    <input type="tel" id="pnum" name="phone_number" placeholder="Phone Number" onChange={handleChange}/><br/>
+                    <input className = {styles.submitBlank} type="tel" id="pnum" name="phone_number" placeholder="Phone Number" onChange={handleChange}/><br/>
                   </div>
                   <div>
       
-                    <input type="text" id="gender" name="gender" placeholder="Gender" onChange={handleChange}/><br/>
+                    <input className = {styles.submitBlank} type="text" id="gender" name="gender" placeholder="Gender" onChange={handleChange}/><br/>
                   </div>
                     <div>
                       <label className={styles.questionLabel} htmlFor="pregnant" style={{marginRight: "32px" }}>Are you Pregnant?</label>
@@ -839,22 +842,28 @@ function App() {
                     </div>
                     {isPregnant && (
                       <div>
-                        <input type="number" id="pweek" name="pregnancy_week" placeholder="Pregnancy Week" onChange={handleChange}/><br/>
+                        <input className = {styles.submitBlank} type="number" id="pweek" name="pregnancy_week" placeholder="Pregnancy Week" onChange={handleChange}/><br/>
                       </div>
                     )}
                     </div>
+                    </div>
 
                     <div className ={styles.greyed}>
-                      <label htmlFor="marital-status">Marital Status: </label>
-                      <select id="marital-status" value={maritalStatus} onChange={handleSelectChange}>
+                      <label htmlFor="marital-status" >Marital Status: </label>
+                      <select id="marital-status" className = {styles.submitBlank} value={maritalStatus} onChange={handleSelectChange}>
                         <option value="">Select...</option>
                         <option value="In a relationship">In a relationship</option>
                         <option value="Married">Married</option>
                         <option value="Single">Single</option>
                       </select>
                     </div>
-                    <button type="button" onClick={() => setShowNext(true)}>Next</button>
-           
+
+                     <div className={styles.buttonSubmitContainer}>
+                        <button className = {styles.nextQButton} type="button" onClick={() => setShowNext(true)}>Next</button>
+
+                        <button className = {styles.skipQButton} type="button" onClick={() => setShowNext(true)}>Skip</button>
+                     </div>
+            
         
                   </div>
                   
@@ -862,9 +871,10 @@ function App() {
                 
                 {showNext && (
                   <div>
-                    <h1>You may skip if you would like to remain anonymous</h1>
+                    <h1>You may skip if you <br/>would like to remain anonymous</h1>
                     <input
-                      className={styles.spanAcross}
+                      className={`${styles.spanAcross} ${styles.submitBlank}`}
+                      
                       type="email"
                       id="email"
                       name="email"
@@ -872,7 +882,7 @@ function App() {
                       onChange={handleChange}
                     /><br/>
                     <input
-                      className={styles.spanAcross}
+                      className={`${styles.spanAcross} ${styles.submitBlank}`}
                       type="text"
                       id="uname"
                       name="username"
@@ -880,14 +890,17 @@ function App() {
                       onChange={handleChange}
                     /><br/>
                     <input
-                      className={styles.spanAcross}
+                      className={`${styles.spanAcross} ${styles.submitBlank}`}
                       type="password"
                       id="pwd"
                       name="password"
                       placeholder="Password"
                       onChange={handleChange}
                     /><br/>
-                    <input type="submit" value="Submit"/>
+                    <div className={styles.buttonSubmitContainer}>
+                    <input className = {styles.nextQButton} type="submit" value="Submit"/>
+                    <input className = {styles.skipQButton} type="submit" value="Skip"/>
+                    </div>
                   </div>
                 )}
               </form>
@@ -895,37 +908,39 @@ function App() {
             )
           }
 
-{
+          {
             question === "submit-chat" && (
-              <div>
-                <h1>Let us know more about you!</h1>
-                <form onSubmit={handleSubmit2}>
+              <div >
+                <h1 className ={styles.submitTitle}>Let us know <br/>more about you!</h1>
+                
+                <form onSubmit={handleSubmit2} className = {styles.submitForm}>
                 {showNext === false && (
                   <div>
+                    <div className={styles.submitPage}>
                   <div style={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1em'}}>
                     <div>
-                      <input type="text" id="fname" name="first_name" placeholder="First Name" onChange={handleChange}/><br/>
+                      <input className = {styles.submitBlank} type="text" id="fname" name="first_name" placeholder="First Name" onChange={handleChange}/><br/>
                     </div>
                     <div>
                   
-                    <input type="text" id="sname" name="second_name" placeholder="Second Name" onChange={handleChange}/><br/>
+                    <input className = {styles.submitBlank} type="text" id="sname" name="second_name" placeholder="Second Name" onChange={handleChange}/><br/>
                   </div>
                   <div>
                     
-                    <input type="number" id="age" name="age" placeholder="Age" onChange={handleChange}/><br/>
+                    <input className = {styles.submitBlank} type="number" id="age" name="age" placeholder="Age" onChange={handleChange}/><br/>
                   </div>
                   <div>
                 
-                    <input type="text" id="occupation" name="occupation" placeholder="Occupation" onChange={handleChange}/><br/>
+                    <input className = {styles.submitBlank} type="text" id="occupation" name="occupation" placeholder="Occupation" onChange={handleChange}/><br/>
                   </div>
 
                   <div>
           
-                    <input type="tel" id="pnum" name="phone_number" placeholder="Phone Number" onChange={handleChange}/><br/>
+                    <input className = {styles.submitBlank} type="tel" id="pnum" name="phone_number" placeholder="Phone Number" onChange={handleChange}/><br/>
                   </div>
                   <div>
       
-                    <input type="text" id="gender" name="gender" placeholder="Gender" onChange={handleChange}/><br/>
+                    <input className = {styles.submitBlank} type="text" id="gender" name="gender" placeholder="Gender" onChange={handleChange}/><br/>
                   </div>
                     <div>
                       <label className={styles.questionLabel} htmlFor="pregnant" style={{marginRight: "32px" }}>Are you Pregnant?</label>
@@ -938,22 +953,28 @@ function App() {
                     </div>
                     {isPregnant && (
                       <div>
-                        <input type="number" id="pweek" name="pregnancy_week" placeholder="Pregnancy Week" onChange={handleChange}/><br/>
+                        <input className = {styles.submitBlank} type="number" id="pweek" name="pregnancy_week" placeholder="Pregnancy Week" onChange={handleChange}/><br/>
                       </div>
                     )}
                     </div>
+                    </div>
 
                     <div className ={styles.greyed}>
-                      <label htmlFor="marital-status">Marital Status: </label>
-                      <select id="marital-status" value={maritalStatus} onChange={handleSelectChange}>
+                      <label htmlFor="marital-status" >Marital Status: </label>
+                      <select id="marital-status" className = {styles.submitBlank} value={maritalStatus} onChange={handleSelectChange}>
                         <option value="">Select...</option>
                         <option value="In a relationship">In a relationship</option>
                         <option value="Married">Married</option>
                         <option value="Single">Single</option>
                       </select>
                     </div>
-                    <button type="button" onClick={() => setShowNext(true)}>Next</button>
-           
+
+                     <div className={styles.buttonSubmitContainer}>
+                        <button className = {styles.nextQButton} type="button" onClick={() => setShowNext(true)}>Next</button>
+
+                        <button className = {styles.skipQButton} type="button" onClick={() => setShowNext(true)}>Skip</button>
+                     </div>
+            
         
                   </div>
                   
@@ -961,9 +982,10 @@ function App() {
                 
                 {showNext && (
                   <div>
-                    <h1>You may skip if you would like to remain anonymous</h1>
+                    <h1>You may skip if you <br/>would like to remain anonymous</h1>
                     <input
-                      className={styles.spanAcross}
+                      className={`${styles.spanAcross} ${styles.submitBlank}`}
+                      
                       type="email"
                       id="email"
                       name="email"
@@ -971,7 +993,7 @@ function App() {
                       onChange={handleChange}
                     /><br/>
                     <input
-                      className={styles.spanAcross}
+                      className={`${styles.spanAcross} ${styles.submitBlank}`}
                       type="text"
                       id="uname"
                       name="username"
@@ -979,14 +1001,17 @@ function App() {
                       onChange={handleChange}
                     /><br/>
                     <input
-                      className={styles.spanAcross}
+                      className={`${styles.spanAcross} ${styles.submitBlank}`}
                       type="password"
                       id="pwd"
                       name="password"
                       placeholder="Password"
                       onChange={handleChange}
                     /><br/>
-                    <input type="submit" value="Submit"/>
+                    <div className={styles.buttonSubmitContainer}>
+                    <input className = {styles.nextQButton} type="submit" value="Submit"/>
+                    <input className = {styles.skipQButton} type="submit" value="Skip"/>
+                    </div>
                   </div>
                 )}
               </form>
