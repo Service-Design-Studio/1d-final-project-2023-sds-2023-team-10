@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../axiosFrontend";
 import AppLayout from "@/components/AppLayout";
 import { Box, Heading, Spinner } from "@chakra-ui/react";
 import PregnantCard from "./pregnantcard";
 import ArticleList from "./ArticleList";
+import withAuth from "@/components/withAuth";
 
 function Home() {
   const [user, setUser] = useState<any>(null);
@@ -52,4 +53,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default withAuth(Home);

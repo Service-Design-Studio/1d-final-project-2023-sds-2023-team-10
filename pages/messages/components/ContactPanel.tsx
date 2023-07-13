@@ -18,7 +18,17 @@ const ContactPanel: React.FC<ContactPanelProps> = ({
   selectedChatId,
 }) => {
   const [backColor, setbackColor] = useState<string>("");
-
+  if (chatrooms.length === 0) {
+    return (
+      <Box className="flex h-screen w-full items-center justify-center">
+        <Box className="flex flex-col items-center justify-center">
+          <Text as={"h1"} fontSize={"2xl"}>
+            You have no chats yet.
+          </Text>
+        </Box>
+      </Box>
+    );
+  }
   return (
     <Box overflowY="scroll" h="800px" w="100%">
       <List spacing={4}>
@@ -39,7 +49,14 @@ const ContactPanel: React.FC<ContactPanelProps> = ({
               p={4}
             >
               <Box display="flex" alignItems="center">
-                <Avatar src={defaultAvatarUrl} size="lg" />
+                <Avatar
+                  src={
+                    chatroom.opponent_picture
+                      ? chatroom.opponent_picture
+                      : defaultAvatarUrl
+                  }
+                  size="lg"
+                />
                 <Box ml={3}>
                   <Text as="b">
                     {chatroom.opponent_first_name &&

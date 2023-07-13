@@ -9,7 +9,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     } = req;
     try {
       const response = await axios.get(
-        `${BACKEND_URL}/chat_rooms_for_user/${id}`,
+        `${BACKEND_URL}/chat_rooms_with_messages/${id}`,
         {
           headers: {
             Authorization: req.headers.authorization,
@@ -17,9 +17,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         }
       );
+      console.log(response);
 
-      const data = response.data;
-      console.log("getchatrooms for user", data);
+      const data = await response.data;
       return res.status(200).json(data);
     } catch (error) {
       console.log(error);

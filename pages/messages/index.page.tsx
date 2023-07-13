@@ -2,38 +2,63 @@ import AppLayout from "@/components/AppLayout";
 import React, { useEffect, useState } from "react";
 import MessagePanel from "./components/MessagePanel";
 import ContactPanel from "./components/ContactPanel";
-import { ChatRoom } from "@/types";
-import axios from "axios";
-import { Spinner } from "@chakra-ui/react";
+import { ChatRoom, User } from "@/types";
+import axios from "../axiosFrontend";
+import { Box, Spinner, Text } from "@chakra-ui/react";
+import useUser from "@/components/useUser";
+import App from "../_app.page";
+import AddChatButton from "./components/AddChatButton";
+import AddChatModal from "./components/AddChatModal";
 export const ADMIN_USER_ID = 1;
-export const DEFAULT_USER_ID = 2;
+// export const userId = 1;
 
 function Messages() {
   const [loading, setLoading] = useState(true);
   const [chatrooms, setChatRooms] = useState<ChatRoom[]>([]);
   const [selectedChatId, setSelectedChatId] = useState<number>();
-  const [chatRoomData, setChatRoomData] = useState<any>({}); // this also have message inside
-  const [loadingChatRoomData, setLoadingChatRoomData] = useState(false);
+  const [user, isLoadingUser] = useUser();
+  const [isAddChatModalOpen, setAddChatModalOpen] = useState(false);
+
+  useEffect(() => {
+    console.log("User is set to ", user);
+  }, [user]);
+  useEffect(() => {
+    console.log("Chatrooms is set to ", chatrooms);
+  }, [chatrooms]);
+
+  const userId = user?.id;
 
   const fetchChatRooms = async () => {
     try {
-      const response = await axios.get(
-        `/api/chat_rooms_for_user/${DEFAULT_USER_ID}`
-      );
+      const response = await axios.get(`/api/chat_rooms_for_user/${userId}`);
 
-      console.log(response);
+      console.log("Gettting chat rooms for user", response.data);
+
       setTimeout(() => {
         setChatRooms(response.data);
+        // fetchChatUsers(response.data);
         setLoading(false);
-      }, 500);
+      }, 20);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const handleAddChat = () => {
+    console.log("handleAddChat", isAddChatModalOpen);
+    setAddChatModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setAddChatModalOpen(false);
+  };
+
   useEffect(() => {
-    fetchChatRooms();
-  }, []);
+    if (userId) {
+      fetchChatRooms();
+    }
+  }, [userId]);
+
   useEffect(() => {
     console.log("change in selectedChatId", selectedChatId);
   }, [selectedChatId]);
@@ -54,17 +79,36 @@ function Messages() {
   if (selectedChatId) {
     return (
       <AppLayout>
-        <div className="animate-slideIn">
-          <MessagePanel selectedChatId={selectedChatId} />
-        </div>
+        <Box className="animate-slideIn">
+          <MessagePanel
+            selectedChatId={selectedChatId}
+            setSelectedChatId={setSelectedChatId} // set to undefined when the user presses back
+            fetchChatRooms={fetchChatRooms} // passed down so that we can update chatrooms when the user presses back
+          />
+        </Box>
       </AppLayout>
     );
   } else {
     return (
       <AppLayout>
-        <ContactPanel
-          chatrooms={chatrooms}
-          selectedChatId={selectedChatId}
+        {loading ? (
+          <div className="flex h-screen w-full items-center justify-center">
+            <div className="flex flex-col items-center justify-center">
+              <Spinner size="large" />
+              <h1 className="text-4xl">Loading your chats...</h1>
+            </div>
+          </div>
+        ) : (
+          <ContactPanel
+            chatrooms={chatrooms}
+            selectedChatId={selectedChatId}
+            setSelectedChatId={setSelectedChatId}
+          />
+        )}
+        <AddChatButton onClick={handleAddChat} />
+        <AddChatModal
+          isOpen={isAddChatModalOpen}
+          onClose={handleCloseModal}
           setSelectedChatId={setSelectedChatId}
         />
       </AppLayout>

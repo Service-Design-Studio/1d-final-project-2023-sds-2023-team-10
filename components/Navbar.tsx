@@ -60,9 +60,9 @@ const NavItem = ({ icon, active, onClick }: any) => {
       flexDirection="column"
       alignItems="center"
       justifyContent="center"
-      color={active ? "purple.500" : "gray.500"}
+      color={active ? "brand.primary" : "gray.500"}
       border={active ? "2px" : "1px"}
-      borderColor={active ? "purple.500" : "gray.500"}
+      borderColor={active ? "brand.primary" : "gray.500"}
       rounded="full"
       p={2}
       onClick={onClick}

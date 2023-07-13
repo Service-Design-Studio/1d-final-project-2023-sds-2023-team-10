@@ -10,6 +10,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       JSON.stringify(req.body),
       {
         headers: {
+          Authorization: req.headers.authorization,
           accept: "application/json",
           "Content-Type": "application/json",
         },
@@ -25,6 +26,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       "https://rubybackend-xnabw36hha-as.a.run.app/users",
       {
         headers: {
+          Authorization: req.headers.authorization,
           accept: "application/json",
         },
       }

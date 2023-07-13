@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Article } from "../../types";
-import axios from "axios";
+import axios from "../axiosFrontend";
 import {
   Card,
   CardBody,
@@ -51,10 +51,9 @@ const ArticleList: React.FC = () => {
       }
     );
     setTimeout(() => {
-      console.log("test");
       setArticles(fetchedArticles);
       setIsLoading(false);
-    }, 1000);
+    }, 20);
     // setArticles(fetchedArticles);
   };
 
