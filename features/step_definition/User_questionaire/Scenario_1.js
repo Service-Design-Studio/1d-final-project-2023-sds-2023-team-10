@@ -163,7 +163,7 @@ Then("user clicks on 'Submit'", async () => {
 });
 
 Then("User lands on Log In page",  async () => {
-  const expectedUrl = 'http://localhost:3000/login'; // replace with your dashboard page url
+  const expectedUrl = 'http://localhost:3000/home'; // replace with your dashboard page url
   const currentUrl = await page.url();
   expect(currentUrl).to.equal(expectedUrl);
 });

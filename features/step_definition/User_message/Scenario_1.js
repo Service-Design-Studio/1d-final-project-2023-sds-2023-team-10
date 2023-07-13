@@ -28,13 +28,13 @@ When("the user click on the chat icon", async () => {
     //     page.waitForNavigation({ waitUntil: 'networkidle0' }),
     // ]);
     await page.reload();
-    await page.goto('https://clientfrontend-xnabw36hha-as.a.run.app/messages',{ waitUntil: 'networkidle0', timeout: 60000 });
+    await page.goto('http://localhost:3000/messages',{ waitUntil: 'networkidle0', timeout: 60000 });
 });
 
 // Step 3: Then user should be in the chat page
 Then("user should be in the chat page", async () => {
     // Check current URL
     const currentUrl = await page.url();
-    const expectedUrl = "https://clientfrontend-xnabw36hha-as.a.run.app/messages"; // Replace with your chat page URL
+    const expectedUrl = "http://localhost:3000/messages"; // Replace with your chat page URL
     expect(currentUrl).to.equal(expectedUrl);
 });
