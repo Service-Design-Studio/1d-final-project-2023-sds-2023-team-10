@@ -12,8 +12,6 @@ function Messages() {
   const [loading, setLoading] = useState(true);
   const [chatrooms, setChatRooms] = useState<ChatRoom[]>([]);
   const [selectedChatId, setSelectedChatId] = useState<number>();
-  const [chatRoomData, setChatRoomData] = useState<any>({}); // this also have message inside
-  const [loadingChatRoomData, setLoadingChatRoomData] = useState(false);
 
   const fetchChatRooms = async () => {
     try {
@@ -21,7 +19,6 @@ function Messages() {
         `/api/chat_rooms_for_user/${DEFAULT_USER_ID}`
       );
 
-      console.log(response);
       setTimeout(() => {
         setChatRooms(response.data);
         setLoading(false);
@@ -55,7 +52,11 @@ function Messages() {
     return (
       <AppLayout>
         <div className="animate-slideIn">
-          <MessagePanel selectedChatId={selectedChatId} />
+          <MessagePanel
+            selectedChatId={selectedChatId}
+            setSelectedChatId={setSelectedChatId}
+            fetchChatRooms={fetchChatRooms}
+          />
         </div>
       </AppLayout>
     );

@@ -18,13 +18,24 @@ export interface Message {
   sender_id: number;
   receiver_id: number;
   timestamp: string;
-  sentiment_analysis_score: number;
+  sentiment_analysis_score: number | null;
   content: string;
   message_type: string;
   chat_room_id: number;
   read: boolean;
   created_at: string;
   updated_at: string;
+}
+
+export interface MessageBeforeSend {
+  sender_id: number;
+  receiver_id: number;
+  timestamp: string;
+  sentiment_analysis_score: number | null;
+  content: string;
+  message_type: string;
+  chat_room_id: number;
+  read: boolean;
 }
 
 // export type ChatRoom = {
