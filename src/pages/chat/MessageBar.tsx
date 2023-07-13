@@ -1,7 +1,7 @@
 import { Avatar, Button, Card, Input, Spin, Typography, message } from "antd";
 
 import axios from "../axiosFrontend";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ADMIN_USER_ID } from "./index.page";
 
 const { Text } = Typography;
@@ -107,6 +107,12 @@ const MessagesBar = ({
 }: any) => {
   const [inputValue, setInputValue] = useState("");
 
+  const AlwaysScrollToBottom = () => {
+    const elementRef = useRef<HTMLDivElement>(null);
+    useEffect(() => elementRef.current?.scrollIntoView());
+    return <div ref={elementRef} />;
+  };
+
   if (loading) {
     return <Spin />;
   }
@@ -127,12 +133,14 @@ const MessagesBar = ({
                 isNotMyself={chatMessage.sender_id !== ADMIN_USER_ID}
               />
             ))}
+            <AlwaysScrollToBottom />
           </div>
           <div className="mt-4">
             <ChatInput
               value={inputValue}
               onChange={(e: any) => setInputValue(e.target.value)}
               onSend={() => {
+                if (!inputValue) return;
                 handleSendMessage({
                   sender_id: ADMIN_USER_ID,
                   content: inputValue,

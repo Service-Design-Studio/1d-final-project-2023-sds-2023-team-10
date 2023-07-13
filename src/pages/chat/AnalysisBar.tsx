@@ -66,7 +66,7 @@ const AnalysisBar = ({
       {userData ? (
         <Card title="User Profile">
           <List
-            loading={loading || isLoadingUserData}
+            loading={false}
             className="bg-white"
             bordered
             dataSource={[
@@ -87,7 +87,7 @@ const AnalysisBar = ({
       )}
       <Card
         title="Sentiment Analysis"
-        loading={loading || isLoadingUserData}
+        loading={false}
         style={{ minHeight: "400px" }}
       >
         <ResponsiveContainer width="100%" height={300}>

@@ -59,7 +59,11 @@ const ChatPage: React.FC = () => {
 
   useEffect(() => {
     setLoadingChatRoomData(true);
-    fetchChatRoomData();
+
+    const intervalId = setInterval(() => {
+      fetchChatRoomData();
+    }, 1000); // in milliseconds
+    return () => clearInterval(intervalId);
   }, [selectedChatId, contacts]);
 
   useEffect(() => {
