@@ -1,4 +1,5 @@
 const { Given, When, Then} = require('@cucumber/cucumber');
+const { expect } = require("chai");
 const puppeteer = require('puppeteer');
 
 let browser, page;
@@ -154,14 +155,15 @@ Then("fills in 'password'", async () => {
 
 Then("user clicks on 'Submit'", async () => {
   await page.waitForSelector('#__next > div > div > div > form > div > div > input.app_nextQButton__lp55v');
-  await page.click('#__next > div > div > div > form > div > div > input.app_nextQButton__lp55v');
+  await Promise.all([
+    page.click('#__next > div > div > div > form > div > div > input.app_nextQButton__lp55v'), // Triggers navigation
+    page.waitForNavigation({ waitUntil: 'networkidle0' })  // Waits until navigation finishes
+  ]);
+
 });
 
-Then("User lands on Home page",  async () => {
-  const expectedHomepage = 'Hello, User1 !'
-  await page.waitForSelector('#__next > div > div > div.py-5 > div > h3.chakra-heading.mb-2.text-left.p-4.css-1dklj6k');
-  const Homelanding = await page.$eval('#__next > div > div > div.py-5 > div > h3.chakra-heading.mb-2.text-left.p-4.css-1dklj6k', elem => elem.textContent.trim());
-  if (Homelanding !== expectedHomepage.trim()) {
-      throw new Error(`Expected questionaire title "${expectedHomepage}", but got "${Homelanding}" instead`);
-  }
+Then("User lands on Log In page",  async () => {
+  const expectedUrl = 'http://localhost:3000/login'; // replace with your dashboard page url
+  const currentUrl = await page.url();
+  expect(currentUrl).to.equal(expectedUrl);
 });

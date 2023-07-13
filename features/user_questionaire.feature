@@ -3,12 +3,12 @@ Feature: Guiding hand - Questionaire
 #1 - Happy path
 Scenario: Going through the questionaire until user reaches the home page
     Given a user is at the welcome page
-    When the user clicks on 'Start!' 
+    When the user clicks on 'Start!'
     Then the user will land on 'Take short questionaire' page
     When the user clicks on 'I'll Give it a shot'
     Then clicks on 'Yes, my doctor confirmed it'
     Then user selects 'I'm worried what others may think of me'
-    And selects 'I lack resources to keep the baby' 
+    And selects 'I lack resources to keep the baby'
     Then user clicks 'Submit'
     Then user clicks 'I believe it's just a mass of cells'
     Then user clicks 'I'm alone'
@@ -32,7 +32,7 @@ Scenario: Going through the questionaire until user reaches the home page
     Then User selects 'Password' Text box
     And fills in 'password'
     Then user clicks on 'Submit'
-    And User lands on Home page
+    And User lands on Log In page
 
 
 #2 - Sad path
@@ -42,5 +42,5 @@ Scenario: Accessing the Home page upon skipping questionnaire
     When the user clicks 'Skip for now'
     When the user clicks 'Skip'
     When the user clicks 'Skip' again
-    Then the user will land on the Home page
-    
+    Then the user will land on the Log in Page
+

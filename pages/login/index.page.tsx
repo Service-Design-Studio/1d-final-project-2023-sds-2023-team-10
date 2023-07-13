@@ -99,6 +99,7 @@ const Login = () => {
               width="full"
               onClick={handleLogin}
               isLoading={isLoading}
+              data-testid="login-button"
             >
               Log In
             </Button>

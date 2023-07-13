@@ -101,6 +101,7 @@ const Signup = () => {
               width="full"
               onClick={handleSignup}
               isLoading={isLoading}
+              data-testid="signup-button"
             >
               Signup
             </Button>

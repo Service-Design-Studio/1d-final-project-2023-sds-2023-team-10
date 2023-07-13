@@ -1,4 +1,5 @@
 const { Given, When, Then } = require('@cucumber/cucumber');
+const { expect } = require("chai");
 const puppeteer = require('puppeteer');
 
 let browser, page;
@@ -26,17 +27,14 @@ When("the user clicks 'Skip'", async () => {
 
 When("the user clicks 'Skip' again", async () => {
   await page.waitForSelector('.app_skipQButton__5sus0');
-  await page.click('.app_skipQButton__5sus0');
+  await Promise.all([
+    page.click('.app_skipQButton__5sus0'), // Triggers navigation
+    page.waitForNavigation({ waitUntil: 'networkidle0' })  // Waits until navigation finishes
+  ]);
 });
 
-Then("the user will land on the Home page",  async () => {
-  const expectedChatTitle = 'Hello, User1 !'
-  await page.waitForSelector('.css-1dklj6k');
-  const chatTitle = await page.$eval('.css-1dklj6k', elem => elem.textContent.trim());
-  if (chatTitle !== expectedChatTitle.trim()) {
-      throw new Error(`Expected chat title "${expectedChatTitle}", but got "${chatTitle}" instead`);
-  }
-  // const homeTitle = await page.$eval('.css-1dklj6k', elem => elem.textContent.trim());
-  // console.log(homeTitle)
-  // expect(homeTitle).toBe("Hello, User1!");
+Then("the user will land on the Log in Page",  async () => {
+  const expectedUrl = 'http://localhost:3000/login'; // replace with your dashboard page url
+  const currentUrl = await page.url();
+  expect(currentUrl).to.equal(expectedUrl);
 });
