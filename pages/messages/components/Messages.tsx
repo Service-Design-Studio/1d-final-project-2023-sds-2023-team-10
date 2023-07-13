@@ -1,13 +1,14 @@
 import React, { useEffect, useRef } from "react";
 import { Avatar, Flex, Text } from "@chakra-ui/react";
-import { Message } from "@/types";
+import { Message, User } from "@/types";
 import { DEFAULT_USER_ID } from "../index.page";
 
 type MessagesProps = {
   messages: Message[];
+  opponentUser: User | undefined;
 };
 
-const Messages: React.FC<MessagesProps> = ({ messages }) => {
+const Messages: React.FC<MessagesProps> = ({ messages, opponentUser }) => {
   const AlwaysScrollToBottom = () => {
     const elementRef = useRef<HTMLDivElement>(null);
     useEffect(() => elementRef.current?.scrollIntoView());

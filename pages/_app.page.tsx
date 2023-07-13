@@ -22,6 +22,7 @@ const theme = extendTheme({
       700: "#063229",
       800: "#063229",
       900: "#063229",
+      primary: "#BB6192",
     },
   },
   fonts: {

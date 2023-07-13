@@ -6,7 +6,12 @@ import Header from "./Header";
 import Messages from "./Messages";
 import { DEFAULT_USER_ID } from "../index.page";
 import axios from "axios";
-import { ChatRoom, Message, MessageBeforeSend, User } from "@/types";
+import {
+  ChatRoomWithMessages,
+  Message,
+  MessageBeforeSend,
+  User,
+} from "@/types";
 import { sendMessageToAPI } from "@/pages/api/messages/index.page";
 
 type MessagePanelProps = {
@@ -20,9 +25,15 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
   setSelectedChatId,
   fetchChatRooms,
 }) => {
+  const [chatRoom, setChatRoom] = useState<ChatRoomWithMessages>();
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [opponentUser, setOpponentUser] = useState<User>();
+  const [loadingMessages, setLoadingMessages] = useState(true);
+  const [inputMessage, setInputMessage] = useState<string>("");
+
   useEffect(() => {
     fetchChatRoomsWithMessages();
-    // fetchOpponentUser();
+    fetchOpponentUser();
   }, []);
 
   const fetchChatRoomsWithMessages = async () => {
@@ -30,8 +41,6 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
       const response = await axios.get(
         `/api/chat_rooms_with_messages/${selectedChatId}`
       );
-
-      console.log(response.data);
       setChatRoom(response.data);
       setMessages(response.data.messages);
     } catch (error) {
@@ -40,24 +49,20 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
     setLoadingMessages(false);
   };
 
-  // TODO add another useEffect to fetch the other user informatoin
   const fetchOpponentUser = async () => {
     try {
-      const response = await axios.get(`/api/users/${chatRoom?.opponent_id}`);
+      const opponentUserId =
+        chatRoom?.user1_id === DEFAULT_USER_ID
+          ? chatRoom?.user2_id
+          : chatRoom?.user1_id;
+      const response = await axios.get(`/api/users/${opponentUserId}`);
 
       setOpponentUser(response.data);
-      console.log(response.data);
     } catch (error) {
       console.log(error);
     }
     setLoadingMessages(false);
   };
-
-  const [chatRoom, setChatRoom] = useState<ChatRoom>();
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [opponentUser, setOpponentUser] = useState<User>([]);
-  const [loadingMessages, setLoadingMessages] = useState(true);
-  const [inputMessage, setInputMessage] = useState<string>("");
 
   const createNewMessage = (
     sender_id: number,
@@ -120,9 +125,12 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
       boxSizing="border-box"
     >
       <Flex w="100%" h="100%" flexDir="column">
-        <Header onBackButtonPressed={handleBackButtonPressed} />
+        <Header
+          onBackButtonPressed={handleBackButtonPressed}
+          opponentUser={opponentUser}
+        />
         <Divider />
-        <Messages messages={messages} />
+        <Messages messages={messages} opponentUser={opponentUser} />
         <Divider />
         <Footer
           inputMessage={inputMessage}

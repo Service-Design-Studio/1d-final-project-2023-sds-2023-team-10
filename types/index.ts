@@ -66,16 +66,56 @@ export interface ChatRoom {
   last_message: Message;
   unread_messages_count: number;
 }
+export interface ChatRoomWithMessages {
+  id: number;
+  overall_sentiment_analysis_score: number;
+  date_created: string;
+  is_ai_chat: boolean;
+  is_group_chat: boolean;
+  user1_id: number;
+  user2_id: number;
+  created_at: string;
+  updated_at: string;
+  messages: Message[];
+  opponent_id: number;
+  opponent_first_name: string;
+  opponent_second_name: string;
+  opponent_picture: string;
+  last_message: Message;
+  unread_messages_count: number;
+}
 
 export type User = {
-  type: "admin" | "client" | "ai";
-  id: string;
-  profile?: string;
-  properties?: {
-    // Need to discuss this
-  };
-  username?: string;
-  phoneNumber?: string;
+  id: number;
+  user_type: string;
+  profile: string;
+  first_name: string;
+  second_name: string;
+  age: number;
+  occupation: string;
+  username: string;
+  phone_number: string;
+  gender: string;
+  pregnant: boolean;
+  marital_status: string;
+  pregnancy_week: null | number;
+  is_anonymous_login: boolean;
+  survey_result: string;
+  email: string;
+  password: null | string;
+  created_at: string;
+  updated_at: string;
+  password_digest: string;
+
+  // ? below is deprecated
+  // type: "admin" | "client" | "ai";
+  // id: string;
+  // profile?: string;
+  // properties?: {
+  //   // Need to discuss this
+  // };
+  // username?: string;
+  // phoneNumber?: string;
 };
 
 export type Article = {
