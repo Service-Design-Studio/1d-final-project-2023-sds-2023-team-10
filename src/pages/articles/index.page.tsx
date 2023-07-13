@@ -8,6 +8,7 @@ import MainLayout from "../../../components/MainLayout";
 import axios from "../axiosFrontend";
 import Meta from "antd/lib/card/Meta";
 import Image from "next/image";
+import { useUser } from "../../../components/UserContext";
 
 const handleUrlButton = (url: string) => {
   window.open(url, "_blank");
