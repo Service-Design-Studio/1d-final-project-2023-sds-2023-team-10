@@ -1,33 +1,9 @@
-Feature: Guiding hand - Questionaire
-Scenario: Going through the questionaire until user reaches the home page
-    Given a user is at the welcome page
-    When the user clicks on 'Start!' 
-    Then the user will land on 'Take short questionaire' page
-    When the user clicks on 'I'll Give it a shot'
-    Then clicks on 'Yes, my doctor confirmed it'
-    Then user selects 'I'm worried what others may think of me'
-    And selects 'I lack resources to keep the baby' 
-    Then user clicks 'Submit'
-    Then user clicks 'I believe it's just a mass of cells'
-    Then user clicks 'I'm alone'
-    Then user clicks 'I'm a divorcee/widow. What are my options?'
-    Then user clicks 'Parenting'
-    Then user clicks 'Yes'
-    Then user clicks 'What to expect during pregnancy, labour and delivery'
-    # information form
-    And lands on 'Let us know more about you!' page
-    Then User selects 'First Name' Text box
-    And fills in 'Sarah'
-    Then User selects 'Phone Number' Text box
-    And fills in '8899 8866'
-    Then user selects 'Are you pregnant?' checkbox
-    Then clicks on 'Next'
-    # information form continued
-    Then user selects 'Email' text box
-    And fills in 'sarah@gmail.com'
-    Then User selects 'Username' Text box
-    And fills in 'Sarah02'
-    Then User selects 'Password' Text box
-    And fills in 'password'
-    Then user clicks on 'Submit'
-    And User lands on Home page
+Feature: Guiding Hand - Home page
+# Home page is the page that consists of the list of articles and personalised pregnancy information
+
+#1
+Scenario: Going to the SSA Website
+    Given a user is at the home page
+    Then the user sees the link to 'A life Social service agency'
+    When the user clicks on the link
+    Then the user will be directed to the SSA website on a web browser
