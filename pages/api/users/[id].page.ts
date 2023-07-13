@@ -7,7 +7,6 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { id } = req.query;
-  console.log(id);
 
   if (req.method === "GET") {
     const user = await APIGetUserInformation(id as string);

@@ -5,11 +5,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import Messages from "./Messages";
 
-type MessagePanelProps = {
-  selectedChatId: number;
-};
-
-const MessagePanel: React.FC<MessagePanelProps> = ({ selectedChatId }) => {
+const MessagePanel: React.FC = () => {
   const [messages, setMessages] = useState([
     { from: "computer", text: "Hi, is this a counsellor?" },
     { from: "me", text: "Hey there! Yup!" },
