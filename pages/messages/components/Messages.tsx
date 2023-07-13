@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { Avatar, Flex, Text } from "@chakra-ui/react";
 import { Message, User } from "@/types";
 import useUser from "@/components/useUser";
+import { defaultAvatarUrl } from "./ContactPanel";
 
 type MessagesProps = {
   messages: Message[];
@@ -41,7 +42,11 @@ const Messages: React.FC<MessagesProps> = ({ messages, opponentUser }) => {
             <Flex key={index} w="100%">
               <Avatar
                 name="Computer"
-                src="https://avataaars.io/?avatarStyle=Transparent&topType=LongHairStraight&accessoriesType=Blank&hairColor=BrownDark&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Light"
+                src={
+                  opponentUser?.profile
+                    ? opponentUser?.profile
+                    : defaultAvatarUrl
+                }
                 bg="blue.300"
               ></Avatar>
               <Flex

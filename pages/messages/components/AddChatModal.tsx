@@ -11,6 +11,8 @@ import {
   VStack,
   ModalFooter,
   useToast,
+  Text,
+  Stack,
 } from "@chakra-ui/react";
 
 import axios from "../../axiosFrontend";
@@ -83,11 +85,18 @@ const AddChatModal: React.FC<AddChatModalProps> = ({
         <ModalCloseButton />
         <ModalBody>
           <VStack spacing={4}>
-            {users.map((user) => (
-              <Button key={user.id} onClick={() => handleStartChat(user.id)}>
-                {user.first_name}
-              </Button>
-            ))}
+            {users.map((user) =>
+              user.user_type === "admin" ? (
+                <Stack key={user.id}>
+                  <Text>
+                    I'm Sarah, a dedicated counselor at a Social Service Agency,
+                    where I assist and guide women undergoing unplanned
+                    pregnancies towards making informed decisions
+                  </Text>
+                  <Button onClick={() => handleStartChat(user.id)}>chat</Button>
+                </Stack>
+              ) : null
+            )}
           </VStack>
         </ModalBody>
         <ModalFooter>
