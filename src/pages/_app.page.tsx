@@ -1,10 +1,12 @@
 import "@/styles/globals.css";
 import { ConfigProvider } from "antd";
 import type { AppProps } from "next/app";
+import { UserProvider } from "../../components/UserContext";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     // define theme colors here
+
     <ConfigProvider
       theme={{
         token: {
@@ -12,7 +14,9 @@ export default function App({ Component, pageProps }: AppProps) {
         },
       }}
     >
-      <Component {...pageProps} />
+      <UserProvider>
+        <Component {...pageProps} />
+      </UserProvider>
     </ConfigProvider>
   );
 }

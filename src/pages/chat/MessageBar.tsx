@@ -1,6 +1,6 @@
 import { Avatar, Button, Card, Input, Spin, Typography, message } from "antd";
 
-import axios from "axios";
+import axios from "../axiosFrontend";
 import { useEffect, useState } from "react";
 import { ADMIN_USER_ID } from "./index.page";
 

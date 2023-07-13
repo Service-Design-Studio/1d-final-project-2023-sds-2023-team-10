@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, DatePicker, Form, Input, Space, message } from "antd";
 import MainLayout from "../../../components/MainLayout";
-import axios from "axios";
+import axios from "../axiosFrontend";
 import { useRouter } from "next/router";
 
 const category = [

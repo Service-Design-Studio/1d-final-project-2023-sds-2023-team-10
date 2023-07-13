@@ -12,6 +12,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         `${baseUrl}/chat_rooms_for_user/${user_id}`,
         {
           headers: {
+            Authorization: req.headers.authorization,
             accept: "application/json",
           },
         }

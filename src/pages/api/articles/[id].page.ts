@@ -14,6 +14,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         `https://rubybackend-xnabw36hha-as.a.run.app/articles/${id}`,
         {
           headers: {
+            Authorization: req.headers.authorization,
             accept: "application/json",
           },
         }

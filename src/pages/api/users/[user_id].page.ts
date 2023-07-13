@@ -10,6 +10,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const result = await axios.get(`${baseUrl}/users/${user_id}`, {
         headers: {
+          Authorization: req.headers.authorization,
           accept: "application/json",
         },
       });

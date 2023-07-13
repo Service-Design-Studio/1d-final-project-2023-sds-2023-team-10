@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 export const baseUrl = "https://rubybackend-xnabw36hha-as.a.run.app";
 
@@ -12,6 +12,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         `${baseUrl}/chat_rooms_with_messages/${chat_room_id}`,
         {
           headers: {
+            Authorization: req.headers.authorization,
             accept: "application/json",
           },
         }

@@ -1,8 +1,9 @@
 import Image from "next/image";
 import MainLayout from "../../components/MainLayout";
 import { ConfigProvider } from "antd";
+import withAuth from "../../components/withAuth";
 
-export default function Home() {
+function Home() {
   return (
     <MainLayout>
       <div className="flex items-center min-h-screen justify-center">
@@ -11,3 +12,5 @@ export default function Home() {
     </MainLayout>
   );
 }
+
+export default withAuth(Home);

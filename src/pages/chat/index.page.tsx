@@ -3,7 +3,7 @@ import { Layout, List, Avatar, Divider, Typography, Spin, Badge } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { User, ChatRoom, Message } from "../../../types";
 import MainLayout from "../../../components/MainLayout";
-import axios from "axios";
+import axios from "../axiosFrontend";
 
 import MessagesBar from "./MessageBar";
 import ContactsBar from "./ContactsBar";

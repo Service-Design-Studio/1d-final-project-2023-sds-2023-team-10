@@ -5,7 +5,7 @@ import { Button, Card, Popconfirm, Spin, message } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 // import Meta from "antd/es/card/Meta";
 import MainLayout from "../../../components/MainLayout";
-import axios from "axios";
+import axios from "../axiosFrontend";
 import Meta from "antd/lib/card/Meta";
 import Image from "next/image";
 

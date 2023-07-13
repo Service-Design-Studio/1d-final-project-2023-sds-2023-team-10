@@ -11,7 +11,7 @@ import {
 } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../axiosFrontend";
 import {
   LineChart,
   Line,
