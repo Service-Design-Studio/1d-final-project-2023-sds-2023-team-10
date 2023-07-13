@@ -11,8 +11,11 @@ import {
   Box,
   Center,
   useToast,
+  Stack,
 } from "@chakra-ui/react";
+import axios from "../axiosFrontend";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 const Login = () => {
@@ -20,9 +23,20 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const toast = useToast();
+  const router = useRouter();
 
   const handleLogin = async () => {
     try {
+      const response = await axios.post("/api/login", {
+        email,
+        password,
+      });
+
+      const token = response.data.token;
+      const userId = response.data.userId;
+      localStorage.setItem("token", token);
+      localStorage.setItem("userId", userId);
+
       await logIn(email, password);
       toast({
         title: "Login Successful",
@@ -30,6 +44,7 @@ const Login = () => {
         duration: 5000,
         isClosable: true,
       });
+      router.push("/home");
     } catch (error: any) {
       toast({
         title: "Error Logging In",
@@ -77,15 +92,20 @@ const Login = () => {
           />
         </FormControl>
         <Center>
-          <Button
-            colorScheme="blue"
-            width="full"
-            onClick={handleLogin}
-            isLoading={isLoading}
-          >
-            Submit
-          </Button>
-          Or <Link href="/login">signup now!</Link>
+          <Stack spacing={4}>
+            <Button
+              bg={"brand.primary"}
+              color={"white"}
+              width="full"
+              onClick={handleLogin}
+              isLoading={isLoading}
+            >
+              Log In
+            </Button>
+            <Link href="/signup">
+              <Text textDecoration={"underline"}>Or signup now!</Text>
+            </Link>
+          </Stack>
         </Center>
       </Box>
     </Center>

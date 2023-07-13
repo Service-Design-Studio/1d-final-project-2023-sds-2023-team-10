@@ -1,5 +1,5 @@
 import AppLayout from "@/components/AppLayout";
-import React from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import {
   Box,
   Text,
@@ -8,7 +8,9 @@ import {
   Divider,
   Switch,
   Flex,
+  Button,
 } from "@chakra-ui/react";
+import PrivacyPanel from "./PrivacyPanel";
 
 function Account() {
   return (
@@ -20,10 +22,18 @@ function Account() {
 
 function ProfilePanel() {
   const [isAnonymous, setAnonymous] = React.useState(false);
+  const [selected, setSelected] = useState<string>();
 
   const toggleAnonymous = () => {
     setAnonymous(!isAnonymous);
   };
+  const handleClick = (component: string) => {
+    setSelected(component);
+  };
+
+  if (selected !== undefined) {
+    return <DisplayComponent selected={selected} setSelected={setSelected} />;
+  }
 
   return (
     <Flex justifyContent={"center"}>
@@ -74,15 +84,47 @@ function ProfilePanel() {
         </Box>
 
         <VStack align="start" spacing="5" mt="5">
-          <Text fontSize="xl">Notifications</Text>
-          <Text fontSize="xl">Data Usage</Text>
-          <Text fontSize="xl">Privacy Policy</Text>
-          <Text fontSize="xl">Help</Text>
+          <Button variant="link" onClick={() => handleClick("notifications")}>
+            Notifications
+          </Button>
+          <Button variant="link" onClick={() => handleClick("dataUsage")}>
+            Data Usage
+          </Button>
+          <Button variant="link" onClick={() => handleClick("privacyPolicy")}>
+            Privacy Policy
+          </Button>
+          <Button variant="link" onClick={() => handleClick("help")}>
+            Help
+          </Button>
         </VStack>
       </Box>
       <Box marginBottom={275}></Box>
     </Flex>
   );
 }
+
+const DisplayComponent = ({
+  selected,
+  setSelected,
+}: {
+  selected: string | undefined;
+  setSelected: Dispatch<SetStateAction<string | undefined>>;
+}) => {
+  const handleBackButtonPressed = () => {
+    setSelected(undefined);
+  };
+  switch (selected) {
+    case "notifications":
+      return <Box>Render notifications component here</Box>;
+    case "dataUsage":
+      return <Box>Render data usage component here</Box>;
+    case "privacyPolicy":
+      return <PrivacyPanel handleBackButtonPressed={handleBackButtonPressed} />;
+    case "help":
+      return <Box>Render help component here</Box>;
+    default:
+      return null;
+  }
+};
 
 export default Account;

@@ -8,6 +8,7 @@ import {
   Center,
   Button,
   useToast,
+  Stack,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import axios from "../axiosFrontend";
@@ -93,15 +94,20 @@ const Signup = () => {
           />
         </FormControl>
         <Center>
-          <Button
-            colorScheme="blue"
-            width="full"
-            onClick={handleSignup}
-            isLoading={isLoading}
-          >
-            Signup
-          </Button>
-          Or <Link href="/login">login now!</Link>
+          <Stack spacing={4}>
+            <Button
+              bg={"brand.primary"}
+              color={"white"}
+              width="full"
+              onClick={handleSignup}
+              isLoading={isLoading}
+            >
+              Signup
+            </Button>
+            <Link href="/login">
+              <Text textDecoration={"underline"}>Or login now!</Text>
+            </Link>
+          </Stack>
         </Center>
       </Box>
     </Center>

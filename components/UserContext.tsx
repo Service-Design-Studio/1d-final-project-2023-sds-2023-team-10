@@ -29,7 +29,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        "https://rubybackend-xnabw36hha-as.a.run.app/login",
+        "api/login",
         {
           email,
           password,
@@ -39,7 +39,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         }
       );
       setUserId(response.data.user_id);
-      console.log("FETCHING USER", userId);
     } catch (error: any) {
       if (error.response && error.response.status === 422) {
         throw new Error("Invalid email/password combination");

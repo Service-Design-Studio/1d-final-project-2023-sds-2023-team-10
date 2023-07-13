@@ -4,7 +4,7 @@ import MessagePanel from "./components/MessagePanel";
 import ContactPanel from "./components/ContactPanel";
 import { ChatRoom, User } from "@/types";
 import axios from "../axiosFrontend";
-import { Spinner } from "@chakra-ui/react";
+import { Box, Spinner } from "@chakra-ui/react";
 import { APIGetUserInformation } from "@/components/api";
 export const ADMIN_USER_ID = 1;
 export const DEFAULT_USER_ID = 1;
@@ -23,7 +23,7 @@ function Messages() {
 
       setTimeout(() => {
         setChatRooms(response.data);
-        fetchChatUsers(response.data);
+        // fetchChatUsers(response.data);
         setLoading(false);
       }, 20);
     } catch (error) {
@@ -31,20 +31,20 @@ function Messages() {
     }
   };
 
-  const fetchChatUsers = async (chatrooms: ChatRoom[]) => {
-    chatrooms.forEach((chatroom) => {
-      const opponentUserId =
-        chatroom.user1_id === DEFAULT_USER_ID
-          ? chatroom.user2_id
-          : chatroom.user1_id;
+  // const fetchChatUsers = async (chatrooms: ChatRoom[]) => {
+  //   chatrooms.forEach((chatroom) => {
+  //     const opponentUserId =
+  //       chatroom.user1_id === DEFAULT_USER_ID
+  //         ? chatroom.user2_id
+  //         : chatroom.user1_id;
 
-      const chatUsers = axios.get(`/api/users/${opponentUserId}`, {
-        headers: {
-          accept: "application/json",
-        },
-      });
-    });
-  };
+  //     const chatUsers = axios.get(`/api/users/${opponentUserId}`, {
+  //       headers: {
+  //         accept: "application/json",
+  //       },
+  //     });
+  //   });
+  // };
 
   useEffect(() => {
     fetchChatRooms();
@@ -70,13 +70,13 @@ function Messages() {
   if (selectedChatId) {
     return (
       <AppLayout>
-        <div className="animate-slideIn">
+        <Box className="animate-slideIn">
           <MessagePanel
             selectedChatId={selectedChatId}
             setSelectedChatId={setSelectedChatId} // set to undefined when the user presses back
             fetchChatRooms={fetchChatRooms} // passed down so that we can update chatrooms when the user presses back
           />
-        </div>
+        </Box>
       </AppLayout>
     );
   } else {
@@ -84,7 +84,7 @@ function Messages() {
       <AppLayout>
         <ContactPanel
           chatrooms={chatrooms}
-          chatUsers={chatUsers}
+          // chatUsers={chatUsers}
           selectedChatId={selectedChatId} // set when the user clicks on a chat
           setSelectedChatId={setSelectedChatId} // set when the user clicks on a chat
         />

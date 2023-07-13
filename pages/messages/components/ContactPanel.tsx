@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 
 type ContactPanelProps = {
   chatrooms: ChatRoom[];
-  chatUsers: User[];
   setSelectedChatId: (id: number) => void;
   selectedChatId: number | undefined;
 };
@@ -15,7 +14,6 @@ const defaultAvatarUrl =
 
 const ContactPanel: React.FC<ContactPanelProps> = ({
   chatrooms,
-  chatUsers,
   setSelectedChatId,
   selectedChatId,
 }) => {

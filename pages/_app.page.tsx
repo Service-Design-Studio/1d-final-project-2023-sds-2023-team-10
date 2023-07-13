@@ -7,6 +7,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { extendTheme } from "@chakra-ui/react";
 import "@fontsource/mulish"; // Defaults to weight 400
 import { useRouter } from "next/router";
+import { UserProvider } from "@/components/UserContext";
 
 // 2. Call `extendTheme` and pass your custom values
 const theme = extendTheme({
@@ -40,25 +41,9 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <ChakraProvider theme={theme}>
-      {/* <div
-        className="fixed mx-auto p-4 bg-gray-100  border-2 border-gray-500"
-        style={{
-          minWidth: "375px",
-          height: "700px",
-          marginLeft: "calc(50vw - 200px)",
-          zIndex: "-1",
-        }}
-      ></div> */}
-      <Component {...pageProps} />
-      {/* <div
-        className="fixed z-50"
-        style={{
-          backgroundColor: "white",
-          minHeight: "calc(100vh - 700px)",
-          top: "700px",
-          width: "100vw",
-        }}
-      ></div> */}
+      <UserProvider>
+        <Component {...pageProps} />
+      </UserProvider>
     </ChakraProvider>
   );
 }
