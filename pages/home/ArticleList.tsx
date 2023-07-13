@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Article } from "../../types";
-import axios from "axios";
+import axios from "../axiosFrontend";
 import {
   Card,
   CardBody,

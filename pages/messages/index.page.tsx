@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import MessagePanel from "./components/MessagePanel";
 import ContactPanel from "./components/ContactPanel";
 import { ChatRoom, User } from "@/types";
-import axios from "axios";
+import axios from "../axiosFrontend";
 import { Spinner } from "@chakra-ui/react";
 import { APIGetUserInformation } from "@/components/api";
 export const ADMIN_USER_ID = 1;
@@ -37,8 +37,11 @@ function Messages() {
         chatroom.user1_id === DEFAULT_USER_ID
           ? chatroom.user2_id
           : chatroom.user1_id;
-      APIGetUserInformation(opponentUserId.toString()).then((res) => {
-        setChatUsers((prev) => [...prev, res.data]);
+
+      const chatUsers = axios.get(`/api/users/${opponentUserId}`, {
+        headers: {
+          accept: "application/json",
+        },
       });
     });
   };

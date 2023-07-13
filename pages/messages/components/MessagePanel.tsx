@@ -5,7 +5,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import Messages from "./Messages";
 import { DEFAULT_USER_ID } from "../index.page";
-import axios from "axios";
+import axios from "../../axiosFrontend";
 import {
   ChatRoomWithMessages,
   Message,
