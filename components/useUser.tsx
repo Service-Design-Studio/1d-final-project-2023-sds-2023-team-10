@@ -4,21 +4,23 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { User } from "../types";
 
-const useUser = (): [User | null, boolean] => {
+const useUser = (): [User | null, string | null, boolean] => {
   const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getUser = async () => {
-      const token = localStorage.getItem("token");
+      const storedToken = localStorage.getItem("token");
       const userId = localStorage.getItem("userId");
-      if (token) {
+      if (storedToken) {
         const config = {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${storedToken}` },
         };
 
         const response = await axios.get<User>(`/api/users/${userId}`, config);
         setUser(response.data);
+        setToken(storedToken); // set the token state
       }
       setLoading(false);
     };
@@ -26,7 +28,7 @@ const useUser = (): [User | null, boolean] => {
     getUser();
   }, []);
 
-  return [user, loading];
+  return [user, token, loading];
 };
 
 export default useUser;
