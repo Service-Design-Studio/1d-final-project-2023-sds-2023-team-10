@@ -1,9 +1,7 @@
-Feature: Guiding Hand - Home page
-# Home page is the page that consists of the list of articles and personalised pregnancy information
+# Feature: Guiding hand - Messages
 
-#1
-Scenario: Going to the SSA Website
-    Given a user is at the home page
-    Then the user sees the link to 'A life Social service agency'
-    When the user clicks on the link
-    Then the user will be directed to the SSA website on a web browser
+# #1
+# Scenario: Accesing chat page
+#     Given the user is on the home page
+#     When the user click on the chat icon
+#     Then user should be in the chat page
