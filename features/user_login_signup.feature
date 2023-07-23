@@ -11,13 +11,6 @@ Feature: User dashboard - Log in/Sign up
         And clicks on the "Log In" button
         Then the new user will be shown an error message
 
-    # #2 - Happy path
-    # Scenario: New user successfully creates new account
-    #     Given a new user is on the sign up page
-    #     And fills in the necessary details for signing up
-    #     When the new user clicks sign up
-    #     Then the new user will be directed to the "Welcome" page
-
    #3
     Scenario: User log in
         Given user is on the log in page
@@ -25,3 +18,22 @@ Feature: User dashboard - Log in/Sign up
         And user enters correct password
         And user clicks on log in
         Then user will be directed to the homepage
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # #2 - Happy path
+    # Scenario: New user successfully creates new account
+    #     Given a new user is on the sign up page
+    #     And fills in the necessary details for signing up
+    #     When the new user clicks sign up
+    #     Then the new user will be directed to the "Welcome" page

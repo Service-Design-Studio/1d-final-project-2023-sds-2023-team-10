@@ -1,5 +1,12 @@
 Feature: Guiding hand - Messages
 
+Background: User is logged in
+    Given user is on the log in page
+    When user enters correct email
+    When user enters correct password
+    When user clicks on log in
+    Then user will be directed to the homepage
+
 #1
 Scenario: Accesing chat page
     Given the user is on the home page

@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import React from "react";
 
 export const BACKEND_URL = "https://rubybackend-xnabw36hha-as.a.run.app";
+// export const BACKEND_URL = "https://34.124.128.83:3000";
 
 export function index() {
   return <div>index</div>;

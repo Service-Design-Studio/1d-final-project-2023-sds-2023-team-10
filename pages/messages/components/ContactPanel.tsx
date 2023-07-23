@@ -47,6 +47,7 @@ const ContactPanel: React.FC<ContactPanelProps> = ({
                 }, 200);
               }}
               p={4}
+              data-testid={`chatroom-${chatroom.id}`} // unique data attribute
             >
               <Box display="flex" alignItems="center">
                 <Avatar

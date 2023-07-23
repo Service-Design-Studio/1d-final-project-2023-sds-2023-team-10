@@ -1,7 +1,7 @@
 Feature: Guiding hand - Questionaire
 
 #1 - Happy path
-Scenario: Going through the questionaire until user reaches the home page
+Scenario: Going through the questionaire until user reaches the login page
     Given a user is at the welcome page
     When the user clicks on 'Start!'
     Then the user will land on 'Take short questionaire' page
