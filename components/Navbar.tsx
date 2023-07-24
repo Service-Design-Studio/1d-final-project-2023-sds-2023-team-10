@@ -34,6 +34,7 @@ const Navbar = ({ active, children, onNavClick }: any) => {
           justifyContent="space-around"
         >
           <NavItem
+            data-testid="messages-icon"
             icon={<ChatIcon boxSize={6} />}
             active={active === "messages"}
             onClick={() => onNavClick("messages")}

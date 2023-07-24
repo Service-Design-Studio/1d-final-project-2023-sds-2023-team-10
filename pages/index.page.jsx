@@ -3,29 +3,33 @@ import styles from "./app.module.css";
 import { useRouter } from "next/router";
 import axios from "axios";
 
+const sendToAPI = async (formData, userData) => {
+  console.log(userData);
 
-const sendToAPI = async (formData,userData) => {
-  console.log(userData)
-
-  const Model = 
-  {
-    "user_type": (!formData.username || !formData.password || !formData.email) ? "Anonymous" : "Registered",
-    "profile": "string",
-    "first_name": formData.first_name,
-    "second_name": formData.second_name,
-    "age": formData.age,
-    "occupation": formData.occupation,
-    "username": formData.username ? formData.username : "Unregistered",
-    "phone_number": formData.phone_number,
-    "gender": formData.gender,
-    "pregnant": formData.pregnant ? true : false,
-    "marital_status": formData.marital_status,
-    "pregnancy_week": formData.pregnancy_week,
-    "is_anonymous_login": (!formData.username || !formData.password || !formData.email) ? "Anonymous" : "Registered",
-    "survey_result": userData,
-    "email": formData.email ? formData.email : "Unregistered",
-    "password": formData.password ? formData.password : "Unregistered",
-  }
+  const Model = {
+    user_type:
+      !formData.username || !formData.password || !formData.email
+        ? "Anonymous"
+        : "Registered",
+    profile: "string",
+    first_name: formData.first_name,
+    second_name: formData.second_name,
+    age: formData.age,
+    occupation: formData.occupation,
+    username: formData.username ? formData.username : "Unregistered",
+    phone_number: formData.phone_number,
+    gender: formData.gender,
+    pregnant: formData.pregnant ? true : false,
+    marital_status: formData.marital_status,
+    pregnancy_week: formData.pregnancy_week,
+    is_anonymous_login:
+      !formData.username || !formData.password || !formData.email
+        ? "Anonymous"
+        : "Registered",
+    survey_result: userData,
+    email: formData.email ? formData.email : "Unregistered",
+    password: formData.password ? formData.password : "Unregistered",
+  };
 
   try {
     const response = await axios.post("/api/users", Model, {
@@ -36,12 +40,8 @@ const sendToAPI = async (formData,userData) => {
 
     console.log(response.data);
   } catch (error) {
-    console.log('There was an error!', error);
-  };
-  
-  
-
-
+    console.log("There was an error!", error);
+  }
 };
 
 const BackSkipButtons = ({ handleBackClick, handleSkipClick }) => {
@@ -171,10 +171,6 @@ const RenderQuestionPage_MultiSelect = ({
   );
 };
 
-
-
-
-
 function App() {
   const [userData, setUserData] = useState({
     1: "",
@@ -213,23 +209,16 @@ function App() {
 
   const router = useRouter();
 
-  const [ showNext, setShowNext ] = useState(false);
-
-
-
-
-
+  const [showNext, setShowNext] = useState(false);
 
   // Callback for when an option is selected
   const handleOptionSelected = (selectedOption, nextQuestionIndex) => {
-  
-      setUserData((prevState) => ({
-        ...prevState,
-        [question]: selectedOption,
-      }));
-      setUserPath((prevPath) => [...prevPath, question]);
-      setQuestion(nextQuestionIndex);
-    
+    setUserData((prevState) => ({
+      ...prevState,
+      [question]: selectedOption,
+    }));
+    setUserPath((prevPath) => [...prevPath, question]);
+    setQuestion(nextQuestionIndex);
   };
 
   const handleMultipleOptionSelected = (selectedOption) => {
@@ -281,33 +270,33 @@ function App() {
       [event.target.name]: event.target.value,
     });
   };
-  
+
   // Declare your form submission handler
   const handleSubmit = (event) => {
     event.preventDefault();
-    sendToAPI(form,userData);
+    sendToAPI(form, userData);
     router.push("/home");
   };
 
   const handleSubmit2 = (event) => {
     event.preventDefault();
-    sendToAPI(form,userData);
-    router.push("/messages")
-  }
+    sendToAPI(form, userData);
+    router.push("/messages");
+  };
 
   const [form, setForm] = useState({
-    first_name: '',
-    second_name: '',
-    age: '',
-    occupation: '',
-    phone_number: '',
-    gender: '',
+    first_name: "",
+    second_name: "",
+    age: "",
+    occupation: "",
+    phone_number: "",
+    gender: "",
     pregnant: false,
-    pregnancy_week: '',
-    email: '',
-    username: '',
-    password: '',
-    marital_status:'',
+    pregnancy_week: "",
+    email: "",
+    username: "",
+    password: "",
+    marital_status: "",
   });
 
   const question1Dict = {
@@ -354,7 +343,8 @@ function App() {
     "My parents don’t know": 10,
     "My parents are supportive of me having the baby. What are my options?": 21,
     "My parents want me to abort the baby but I want to keep it": 10,
-    "The baby’s father is married but not to me and wants me to abort": "submit-chat",
+    "The baby’s father is married but not to me and wants me to abort":
+      "submit-chat",
   };
 
   const question10Dict = {
@@ -547,14 +537,14 @@ function App() {
 
   const [isPregnant, setIsPregnant] = useState(false);
 
-  const [maritalStatus, setMaritalStatus] = useState('');
+  const [maritalStatus, setMaritalStatus] = useState("");
 
-  const handleSelectChange = event => {
+  const handleSelectChange = (event) => {
     setMaritalStatus(event.target.value);
 
     setForm({
       ...form,
-      ['marital_status']: event.target.value,
+      ["marital_status"]: event.target.value,
     });
   };
 
@@ -608,7 +598,14 @@ function App() {
             </button>
           </div>
 
-          <button type="button" className={styles.privacyPolicyButton} onClick={() => {setPage("questionnaire");setQuestion("submit-articles")}}>
+          <button
+            type="button"
+            className={styles.privacyPolicyButton}
+            onClick={() => {
+              setPage("questionnaire");
+              setQuestion("submit-articles");
+            }}
+          >
             Skip for now
           </button>
         </div>
@@ -665,7 +662,6 @@ function App() {
                 onSubmit={handleMultipleOptionSelected}
               />
 
-     
               <BackSkipButtons
                 handleBackClick={handleBackClick}
                 handleSkipClick={handleSkipClick}
@@ -793,94 +789,174 @@ function App() {
             );
           })}
 
+          {question === "submit-articles" && (
+            <div>
+              <h1 className={styles.submitTitle}>
+                Let us know <br />
+                more about you!
+              </h1>
 
-
-
-
-          {
-            question === "submit-articles" && (
-              <div >
-                <h1 className ={styles.submitTitle}>Let us know <br/>more about you!</h1>
-                
-                <form onSubmit={handleSubmit} className = {styles.submitForm}>
+              <form onSubmit={handleSubmit} className={styles.submitForm}>
                 {showNext === false && (
                   <div>
                     <div className={styles.submitPage}>
-                  <div style={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1em'}}>
-                    <div>
-                      <input className = {styles.submitBlank} type="text" id="fname" name="first_name" placeholder="First Name" onChange={handleChange}/><br/>
-                    </div>
-                    <div>
-                  
-                    <input className = {styles.submitBlank} type="text" id="sname" name="second_name" placeholder="Second Name" onChange={handleChange}/><br/>
-                  </div>
-                  <div>
-                    
-                    <input className = {styles.submitBlank} type="number" id="age" name="age" placeholder="Age" onChange={handleChange}/><br/>
-                  </div>
-                  <div>
-                
-                    <input className = {styles.submitBlank} type="text" id="occupation" name="occupation" placeholder="Occupation" onChange={handleChange}/><br/>
-                  </div>
+                      <div
+                        style={{
+                          display: "grid",
+                          gridTemplateColumns: "repeat(2, 1fr)",
+                          gap: "1em",
+                        }}
+                      >
+                        <div>
+                          <input
+                            className={styles.submitBlank}
+                            type="text"
+                            id="fname"
+                            name="first_name"
+                            placeholder="First Name"
+                            onChange={handleChange}
+                          />
+                          <br />
+                        </div>
+                        <div>
+                          <input
+                            className={styles.submitBlank}
+                            type="text"
+                            id="sname"
+                            name="second_name"
+                            placeholder="Second Name"
+                            onChange={handleChange}
+                          />
+                          <br />
+                        </div>
+                        <div>
+                          <input
+                            className={styles.submitBlank}
+                            type="number"
+                            id="age"
+                            name="age"
+                            placeholder="Age"
+                            onChange={handleChange}
+                          />
+                          <br />
+                        </div>
+                        <div>
+                          <input
+                            className={styles.submitBlank}
+                            type="text"
+                            id="occupation"
+                            name="occupation"
+                            placeholder="Occupation"
+                            onChange={handleChange}
+                          />
+                          <br />
+                        </div>
 
-                  <div>
-          
-                    <input className = {styles.submitBlank} type="tel" id="pnum" name="phone_number" placeholder="Phone Number" onChange={handleChange}/><br/>
-                  </div>
-                  <div>
-      
-                    <input className = {styles.submitBlank} type="text" id="gender" name="gender" placeholder="Gender" onChange={handleChange}/><br/>
-                  </div>
-                    <div>
-                      <label className={styles.questionLabel} htmlFor="pregnant" style={{marginRight: "32px" }}>Are you Pregnant?</label>
-                      <input 
-                          type="checkbox" 
-                          id="pregnant" 
-                          name="pregnant" 
-                          onChange={() => setIsPregnant(!isPregnant)}
-                      />
-                    </div>
-                    {isPregnant && (
-                      <div>
-                        <input className = {styles.submitBlank} type="number" id="pweek" name="pregnancy_week" placeholder="Pregnancy Week" onChange={handleChange}/><br/>
+                        <div>
+                          <input
+                            className={styles.submitBlank}
+                            type="tel"
+                            id="pnum"
+                            name="phone_number"
+                            placeholder="Phone Number"
+                            onChange={handleChange}
+                          />
+                          <br />
+                        </div>
+                        <div>
+                          <input
+                            className={styles.submitBlank}
+                            type="text"
+                            id="gender"
+                            name="gender"
+                            placeholder="Gender"
+                            onChange={handleChange}
+                          />
+                          <br />
+                        </div>
+                        <div>
+                          <label
+                            className={styles.questionLabel}
+                            htmlFor="pregnant"
+                            style={{ marginRight: "32px" }}
+                          >
+                            Are you Pregnant?
+                          </label>
+                          <input
+                            type="checkbox"
+                            id="pregnant"
+                            name="pregnant"
+                            onChange={() => setIsPregnant(!isPregnant)}
+                          />
+                        </div>
+                        {isPregnant && (
+                          <div>
+                            <input
+                              className={styles.submitBlank}
+                              type="number"
+                              id="pweek"
+                              name="pregnancy_week"
+                              placeholder="Pregnancy Week"
+                              onChange={handleChange}
+                            />
+                            <br />
+                          </div>
+                        )}
                       </div>
-                    )}
-                    </div>
                     </div>
 
-                    <div className ={styles.greyed}>
-                      <label htmlFor="marital-status" >Marital Status: </label>
-                      <select id="marital-status" className = {styles.submitBlank} value={maritalStatus} onChange={handleSelectChange}>
+                    <div className={styles.greyed}>
+                      <label htmlFor="marital-status">Marital Status: </label>
+                      <select
+                        id="marital-status"
+                        className={styles.submitBlank}
+                        value={maritalStatus}
+                        onChange={handleSelectChange}
+                      >
                         <option value="">Select...</option>
-                        <option value="In a relationship">In a relationship</option>
+                        <option value="In a relationship">
+                          In a relationship
+                        </option>
                         <option value="Married">Married</option>
                         <option value="Single">Single</option>
                       </select>
                     </div>
 
-                     <div className={styles.buttonSubmitContainer}>
-                        <button className = {styles.nextQButton} type="button" onClick={() => setShowNext(true)}>Next</button>
+                    <div className={styles.buttonSubmitContainer}>
+                      <button
+                        className={styles.nextQButton}
+                        type="button"
+                        onClick={() => setShowNext(true)}
+                      >
+                        Next
+                      </button>
 
-                        <button className = {styles.skipQButton} type="button" onClick={() => setShowNext(true)}>Skip</button>
-                     </div>
-            
-        
+                      <button
+                        className={styles.skipQButton}
+                        type="button"
+                        onClick={() => setShowNext(true)}
+                      >
+                        Skip
+                      </button>
+                    </div>
                   </div>
-                  
                 )}
-                
+
                 {showNext && (
                   <div>
-                    <h1>You may skip if you <br/>would like to remain anonymous</h1>
+                    <h1>
+                      You may skip if you <br />
+                      would like to remain anonymous
+                    </h1>
                     <input
                       className={`${styles.spanAcross} ${styles.submitBlank}`}
-                      
                       type="email"
                       id="email"
                       name="email"
                       placeholder="Email"
                       onChange={handleChange}
-                    /><br/>
+                    />
+                    <br />
                     <input
                       className={`${styles.spanAcross} ${styles.submitBlank}`}
                       type="text"
@@ -888,7 +964,8 @@ function App() {
                       name="username"
                       placeholder="Username"
                       onChange={handleChange}
-                    /><br/>
+                    />
+                    <br />
                     <input
                       className={`${styles.spanAcross} ${styles.submitBlank}`}
                       type="password"
@@ -896,102 +973,197 @@ function App() {
                       name="password"
                       placeholder="Password"
                       onChange={handleChange}
-                    /><br/>
+                    />
+                    <br />
                     <div className={styles.buttonSubmitContainer}>
-                    <input className = {styles.nextQButton} type="submit" value="Submit"/>
-                    <input className = {styles.skipQButton} type="submit" value="Skip"/>
+                      <input
+                        className={styles.nextQButton}
+                        type="submit"
+                        value="Submit"
+                      />
+                      <input
+                        className={styles.skipQButton}
+                        type="submit"
+                        value="Skip"
+                      />
                     </div>
                   </div>
                 )}
               </form>
-              </div>
-            )
-          }
+            </div>
+          )}
 
-          {
-            question === "submit-chat" && (
-              <div >
-                <h1 className ={styles.submitTitle}>Let us know <br/>more about you!</h1>
-                
-                <form onSubmit={handleSubmit2} className = {styles.submitForm}>
+          {question === "submit-chat" && (
+            <div>
+              <h1 className={styles.submitTitle}>
+                Let us know <br />
+                more about you!
+              </h1>
+              <p>
+                Your data, your choice: All fields are optional and will be left
+                blank if you do not fill it in
+              </p>
+              <form onSubmit={handleSubmit2} className={styles.submitForm}>
                 {showNext === false && (
                   <div>
                     <div className={styles.submitPage}>
-                  <div style={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1em'}}>
-                    <div>
-                      <input className = {styles.submitBlank} type="text" id="fname" name="first_name" placeholder="First Name" onChange={handleChange}/><br/>
-                    </div>
-                    <div>
-                  
-                    <input className = {styles.submitBlank} type="text" id="sname" name="second_name" placeholder="Second Name" onChange={handleChange}/><br/>
-                  </div>
-                  <div>
-                    
-                    <input className = {styles.submitBlank} type="number" id="age" name="age" placeholder="Age" onChange={handleChange}/><br/>
-                  </div>
-                  <div>
-                
-                    <input className = {styles.submitBlank} type="text" id="occupation" name="occupation" placeholder="Occupation" onChange={handleChange}/><br/>
-                  </div>
+                      <div
+                        style={{
+                          display: "grid",
+                          gridTemplateColumns: "repeat(2, 1fr)",
+                          gap: "1em",
+                        }}
+                      >
+                        <div>
+                          <input
+                            className={styles.submitBlank}
+                            type="text"
+                            id="fname"
+                            name="first_name"
+                            placeholder="First Name"
+                            onChange={handleChange}
+                          />
+                          <br />
+                        </div>
+                        <div>
+                          <input
+                            className={styles.submitBlank}
+                            type="text"
+                            id="sname"
+                            name="second_name"
+                            placeholder="Second Name"
+                            onChange={handleChange}
+                          />
+                          <br />
+                        </div>
+                        <div>
+                          <input
+                            className={styles.submitBlank}
+                            type="number"
+                            id="age"
+                            name="age"
+                            placeholder="Age"
+                            onChange={handleChange}
+                          />
+                          <br />
+                        </div>
+                        <div>
+                          <input
+                            className={styles.submitBlank}
+                            type="text"
+                            id="occupation"
+                            name="occupation"
+                            placeholder="Occupation"
+                            onChange={handleChange}
+                          />
+                          <br />
+                        </div>
 
-                  <div>
-          
-                    <input className = {styles.submitBlank} type="tel" id="pnum" name="phone_number" placeholder="Phone Number" onChange={handleChange}/><br/>
-                  </div>
-                  <div>
-      
-                    <input className = {styles.submitBlank} type="text" id="gender" name="gender" placeholder="Gender" onChange={handleChange}/><br/>
-                  </div>
-                    <div>
-                      <label className={styles.questionLabel} htmlFor="pregnant" style={{marginRight: "32px" }}>Are you Pregnant?</label>
-                      <input 
-                          type="checkbox" 
-                          id="pregnant" 
-                          name="pregnant" 
-                          onChange={() => setIsPregnant(!isPregnant)}
-                      />
-                    </div>
-                    {isPregnant && (
-                      <div>
-                        <input className = {styles.submitBlank} type="number" id="pweek" name="pregnancy_week" placeholder="Pregnancy Week" onChange={handleChange}/><br/>
+                        <div>
+                          <input
+                            className={styles.submitBlank}
+                            type="tel"
+                            id="pnum"
+                            name="phone_number"
+                            placeholder="Phone Number"
+                            onChange={handleChange}
+                          />
+                          <br />
+                        </div>
+                        <div>
+                          <input
+                            className={styles.submitBlank}
+                            type="text"
+                            id="gender"
+                            name="gender"
+                            placeholder="Gender"
+                            onChange={handleChange}
+                          />
+                          <br />
+                        </div>
+                        <div>
+                          <label
+                            className={styles.questionLabel}
+                            htmlFor="pregnant"
+                            style={{ marginRight: "32px" }}
+                          >
+                            Are you Pregnant?
+                          </label>
+                          <input
+                            type="checkbox"
+                            id="pregnant"
+                            name="pregnant"
+                            onChange={() => setIsPregnant(!isPregnant)}
+                          />
+                        </div>
+                        {isPregnant && (
+                          <div>
+                            <input
+                              className={styles.submitBlank}
+                              type="number"
+                              id="pweek"
+                              name="pregnancy_week"
+                              placeholder="Pregnancy Week"
+                              onChange={handleChange}
+                            />
+                            <br />
+                          </div>
+                        )}
                       </div>
-                    )}
-                    </div>
                     </div>
 
-                    <div className ={styles.greyed}>
-                      <label htmlFor="marital-status" >Marital Status: </label>
-                      <select id="marital-status" className = {styles.submitBlank} value={maritalStatus} onChange={handleSelectChange}>
+                    <div className={styles.greyed}>
+                      <label htmlFor="marital-status">Marital Status: </label>
+                      <select
+                        id="marital-status"
+                        className={styles.submitBlank}
+                        value={maritalStatus}
+                        onChange={handleSelectChange}
+                      >
                         <option value="">Select...</option>
-                        <option value="In a relationship">In a relationship</option>
+                        <option value="In a relationship">
+                          In a relationship
+                        </option>
                         <option value="Married">Married</option>
                         <option value="Single">Single</option>
                       </select>
                     </div>
 
-                     <div className={styles.buttonSubmitContainer}>
-                        <button className = {styles.nextQButton} type="button" onClick={() => setShowNext(true)}>Next</button>
+                    <div className={styles.buttonSubmitContainer}>
+                      <button
+                        className={styles.nextQButton}
+                        type="button"
+                        onClick={() => setShowNext(true)}
+                      >
+                        Next
+                      </button>
 
-                        <button className = {styles.skipQButton} type="button" onClick={() => setShowNext(true)}>Skip</button>
-                     </div>
-            
-        
+                      <button
+                        className={styles.skipQButton}
+                        type="button"
+                        onClick={() => setShowNext(true)}
+                      >
+                        Skip
+                      </button>
+                    </div>
                   </div>
-                  
                 )}
-                
+
                 {showNext && (
                   <div>
-                    <h1>You may skip if you <br/>would like to remain anonymous</h1>
+                    <h1>
+                      You may skip if you <br />
+                      would like to remain anonymous
+                    </h1>
                     <input
                       className={`${styles.spanAcross} ${styles.submitBlank}`}
-                      
                       type="email"
                       id="email"
                       name="email"
                       placeholder="Email"
                       onChange={handleChange}
-                    /><br/>
+                    />
+                    <br />
                     <input
                       className={`${styles.spanAcross} ${styles.submitBlank}`}
                       type="text"
@@ -999,7 +1171,8 @@ function App() {
                       name="username"
                       placeholder="Username"
                       onChange={handleChange}
-                    /><br/>
+                    />
+                    <br />
                     <input
                       className={`${styles.spanAcross} ${styles.submitBlank}`}
                       type="password"
@@ -1007,20 +1180,25 @@ function App() {
                       name="password"
                       placeholder="Password"
                       onChange={handleChange}
-                    /><br/>
+                    />
+                    <br />
                     <div className={styles.buttonSubmitContainer}>
-                    <input className = {styles.nextQButton} type="submit" value="Submit"/>
-                    <input className = {styles.skipQButton} type="submit" value="Skip"/>
+                      <input
+                        className={styles.nextQButton}
+                        type="submit"
+                        value="Submit"
+                      />
+                      <input
+                        className={styles.skipQButton}
+                        type="submit"
+                        value="Skip"
+                      />
                     </div>
                   </div>
                 )}
               </form>
-              </div>
-            )
-          }
-
-         
-
+            </div>
+          )}
         </div>
       )}
     </div>

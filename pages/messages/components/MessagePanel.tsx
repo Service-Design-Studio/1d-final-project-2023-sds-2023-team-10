@@ -35,9 +35,12 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
   const userId = user?.id;
 
   useEffect(() => {
-    if (selectedChatId) {
-      fetchChatRoomsWithMessages();
-    }
+    const intervalId = setInterval(() => {
+      if (selectedChatId) {
+        fetchChatRoomsWithMessages();
+      }
+    }, 1000); // in milliseconds
+    return () => clearInterval(intervalId);
   }, [selectedChatId]);
   useEffect(() => {
     if (userId && chatRoom) {

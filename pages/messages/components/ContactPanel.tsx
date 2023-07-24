@@ -9,7 +9,7 @@ type ContactPanelProps = {
   selectedChatId: number | undefined;
 };
 
-const defaultAvatarUrl =
+export const defaultAvatarUrl =
   "https://s3.eu-central-1.amazonaws.com/uploads.mangoweb.org/shared-prod/visegradfund.org/uploads/2021/03/depositphotos_121233300-stock-illustration-female-default-avatar-gray-profile.jpg";
 
 const ContactPanel: React.FC<ContactPanelProps> = ({

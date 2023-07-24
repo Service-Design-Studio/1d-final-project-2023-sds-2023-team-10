@@ -160,7 +160,7 @@ const ArticleList: React.FC = () => {
         <Stack height="100%">
           <CardBody h={120}>
             <Heading as="h3" size={"md"}>
-              A life Social service agency
+              aLife Social Service Agency
             </Heading>
           </CardBody>
         </Stack>
