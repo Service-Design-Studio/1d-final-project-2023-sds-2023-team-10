@@ -13,6 +13,11 @@ const APIProxyOptions = {
       proxyrequest.setHeader("Authorization", req.headers.authorization);
     }
   },
+  onProxyRes: (proxyRes: any, req: NextApiRequest, res: NextApiResponse) => {
+    proxyRes.on("end", function () {
+      res.end(); // ensures the response is ended
+    });
+  },
   /**
    * On Connection Error or Proxy Conn Error
    */
@@ -24,5 +29,12 @@ const APIProxyOptions = {
 const proxyMiddleware: any = createProxyMiddleware(APIProxyOptions as any);
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  proxyMiddleware(req, res);
+  return new Promise((resolve, reject) => {
+    proxyMiddleware(req, res, (result: any) => {
+      if (result instanceof Error) {
+        return reject(result);
+      }
+      return resolve(result);
+    });
+  });
 }
