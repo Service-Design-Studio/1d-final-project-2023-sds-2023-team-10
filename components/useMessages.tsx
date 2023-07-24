@@ -5,8 +5,10 @@ import { Message } from "../types";
 const useMessages = (chatroomId: number) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [user, token, loading] = useUser();
+  const [loadingWebsocket, setLoadingWebsocket] = useState(false);
 
   useEffect(() => {
+    setLoadingWebsocket(true);
     if (!token) {
       return undefined; // Ensuring consistent return with a "no operation" function
     }
@@ -43,6 +45,8 @@ const useMessages = (chatroomId: number) => {
       console.error("WebSocket error", error);
     };
 
+    setLoadingWebsocket(false);
+
     return () => {
       if (cable) {
         cable.close();
@@ -50,7 +54,7 @@ const useMessages = (chatroomId: number) => {
     };
   }, [token, chatroomId]); // Include chatroomId as a dependency to ensure the effect runs when it changes
 
-  return messages;
+  return { messages, loading: loading || loadingWebsocket };
 };
 
 export default useMessages;

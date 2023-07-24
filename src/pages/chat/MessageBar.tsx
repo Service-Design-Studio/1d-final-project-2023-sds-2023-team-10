@@ -1,8 +1,9 @@
 import { Avatar, Button, Card, Input, Spin, Typography, message } from "antd";
 
-import axios from "../axiosFrontend";
 import { useEffect, useRef, useState } from "react";
+import axios from "../axiosFrontend";
 import { ADMIN_USER_ID } from "./index.page";
+import useMessages from "../../../components/useMessages";
 
 const { Text } = Typography;
 const { TextArea } = Input;
@@ -94,17 +95,12 @@ const handleSendMessage = async (props: any) => {
   } catch (error) {
     message.error(`Error has occured. ${error}`);
   }
-
-  return;
 };
 
-const MessagesBar = ({
-  selectedChatId,
-  chatRoomData,
-  fetchChatRoomData,
-  loading,
-}: any) => {
+const MessagesBar = ({ selectedChatId }: any) => {
   const [inputValue, setInputValue] = useState("");
+
+  const { messages, loading } = useMessages(selectedChatId);
 
   // const AlwaysScrollToBottom = () => {
   //   const elementRef = useRef<HTMLDivElement>(null);
@@ -124,7 +120,7 @@ const MessagesBar = ({
             className="flex-1 overflow-y-auto"
             style={{ minHeight: "70vh", maxHeight: "70vh" }}
           >
-            {chatRoomData.messages.map((chatMessage: any, index: number) => (
+            {messages.map((chatMessage: any, index: number) => (
               <ChatListItem
                 key={chatMessage.id}
                 message={chatMessage.content}
@@ -151,7 +147,6 @@ const MessagesBar = ({
                   chat_room_id: selectedChatId,
                 });
                 setInputValue("");
-                fetchChatRoomData();
               }}
             />
           </div>

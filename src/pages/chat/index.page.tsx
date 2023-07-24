@@ -41,30 +41,28 @@ const ChatPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [contacts, setContacts] = useState<any>([]);
   const [selectedChatId, setSelectedChatId] = useState<string>("");
-  const [chatRoomData, setChatRoomData] = useState<any>({}); // this also have message inside
-  const [loadingChatRoomData, setLoadingChatRoomData] = useState(false);
 
-  const fetchChatRoomData = async () => {
-    if (!selectedChatId || selectedChatId.length === 0) return;
-    try {
-      const response = await axios.get(
-        `/api/chat_rooms_with_messages/${selectedChatId}`
-      );
-      setChatRoomData(response.data);
-      setLoadingChatRoomData(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const fetchChatRoomData = async () => {
+  //   if (!selectedChatId || selectedChatId.length === 0) return;
+  //   try {
+  //     const response = await axios.get(
+  //       `/api/chat_rooms_with_messages/${selectedChatId}`
+  //     );
+  //     setChatRoomData(response.data);
+  //     setLoadingChatRoomData(false);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  useEffect(() => {
-    setLoadingChatRoomData(true);
+  // useEffect(() => {
+  //   setLoadingChatRoomData(true);
 
-    const intervalId = setInterval(() => {
-      fetchChatRoomData();
-    }, 1000); // in milliseconds
-    return () => clearInterval(intervalId);
-  }, [selectedChatId, contacts]);
+  //   const intervalId = setInterval(() => {
+  //     fetchChatRoomData();
+  //   }, 1000); // in milliseconds
+  //   return () => clearInterval(intervalId);
+  // }, [selectedChatId, contacts]);
 
   useEffect(() => {
     setLoading(true);
@@ -94,24 +92,14 @@ const ChatPage: React.FC = () => {
         }
         messagesBar={
           selectedChatId ? (
-            <MessagesBar
-              fetchChatRoomData={fetchChatRoomData}
-              chatRoomData={chatRoomData}
-              loading={loadingChatRoomData}
-              selectedChatId={selectedChatId}
-            />
+            <MessagesBar selectedChatId={selectedChatId} />
           ) : (
             <div> Select a contact to get started.</div>
           )
         }
         analysisBar={
           selectedChatId ? (
-            <AnalysisBar
-              fetchChatRoomData={fetchChatRoomData}
-              chatRoomData={chatRoomData}
-              loading={loadingChatRoomData}
-              selectedChatId={selectedChatId}
-            />
+            <AnalysisBar selectedChatId={selectedChatId} />
           ) : (
             <div> Select a contact to get started.</div>
           )
