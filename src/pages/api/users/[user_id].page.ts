@@ -1,7 +1,9 @@
+/* eslint-disable camelcase */
 import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
+import { BACKEND_URL } from "@/config/api";
 
-export const baseUrl = "https://rubybackend-xnabw36hha-as.a.run.app";
+export const baseUrl = BACKEND_URL;
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
@@ -17,7 +19,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(200).json(result.data);
     } catch (error) {
       console.error(error);
-      return res.status(500).json({ error: error });
+      return res.status(500).json({ error });
     }
   } else {
     // Handle any other HTTP methods

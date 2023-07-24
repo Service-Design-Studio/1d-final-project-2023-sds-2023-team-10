@@ -11,7 +11,6 @@ import {
 } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import axios from "../axiosFrontend";
 import {
   LineChart,
   Line,
@@ -22,6 +21,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import axios from "../axiosFrontend";
 
 const { Title } = Typography;
 
@@ -35,7 +35,7 @@ const AnalysisBar = ({
   const [isLoadingUserData, setIsLoadingUserData] = useState(false);
 
   const opponentId =
-    chatRoomData.user1_id == 1 ? chatRoomData.user2_id : chatRoomData.user1_id;
+    chatRoomData.user1_id === 1 ? chatRoomData.user2_id : chatRoomData.user1_id;
 
   const fetchUserData = async (userId: string) => {
     if (!userId) return;

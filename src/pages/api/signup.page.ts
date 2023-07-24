@@ -2,8 +2,9 @@
 
 import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
+import { BACKEND_URL } from "@/config/api";
 
-export const baseUrl = "https://rubybackend-xnabw36hha-as.a.run.app";
+export const baseUrl = BACKEND_URL;
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
@@ -16,9 +17,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       });
 
       if (result.status === 200) {
-        const token = result.data.token;
+        const { token } = result.data;
         const userId = result.data.user_id;
-        const status = result.data.status;
+        const { status } = result.data;
         return res.status(200).json({ status, token, userId, ...result.data });
       }
 
@@ -32,6 +33,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     res.setHeader("Allow", ["POST"]);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
+  return res.status(404);
 };
 
 export default handler;

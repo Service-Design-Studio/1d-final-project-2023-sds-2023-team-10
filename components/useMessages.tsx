@@ -11,7 +11,9 @@ const useMessages = (chatroomId: number) => {
       return undefined; // Ensuring consistent return with a "no operation" function
     }
 
-    const cable = new WebSocket(`ws://localhost:3000/cable?token=${token}`);
+    const cable = new WebSocket(
+      `ws://34.124.128.83:3000//cable?token=${token}`
+    );
 
     cable.onopen = () => {
       cable.send(

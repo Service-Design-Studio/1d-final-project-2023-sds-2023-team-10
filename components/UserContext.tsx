@@ -1,5 +1,12 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
+import React, {
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+  useMemo,
+} from "react";
 import axios from "../src/pages/axiosFrontend";
+import { BACKEND_URL } from "@/config/api";
 
 interface User {
   userId: number;
@@ -14,6 +21,7 @@ interface UserContextValue {
 
 const UserContext = createContext<UserContextValue | undefined>(undefined);
 
+// eslint-disable-next-line import/prefer-default-export
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [userId, setUserId] = useState<number | null>(() => {
     if (typeof window !== "undefined") {
@@ -29,7 +37,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        "https://rubybackend-xnabw36hha-as.a.run.app/login",
+        `${BACKEND_URL}/login`,
         {
           email,
           password,
@@ -39,7 +47,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         }
       );
       setUserId(response.data.user_id);
-      console.log("FETCHING USER", userId);
     } catch (error: any) {
       if (error.response && error.response.status === 422) {
         throw new Error("Invalid email/password combination");
@@ -51,10 +58,10 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const fetchUser = async (userId: number) => {
+  const fetchUser = async (userIdToFetch: number) => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`/api/users/${userId}`);
+      const response = await axios.get(`/api/users/${userIdToFetch}`);
       setUser(response.data);
     } catch (error: any) {
       console.error(error);
@@ -74,8 +81,17 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, []);
 
+  const providerValue = useMemo(() => {
+    return {
+      userId,
+      logIn,
+      isLoading,
+      user,
+    };
+  }, [isLoading, user, userId]);
+
   return (
-    <UserContext.Provider value={{ userId, logIn, isLoading, user }}>
+    <UserContext.Provider value={providerValue}>
       {children}
     </UserContext.Provider>
   );

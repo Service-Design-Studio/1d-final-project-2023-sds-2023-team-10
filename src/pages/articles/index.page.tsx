@@ -1,14 +1,14 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from "react";
-import { Article } from "../../../types";
-import article from "../dummyJSON/article.json";
 import { Button, Card, Popconfirm, Spin, message } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
+import Meta from "antd/lib/card/Meta";
+import Image from "next/image";
+import { Article } from "../../../types";
+import article from "../dummyJSON/article.json";
 // import Meta from "antd/es/card/Meta";
 import MainLayout from "../../../components/MainLayout";
 import axios from "../axiosFrontend";
-import Meta from "antd/lib/card/Meta";
-import Image from "next/image";
-import { useUser } from "../../../components/UserContext";
 
 const handleUrlButton = (url: string) => {
   window.open(url, "_blank");
@@ -62,15 +62,10 @@ const ArticlesPage: React.FC = () => {
 
   useEffect(() => {
     fetchArticles();
-
-    console.log("articles", articles);
-
     return () => {
       setArticles([]);
     };
   }, []);
-
-  console.log("articles", articles);
 
   if (isLoading) {
     return (

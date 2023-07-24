@@ -7,12 +7,10 @@ const ContactsBar = ({ contacts, setSelectedChatId, selectedChatId }: any) => {
     <List style={{ width: "100%" }}>
       <VirtualList data={contacts} height={800} itemKey="id">
         {(chatroom: any) => {
-          console.log(chatroom.id, selectedChatId);
-
           return (
             <List.Item
               key={chatroom.id}
-              className={`cursor-pointer hover:bg-pink-100}`}
+              className={"cursor-pointer hover:bg-pink-100}"}
               onClick={() => {
                 setSelectedChatId(chatroom.id);
               }}
@@ -27,7 +25,7 @@ const ContactsBar = ({ contacts, setSelectedChatId, selectedChatId }: any) => {
                 title={
                   chatroom.opponent_first_name && chatroom.opponent_second_name
                     ? `${chatroom.opponent_first_name} ${chatroom.opponent_second_name}`
-                    : "Guest user " + chatroom.id
+                    : `Guest user ${chatroom.id}`
                 }
                 description={chatroom.last_message?.content}
               />

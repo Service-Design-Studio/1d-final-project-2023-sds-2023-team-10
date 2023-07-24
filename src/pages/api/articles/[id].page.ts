@@ -6,7 +6,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     query: { id },
     method,
   } = req;
-  console.log("Next.js API route received - id:", id, "method:", method);
 
   if (method === "DELETE") {
     try {
@@ -29,6 +28,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     res.setHeader("Allow", ["DELETE"]);
     res.status(405).end(`Method ${method} Not Allowed`);
   }
+  return res.status(404);
 };
 
 export default handler;

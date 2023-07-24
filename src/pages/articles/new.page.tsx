@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Button, DatePicker, Form, Input, Space, message } from "antd";
+import { useRouter } from "next/router";
 import MainLayout from "../../../components/MainLayout";
 import axios from "../axiosFrontend";
-import { useRouter } from "next/router";
 
 const category = [
   "Pregnancy",
@@ -73,9 +73,10 @@ const ArticleForm: React.FC = () => {
     const processedValues = {
       ...values,
       // Dont include the milliseconds
-      published_date:
-        values.published_date.toISOString().substring(0, 19) + "Z",
-      created_date: new Date().toISOString().substring(0, 19) + "Z",
+      published_date: `${values.published_date
+        .toISOString()
+        .substring(0, 19)}Z`,
+      created_date: `${new Date().toISOString().substring(0, 19)}Z`,
       id: Math.floor(Math.random() * 1000000),
       user_group: selectedTags,
       img_url: values.imgURL ? values.imgURL : DEFAULT_IMG_URL,
@@ -96,9 +97,7 @@ const ArticleForm: React.FC = () => {
       router.push("/articles");
     } else {
       message.error(
-        "Error creating article" +
-          createArticleResponse.status +
-          createArticleResponse.statusText
+        `Error creating article${createArticleResponse.status}${createArticleResponse.statusText}`
       );
     }
   };
@@ -109,47 +108,42 @@ const ArticleForm: React.FC = () => {
   };
 
   return (
-    <>
-      <div className="flex items-centre min-h-screen min-w-full justify-center my-8">
-        <div>
-          <h1 className="text-3xl font-bold">Add an Article</h1>
-          <Form
-            labelCol={{ span: 6 }}
-            wrapperCol={{ span: 14 }}
-            layout="horizontal"
-            style={{ maxWidth: 600 }}
-            form={form}
-            onFinish={onFinish}
+    <div className="flex items-centre min-h-screen min-w-full justify-center my-8">
+      <div>
+        <h1 className="text-3xl font-bold">Add an Article</h1>
+        <Form
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 14 }}
+          layout="horizontal"
+          style={{ maxWidth: 600 }}
+          form={form}
+          onFinish={onFinish}
+        >
+          <Form.Item
+            label="Article Title"
+            name="title"
+            rules={[{ required: true }]}
           >
-            <Form.Item
-              label="Article Title"
-              name="title"
-              rules={[{ required: true }]}
-            >
-              <Input placeholder="Enter the article title" />
-            </Form.Item>
-            <Form.Item
-              label="Article Link"
-              name="url"
-              rules={[{ required: true }]}
-            >
-              <Input placeholder="Enter the article URL" />
-            </Form.Item>
-            <Form.Item
-              label="Author"
-              name="author"
-              rules={[{ required: true }]}
-            >
-              <Input placeholder="Enter the article author" />
-            </Form.Item>
-            <Form.Item
-              label="Date Published"
-              name="published_date"
-              rules={[{ required: true }]}
-            >
-              <DatePicker />
-            </Form.Item>
-            {/* <Form.Item
+            <Input placeholder="Enter the article title" />
+          </Form.Item>
+          <Form.Item
+            label="Article Link"
+            name="url"
+            rules={[{ required: true }]}
+          >
+            <Input placeholder="Enter the article URL" />
+          </Form.Item>
+          <Form.Item label="Author" name="author" rules={[{ required: true }]}>
+            <Input placeholder="Enter the article author" />
+          </Form.Item>
+          <Form.Item
+            label="Date Published"
+            name="published_date"
+            rules={[{ required: true }]}
+          >
+            <DatePicker />
+          </Form.Item>
+          {/* <Form.Item
               label="Upload Article "
               name="upload"
               valuePropName="fileList"
@@ -162,59 +156,55 @@ const ArticleForm: React.FC = () => {
                 </div>
               </Upload>
             </Form.Item> */}
-            <Form.Item label="Image Link" name="imgURL">
-              <Input placeholder="Enter the article URL" />
-            </Form.Item>
-            <Form.Item
-              label="Select target groups"
-              rules={[{ required: true }]}
+          <Form.Item label="Image Link" name="imgURL">
+            <Input placeholder="Enter the article URL" />
+          </Form.Item>
+          <Form.Item label="Select target groups" rules={[{ required: true }]}>
+            <Space wrap>
+              {tags.map((tag) => (
+                <Button
+                  key={tag}
+                  onClick={() => toggleTag(tag)}
+                  type={selectedTags.includes(tag) ? "primary" : "default"}
+                >
+                  {tag}
+                </Button>
+              ))}
+            </Space>
+          </Form.Item>
+          <Form.Item label="Add New Tag">
+            <Input
+              value={tagInput}
+              onChange={(e) => setTagInput(e.target.value)}
+              placeholder="Enter a new tag"
+            />
+            <Button onClick={() => handleAddNewTag(tagInput)} type="primary">
+              Add
+            </Button>
+          </Form.Item>
+          <div className="flex justify-between">
+            <Button
+              htmlType="button"
+              data-testid="reset-button"
+              onClick={onReset}
+              className="inline"
             >
-              <Space wrap>
-                {tags.map((tag) => (
-                  <Button
-                    key={tag}
-                    onClick={() => toggleTag(tag)}
-                    type={selectedTags.includes(tag) ? "primary" : "default"}
-                  >
-                    {tag}
-                  </Button>
-                ))}
-              </Space>
-            </Form.Item>
-            <Form.Item label="Add New Tag">
-              <Input
-                value={tagInput}
-                onChange={(e) => setTagInput(e.target.value)}
-                placeholder="Enter a new tag"
-              />
-              <Button onClick={() => handleAddNewTag(tagInput)} type="primary">
-                Add
-              </Button>
-            </Form.Item>
-            <div className="flex justify-between">
+              Reset
+            </Button>
+            <Form.Item>
               <Button
-                htmlType="button"
-                data-testid="reset-button"
-                onClick={onReset}
+                type="primary"
+                htmlType="submit"
+                data-testid="submit-article-button"
                 className="inline"
               >
-                Reset
+                Submit
               </Button>
-              <Form.Item>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  data-testid="submit-article-button"
-                  className="inline"
-                >
-                  Submit
-                </Button>
-              </Form.Item>
-            </div>
-          </Form>
-        </div>
+            </Form.Item>
+          </div>
+        </Form>
       </div>
-    </>
+    </div>
   );
 };
 
