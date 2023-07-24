@@ -84,7 +84,7 @@ const ChatInput = ({ value, onChange, onSend }: any) => {
 
 const handleSendMessage = async (props: any) => {
   try {
-    const response = await axios.post(`/api/messages`, props, {
+    const response = await axios.post("/api/messages", props, {
       headers: {
         accept: "application/json",
         "Content-Type": "application/json",
@@ -92,8 +92,7 @@ const handleSendMessage = async (props: any) => {
     });
     message.success("Message Sent!");
   } catch (error) {
-    console.log(error);
-    message.error("Error has occured. " + error);
+    message.error(`Error has occured. ${error}`);
   }
 
   return;
@@ -107,11 +106,11 @@ const MessagesBar = ({
 }: any) => {
   const [inputValue, setInputValue] = useState("");
 
-  const AlwaysScrollToBottom = () => {
-    const elementRef = useRef<HTMLDivElement>(null);
-    useEffect(() => elementRef.current?.scrollIntoView());
-    return <div ref={elementRef} />;
-  };
+  // const AlwaysScrollToBottom = () => {
+  //   const elementRef = useRef<HTMLDivElement>(null);
+  //   useEffect(() => elementRef.current?.scrollIntoView());
+  //   return <div ref={elementRef} />;
+  // };
 
   if (loading) {
     return <Spin />;
@@ -133,7 +132,7 @@ const MessagesBar = ({
                 isNotMyself={chatMessage.sender_id !== ADMIN_USER_ID}
               />
             ))}
-            <AlwaysScrollToBottom />
+            {/* <AlwaysScrollToBottom /> */}
           </div>
           <div className="mt-4">
             <ChatInput

@@ -53,8 +53,6 @@ const AnalysisBar = ({
     fetchUserData(opponentId);
   }, [selectedChatId, chatRoomData]);
 
-  console.log("Chatroomdat", chatRoomData);
-
   // assuming messages are ordered by timestamp
   const messagesData = chatRoomData?.messages?.map((message: any) => ({
     timestamp: new Date(message.timestamp).toLocaleDateString(),

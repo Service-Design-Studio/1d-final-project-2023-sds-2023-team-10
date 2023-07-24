@@ -8,6 +8,8 @@ import axios from "../axiosFrontend";
 import MessagesBar from "./MessageBar";
 import ContactsBar from "./ContactsBar";
 import AnalysisBar from "./AnalysisBar";
+import withAuth from "../../../components/withAuth";
+
 export const ADMIN_USER_ID = 1;
 
 const ChatPageLayout = ({
@@ -20,13 +22,11 @@ const ChatPageLayout = ({
   analysisBar: React.ReactNode;
 }) => {
   return (
-    <>
-      <div className="flex flex-row space-x-5">
-        <div className="flex flex-col w-1/3">{contactsBar}</div>
-        <div className="flex flex-col w-1/3">{messagesBar}</div>
-        <div className="flex flex-col w-1/3">{analysisBar}</div>
-      </div>
-    </>
+    <div className="flex flex-row space-x-5">
+      <div className="flex flex-col w-1/3">{contactsBar}</div>
+      <div className="flex flex-col w-1/3">{messagesBar}</div>
+      <div className="flex flex-col w-1/3">{analysisBar}</div>
+    </div>
   );
 };
 
@@ -121,4 +121,4 @@ const ChatPage: React.FC = () => {
   );
 };
 
-export default ChatPage;
+export default withAuth(ChatPage);
