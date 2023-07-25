@@ -15,14 +15,15 @@ Feature: Admin Dashboard - Chatbot
         When the admin selects one of the active profiles
         Then the admin should see the chat history with the user and their profile
 
+# Sentiment analysis
     #3
     Scenario: Looking through sentiment analysis
-        Given the admin is in a profile
+        Given the admin is in a chat
         Then the admin should see a profile of the user containing a sentiment analysis graph
 
 
     #4 - Sad path
     Scenario: Empty sentiment analysis
-        Given the admin is in a profile chat
+        Given the admin is in a chat
         When the user has not given any positive or negative responses
         Then the admin will see the sentiment analysis graph at a constant of 0.5
