@@ -4,7 +4,7 @@ import useMessages from "../../../components/useMessages";
 
 const Chat: React.FC = () => {
   const chatroomId = 1; // Replace with the actual chatroomId in your use case
-  const messages = useMessages(chatroomId);
+  const { messages } = useMessages(chatroomId);
 
   return (
     <div>

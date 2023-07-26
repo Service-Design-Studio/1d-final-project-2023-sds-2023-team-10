@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import axios from "../axiosFrontend";
 import { ADMIN_USER_ID } from "./index.page";
 import useMessages from "../../../components/useMessages";
+import { useChatRoomMessages } from "./AnalysisBar";
 
 const { Text } = Typography;
 const { TextArea } = Input;
@@ -97,10 +98,36 @@ const handleSendMessage = async (props: any) => {
   }
 };
 
+const useMessagesToDisplay = (selectedChatId: number) => {
+  const [messages, setMessages] = useState<any>([]);
+
+  const { chatRoomMessagesData, chatRoomMessagesStatus, opponentId } =
+    useChatRoomMessages(String(selectedChatId));
+  const { messages: messagesFromSocket, loading: socketLoading } =
+    useMessages(selectedChatId);
+
+  /* FETCH once to load the old chats */
+  useEffect(() => {
+    if (!chatRoomMessagesData) return;
+    setMessages(chatRoomMessagesData.messages);
+  }, [chatRoomMessagesData]);
+
+  /* KEEP updating if there is update from WEBSOCKET */
+  useEffect(() => {
+    setMessages((prev: any) => [...prev, ...messagesFromSocket]);
+  }, [messagesFromSocket]);
+
+  return {
+    messages,
+    loading: socketLoading || chatRoomMessagesStatus === "LOADING",
+    opponentId,
+  };
+};
+
 const MessagesBar = ({ selectedChatId }: any) => {
   const [inputValue, setInputValue] = useState("");
-
-  const { messages, loading } = useMessages(selectedChatId);
+  const { messages, loading, opponentId } =
+    useMessagesToDisplay(selectedChatId);
 
   // const AlwaysScrollToBottom = () => {
   //   const elementRef = useRef<HTMLDivElement>(null);
@@ -139,10 +166,10 @@ const MessagesBar = ({ selectedChatId }: any) => {
                 handleSendMessage({
                   sender_id: ADMIN_USER_ID,
                   content: inputValue,
-                  receiver_id: chatRoomData.opponent_id,
+                  receiver_id: opponentId,
                   timestamp: new Date().toISOString(),
                   read: false,
-                  message_type: "text",
+                  message_type: "string",
                   sentiment_analysis_score: 0.5,
                   chat_room_id: selectedChatId,
                 });

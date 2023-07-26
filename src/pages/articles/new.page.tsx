@@ -92,13 +92,12 @@ const ArticleForm: React.FC = () => {
       }
     );
 
-    if (createArticleResponse.status === 200) {
+    try {
       const jsonData = await createArticleResponse;
+      message.success("Article created successfully.");
       router.push("/articles");
-    } else {
-      message.error(
-        `Error creating article${createArticleResponse.status}${createArticleResponse.statusText}`
-      );
+    } catch (err) {
+      message.error(`Error creating article ${err}`);
     }
   };
 

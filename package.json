@@ -24,6 +24,7 @@
     "axios": "^1.4.0",
     "babel-eslint": "^10.0.3",
     "babel-plugin-module-resolver": "^5.0.0",
+    "cors": "^2.8.5",
     "eslint": "8.43.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-next": "13.4.7",
@@ -35,7 +36,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "http-proxy-middleware": "^1.0.5",
+    "http-proxy-middleware": "^2.0.6",
     "next": "13.4.7",
     "postcss": "8.4.24",
     "rc-virtual-list": "^3.5.2",
@@ -50,6 +51,7 @@
   },
   "devDependencies": {
     "@cucumber/cucumber": "^9.2.0",
+    "@types/cors": "^2.8.13",
     "@types/cucumber": "^7.0.0",
     "chai": "^4.3.7",
     "puppeteer": "^20.7.3"

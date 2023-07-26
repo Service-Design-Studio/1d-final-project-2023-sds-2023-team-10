@@ -12,6 +12,7 @@ instance.interceptors.request.use(
       typeof window !== "undefined" ? localStorage.getItem("token") : null;
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
+      config.headers["Referrer-Policy"] = "no-referrer";
     }
 
     return config;
