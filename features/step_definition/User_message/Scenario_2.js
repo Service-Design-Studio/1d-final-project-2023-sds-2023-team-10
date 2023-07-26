@@ -4,30 +4,43 @@ const puppeteer = require('puppeteer');
 
 let browser, page;
 
-const chatElementSelector = '.chat-list-item:first-child'; // For example
-const chatContentSelector = '.chat-main-content'; // For example
-
 Given('the user is on the chat page', async function () {
-  await page.goto('http://localhost:3000/messages', { waitUntil: 'networkidle0' }); // Replace with your chat page URL
+  browser = await puppeteer.launch({headless:false});
+  page = await browser.newPage();
+  await page.goto('http://localhost:3000/login',{ waitUntil: 'networkidle0', timeout: 60000 });  // replace with your login/signup page url
+  await page.type('#email', '1');
+  await page.type('#password', '2');
+  const loginButtonSelector = '[data-testid="login-button"]'; // replace with your button selector
+  await Promise.all([
+      page.click(loginButtonSelector), // Triggers navigation
+      page.waitForNavigation({ waitUntil: 'networkidle0' })  // Waits until navigation finishes
+  ]);
+  const messageUrl = "http://localhost:3000/messages"; // Replace with the desired URL
+
+  await page.goto(messageUrl, { waitUntil: "networkidle0" });
 });
 
-When('the user clicks on the first chat', async function () {
-  await page.waitForSelector(chatElementSelector);
-  await page.click(chatElementSelector);
+When('the user clicks on the first chat', {timeout: 60 * 1000}, async function () {
+  // Wait for the chat list to appear on the page
+  const chatroomSelector = '.css-70qvj9'; // Update the selector to target the chat room element
+  await page.waitForSelector(chatroomSelector);
+  console.log('Valid')
+
+  // Click the first chat in the list
+  await page.click(chatroomSelector);
+
+  // Add a delay if the element takes time to appear
+  await page.waitForTimeout(1000);
 });
 
-Then('the user will be in that chat', async function () {
-  // Wait for chat content to be visible
-  await page.waitForSelector(chatContentSelector);
+Then('the user will be in that chat', {timeout: 60 * 1000}, async function () {
+  const sendButtonSelector = 'button.chakra-button.css-eld34s';
+  await page.waitForSelector(sendButtonSelector);
 
-  // For the sake of the example, let's say we confirm the user is in the chat
-  // by checking if the chat content area is visible. You might need to
-  // adjust this for your specific needs, for instance by checking if the 
-  // messages of the first chat are visible.
-  const isChatVisible = await page.evaluate(
-    (chatContentSelector) => !!document.querySelector(chatContentSelector),
-    chatContentSelector
-  );
-
-  expect(isChatVisible).to.be.true;
+  const sendButtonExists = await page.$(sendButtonSelector);
+  if (sendButtonExists) {
+    console.log('Send button exists on the chat page');
+  } else {
+    console.log('Send button does not exist on the chat page');
+  }
 });

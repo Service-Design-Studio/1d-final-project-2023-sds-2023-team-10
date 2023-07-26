@@ -7,8 +7,7 @@ let browser, page;
 Given("the user is on the home page", async () => {
     // Navigate to the homepage
     browser = await puppeteer.launch({headless:false});
-    const context = await browser.createIncognitoBrowserContext();
-    page = await context.newPage();
+    page = await browser.newPage();
     await page.goto('http://localhost:3000/login',{ waitUntil: 'networkidle0', timeout: 60000 });  // replace with your login/signup page url
     await page.type('#email', '1');
     await page.type('#password', '2');
@@ -21,15 +20,13 @@ Given("the user is on the home page", async () => {
 
 // Step 2: When the user click on the chat icon
 When("the user click on the chat icon", async () => {
-    // Click chat icon
-    // const chatIconSelector = '[data-testid="messages-icon"]'; // Replace with your chat icon's selector
-    // await Promise.all([
-    //     page.click(chatIconSelector),
-    //     page.waitForNavigation({ waitUntil: 'networkidle0' }),
-    // ]);
-    await page.reload();
-    await page.goto('http://localhost:3000/messages',{ waitUntil: 'networkidle0', timeout: 60000 });
-});
+    const messageUrl = "http://localhost:3000/messages"; // Replace with the desired URL
+
+    await page.goto(messageUrl, { waitUntil: "networkidle0" });
+
+    const url = await page.url();
+    console.log(`The current URL is ${url}`);
+  });
 
 // Step 3: Then user should be in the chat page
 Then("user should be in the chat page", async () => {
