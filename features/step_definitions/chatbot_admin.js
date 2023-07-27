@@ -16,7 +16,7 @@ After(async () => {
 });
 
 
-// Step Definition for Scenario: Viewing 'Chatbot' tab with active chats
+// Scenario 1: Viewing 'Chatbot' tab with active chats
 Given("an admin is on the landing page", async function () {
   // Implement the code to navigate to the landing page of the admin dashboard
 });
@@ -31,7 +31,8 @@ Then("the admin should see a list of all the active chats under the 'Chatbot' ta
   // Implement the code to verify that the admin sees a list of all the active chats under the 'Chatbot' tab
 });
 
-// Step Definition for Scenario: Opening one of the profiles
+
+// Scenario 2: Opening one of the profiles
 Given("the admin is in the 'Chatbot' page of the admin dashboard", async function () {
   // Implement the code to navigate to the 'Chatbot' page of the admin dashboard
 });
