@@ -5,7 +5,7 @@ import { Message, MessageBeforeSend } from "@/types";
 import { headers } from "next/dist/client/components/headers";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log("REq header received", req.headers);
+
 
   if (req.method === "POST") {
     try {

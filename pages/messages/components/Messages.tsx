@@ -19,37 +19,6 @@ const Messages: React.FC<MessagesProps> = ({ messages, opponentUser }) => {
     return <div ref={elementRef} />;
   };
 
-  let BotChatRoom = {
-    user1_id: userId,
-    user2_id: -1 * userId,
-  };
-
-  // Wrap API call inside an async function
-  const createChatRoom = async () => {
-    try {
-      const createChatRoomResponse = await axios.post(
-        "/api/chat_rooms",
-        BotChatRoom,
-        {
-          headers: {
-            Accept: "application/json",
-          },
-        }
-      );
-      console.log(createChatRoomResponse); // Check the API response
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  // Call the function using useEffect, when component loads
-  useEffect(() => {
-    if (userId) {
-      // Ensure userID exists before making the API call
-      createChatRoom();
-    }
-  }, [userId]);
-
   return (
     <Flex w="100%" h="70%" overflowY="scroll" flexDirection="column" p="3">
       {messages.map((item, index) => {

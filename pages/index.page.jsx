@@ -38,7 +38,8 @@ const sendToAPI = async (formData, userData) => {
       },
     });
 
-    console.log(response.data);
+
+  
   } catch (error) {
     console.log("There was an error!", error);
   }

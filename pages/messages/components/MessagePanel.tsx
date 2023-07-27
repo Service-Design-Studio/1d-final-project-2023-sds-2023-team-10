@@ -6,7 +6,6 @@ import Header from "./Header";
 import Messages from "./Messages";
 import axios from "../../axiosFrontend";
 import { Button, Box } from "@chakra-ui/react";
-import { useRouter } from "next/router";
 import ChatBotPanel from "./ChatBotPanel";
 
 import {
@@ -29,6 +28,7 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
   setSelectedChatId,
   fetchChatRooms,
 }) => {
+  const [showChatBotPanel, setShowChatBotPanel] = useState(false);
   const [chatRoom, setChatRoom] = useState<ChatRoomWithMessages>();
   const [messages, setMessages] = useState<Message[]>([]);
   const [opponentUser, setOpponentUser] = useState<User>();
@@ -36,7 +36,20 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
   const [inputMessage, setInputMessage] = useState<string>("");
 
   const [lastChatId, setLastChatId] = useState<number | undefined>(undefined);
-  const [isChatWithBot, setIsChatWithBot] = useState(false);
+
+  const handleChatBotButtonClick = () => {
+    setShowChatBotPanel(true);
+  };
+
+  const handleToggle = () => {
+    if (selectedChatId !== -1) {
+      setLastChatId(selectedChatId);
+      setSelectedChatId(-1);
+    } else {
+      setSelectedChatId(lastChatId);
+      setLastChatId(undefined);
+    }
+  };
 
   const ToggleButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
     <Button
@@ -53,12 +66,6 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
 
   const [user, isLoadingUser] = useUser();
   const userId = user?.id;
-
-  const router = useRouter();
-
-  const handleGoToBotChat = () => {
-    setIsChatWithBot(!isChatWithBot);
-  };
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -163,10 +170,13 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
       p="0"
       boxSizing="border-box"
     >
-      <ToggleButton onClick={handleGoToBotChat} />
-
-      {isChatWithBot ? (
-        <ChatBotPanel selectedChatId={selectedChatId} /> // Might need to pass any necessary props.
+      <ToggleButton onClick={handleChatBotButtonClick} />
+      {/* Conditionally render the ChatBotPanel */}
+      {showChatBotPanel ? (
+        <ChatBotPanel
+          selectedChatId={selectedChatId}
+          onBackButtonPressed={() => setShowChatBotPanel(false)} // Pass the function to hide the chat bot panel
+        />
       ) : (
         <Flex w="100%" h="100%" flexDir="column">
           <Header

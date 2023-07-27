@@ -24,9 +24,13 @@ const openai = new OpenAIApi(configuration);
 
 type ChatBotPanelProps = {
   selectedChatId: number;
+  onBackButtonPressed: () => void; // New prop to handle navigation back
 };
 
-const ChatBotPanel: React.FC<ChatBotPanelProps> = ({ selectedChatId }) => {
+const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
+  selectedChatId,
+  onBackButtonPressed,
+}) => {
   const [chatTitle, setChatTitle] = useState<string>("Chat-Bot");
 
   const [chatRoom, setChatRoom] = useState<ChatRoomWithMessages>();
@@ -37,18 +41,15 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({ selectedChatId }) => {
 
   const [lastChatId, setLastChatId] = useState<number | undefined>(undefined);
 
-  const OPENAI_SECRET_KEY =
-    "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";
-
-  selectedChatId = -1;
-
   const handleToggle = () => {
     if (selectedChatId !== -1) {
       setLastChatId(selectedChatId);
-      setSelectedChatId(-1);
+      onBackButtonPressed(); // Call onBackButtonPressed to switch back to MessagePanel
     } else {
-      setSelectedChatId(lastChatId);
-      setLastChatId(undefined);
+      // You might want to add a logic here to handle the toggle behavior.
+      // If needed, update the state or do anything specific based on the toggle.
+      // For now, let's just call onBackButtonPressed to switch back to MessagePanel.
+      onBackButtonPressed();
     }
   };
 
@@ -59,7 +60,10 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({ selectedChatId }) => {
       right="0"
       zIndex="1000"
       mr="10"
-      onClick={onClick}
+      onClick={() => {
+        onClick();
+        handleToggle(); // Call handleToggle to switch back to MessagePanel
+      }}
     >
       Counsellor
     </Button>
@@ -73,7 +77,7 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({ selectedChatId }) => {
       if (selectedChatId) {
         fetchChatRoomsWithMessages();
       }
-    }, 100000); // in milliseconds
+    }, 10000); // in milliseconds
     return () => clearInterval(intervalId);
   }, [selectedChatId]);
   useEffect(() => {
@@ -162,14 +166,21 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({ selectedChatId }) => {
       // Right here we are assuming the server will respond with a JSON that has the bot response in a property named 'message'
       return response.data.message;
     } catch (error) {
-      console.error("Error:", error);
+      console.log("ChatBotError:", error);
       return "An error occurred while talking with the chat bot.";
     }
   };
 
   const handleBackButtonPressed = () => {
-    setSelectedChatId(undefined);
-    fetchChatRooms();
+    if (selectedChatId !== -1) {
+      setLastChatId(selectedChatId);
+      onBackButtonPressed(); // Call onBackButtonPressed to switch back to MessagePanel
+    } else {
+      // You might want to add a logic here to handle the toggle behavior.
+      // If needed, update the state or do anything specific based on the toggle.
+      // For now, let's just call onBackButtonPressed to switch back to MessagePanel.
+      onBackButtonPressed();
+    }
   };
 
   if (loadingMessages) {
