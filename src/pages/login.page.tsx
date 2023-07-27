@@ -24,7 +24,7 @@ const LoginPage: React.FC = () => {
       const userId = response.data.userId;
       localStorage.setItem("token", token);
       localStorage.setItem("userId", userId);
-      router.push("/");
+      router.push("/chat");
     } catch (error) {
       setError("Invalid email/password combination.");
     }

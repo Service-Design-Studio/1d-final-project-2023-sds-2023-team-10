@@ -4,6 +4,7 @@ import {
   DesktopOutlined,
   FileOutlined,
   PieChartOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
@@ -27,7 +28,7 @@ function getItem(
     icon,
     children,
     label,
-    "data-testid": testid // sets the "data-testid" attribute with the value in the testid parameter
+    "data-testid": testid, // sets the "data-testid" attribute with the value in the testid parameter
   } as MenuItem;
 }
 
@@ -41,13 +42,39 @@ const items: MenuItem[] = [
     undefined,
     "chatbot-tab"
   ),
-  getItem("Articles", "/articles", "9", <FileOutlined data-testid="articles-icon" />, [
-    getItem("View Articles", "/articles", "10", undefined, undefined, "view-articles-tab"),
-    getItem("Create Article", "/articles/new", "11", undefined, undefined, "create-article-tab"),
-  ],
-  "articles-tab"
+  getItem(
+    "Articles",
+    "/articles",
+    "9",
+    <FileOutlined data-testid="articles-icon" />,
+    [
+      getItem(
+        "View Articles",
+        "/articles",
+        "10",
+        undefined,
+        undefined,
+        "view-articles-tab"
+      ),
+      getItem(
+        "Create Article",
+        "/articles/new",
+        "11",
+        undefined,
+        undefined,
+        "create-article-tab"
+      ),
+    ],
+    "articles-tab"
   ),
-
+  getItem(
+    "Logout",
+    "/login",
+    "12",
+    <LogoutOutlined data-testid="logout-icon" />,
+    undefined,
+    "logout-tab"
+  ),
 ];
 
 const MainLayout: React.FC<{ children: any }> = ({ children }) => {
@@ -61,11 +88,22 @@ const MainLayout: React.FC<{ children: any }> = ({ children }) => {
     router.pathname,
   ]);
 
-  const handleMenuClick = (event: any) => {
+  const handleMenuClick = async (event: any) => {
     const { key } = event;
+    if (key === "/logout") {
+      await handleLogout();
+    }
     setSelectedKeys([key]);
     router.push(key);
   };
+  const handleLogout = async () => {
+    // Fill this function with actual logout logic
+    // Clear user data from local storage
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    console.log("Removed token and userId from local storage");
+  };
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Header style={{ padding: 0, backgroundColor: "#1976D2" }}>
