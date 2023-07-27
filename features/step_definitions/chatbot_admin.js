@@ -4,21 +4,13 @@ const puppeteer = require('puppeteer');
 
 let browser;
 let page;
-let originalTabsCount;
-
-Before(async () => {
-  browser = await puppeteer.launch();
-  page = await browser.newPage();
-});
-
-After(async () => {
-  await browser.close();
-});
 
 
 // Scenario 1: Viewing 'Chatbot' tab with active chats
 Given("an admin is on the landing page", async function () {
-  // Implement the code to navigate to the landing page of the admin dashboard
+  browser = await puppeteer.launch();
+  page = await browser.newPage();
+  await page.goto('https://admindashboard-xnabw36hha-as.a.run.app/chat');
 });
 
 When("the admin clicks on the 'Chatbot' tab", async function () {
@@ -26,9 +18,15 @@ When("the admin clicks on the 'Chatbot' tab", async function () {
   await page.click('.chatbot-tab');
 });
 
-Then("the admin should see a list of all the active chats under the 'Chatbot' tab", async function () {
+Then("the admin should be redirected to the Chatbot page", async function () {
+  await page.goto('https://admindashboard-xnabw36hha-as.a.run.app/chat2');
+});
+
+And("the admin should see a list of all the active chats under the 'Chatbot' tab", async function () {
   await page.waitForSelector('.active-chats-list');
   // Implement the code to verify that the admin sees a list of all the active chats under the 'Chatbot' tab
+  const activeChats = await page.$$('.active-chats-list');
+  expect(activeChats.length).to.be.above(0);
 });
 
 
