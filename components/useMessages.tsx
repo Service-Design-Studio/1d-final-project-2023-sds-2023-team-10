@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import useUser from "./useUser";
 import { Message } from "../types";
-import { message } from "antd";
 
 const useMessages = (chatroomId: number) => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -43,7 +42,6 @@ const useMessages = (chatroomId: number) => {
     cable.onerror = (error) => {
       console.error("WebSocket error", error);
     };
-    message.success("Connected to websocket!");
 
     setLoadingWebsocket(false);
 

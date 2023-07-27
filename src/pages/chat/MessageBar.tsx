@@ -149,7 +149,8 @@ THIS IS A TECHNICAL DEBT AND NOT A GOOD PATTERN
 */
 const useMessagesToDisplay = (selectedChatId: number) => {
   const [messages, setMessages] = useState<any>([]);
-  const [prevSelectedChatId, setPrevSelectedChatId] = useState<number>(0);
+  const [prevSelectedChatId, setPrevSelectedChatId] =
+    useState<number>(selectedChatId);
 
   const { chatRoomMessagesData, chatRoomMessagesStatus, opponentId } =
     useChatRoomMessages(String(selectedChatId));
