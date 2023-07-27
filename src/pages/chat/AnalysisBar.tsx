@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 /* eslint-disable consistent-return */
-import { List, Card, Typography, Button } from "antd";
+import { List, Card, Typography, Button, Carousel, Statistic } from "antd";
 
 import {
   LineChart,
@@ -14,9 +14,14 @@ import {
   ResponsiveContainer,
   AreaChart,
 } from "recharts";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import axios from "../axiosFrontend";
 import useAsync from "../../../components/useAsync";
+import Icon from "@ant-design/icons/lib/components/Icon";
+import { ArrowUpOutlined } from "@ant-design/icons";
+import { SmileOutlined } from "@ant-design/icons";
+import { FrownOutlined } from "@ant-design/icons";
+import { MehOutlined } from "@ant-design/icons";
 
 const { Text } = Typography;
 
@@ -92,10 +97,129 @@ export const useUserMetadata = (opponentId: string) => {
   return { userDataStatus, userData };
 };
 
+const calculateStatistic = (processedAnalysisData: any, messagesData: any) => {
+  if (!processedAnalysisData || !messagesData)
+    return {
+      avgNow: 0,
+      avgOverall: 0,
+      minNow: 0,
+      maxNow: 0,
+      valueStyle: () => {
+        return { color: "#3f8600" };
+      },
+      prefix: () => <SmileOutlined />,
+    };
+  const avgNow =
+    Math.round(
+      (processedAnalysisData.reduce(
+        (acc: number, item: any) => acc + item.sentimentAnalysisScore,
+        0
+      ) /
+        processedAnalysisData.length) *
+        1000
+    ) / 1000;
+
+  const avgOverall =
+    Math.round(
+      (messagesData.reduce(
+        (acc: number, item: any) => acc + item.sentimentAnalysisScore,
+        0
+      ) /
+        messagesData.length) *
+        1000
+    ) / 1000;
+
+  const minNow = Math.min(
+    ...messagesData.map((item: any) => item.sentimentAnalysisScore)
+  );
+  const maxNow = Math.max(
+    ...messagesData.map((item: any) => item.sentimentAnalysisScore)
+  );
+
+  const isBad = (val: number) => val < 0.33;
+  const isNormal = (val: number) => val >= 0.33 && val < 0.66;
+
+  const valueStyle = (val: number) => {
+    if (isBad(val)) {
+      return { color: "#cf1322" }; // Red color for bad
+    }
+    if (isNormal(val)) {
+      return { color: "#d1a802" }; // Yellow color for normal
+    }
+    return { color: "#3f8600" }; // Green color for good
+  };
+
+  const prefix = (val: number) => {
+    if (isBad(val)) {
+      return <FrownOutlined />;
+    }
+    if (isNormal(val)) {
+      return <MehOutlined />;
+    }
+    return <SmileOutlined />;
+  };
+
+  const getStandardDeviation = (array: number[], avg: number) => {
+    const variance =
+      array.reduce((acc: number, val: number) => acc + (val - avg) ** 2, 0) /
+      array.length;
+    return Math.sqrt(variance);
+  };
+
+  const getMedian = (array: number[]) => {
+    array.sort((a, b) => a - b);
+    const mid = Math.floor(array.length / 2);
+    return array.length % 2 !== 0
+      ? array[mid]
+      : (array[mid - 1] + array[mid]) / 2;
+  };
+
+  const messagesScores = messagesData.map(
+    (item: any) => item.sentimentAnalysisScore
+  );
+
+  const stdDevNow = getStandardDeviation(
+    processedAnalysisData.map((item: any) => item.sentimentAnalysisScore),
+    avgNow
+  );
+  const stdDevOverall = getStandardDeviation(messagesScores, avgOverall);
+  const medianNow = getMedian(
+    processedAnalysisData.map((item: any) => item.sentimentAnalysisScore)
+  );
+  const medianOverall = getMedian(messagesScores);
+
+  return {
+    avgNow,
+    avgOverall,
+    minNow,
+    maxNow,
+    stdDevNow,
+    stdDevOverall,
+    medianNow,
+    medianOverall,
+    valueStyle,
+    prefix,
+  };
+};
+
+const convertToName = (item: any) => {
+  if (item === "avgNow") return "Average Score in the last 20 Messages";
+  if (item === "avgOverall") return "Average Score Overall";
+  if (item === "minNow") return "Min Score";
+  if (item === "maxNow") return "Max Score";
+  if (item === "stdDevNow") return "Standard Deviation in the last 20 Messages";
+  if (item === "stdDevOverall") return "Standard Deviation Overall";
+  if (item === "medianNow") return "Median Score in the last 20 Messages";
+  if (item === "medianOverall") return "Median Score Overall";
+
+  return "Metrics";
+};
+
 const AnalysisBar = ({ selectedChatId }: { selectedChatId: string }) => {
   const { chatRoomMessagesStatus, chatRoomMessagesData, opponentId, execute } =
     useChatRoomMessages(selectedChatId);
   const { userDataStatus, userData } = useUserMetadata(opponentId);
+  const carouselRef = useRef(null);
 
   // assuming messages are ordered by timestamp
   const messagesData = chatRoomMessagesData?.messages?.map((message: any) => ({
@@ -122,6 +246,30 @@ const AnalysisBar = ({ selectedChatId }: { selectedChatId: string }) => {
       })
     : [];
 
+  const {
+    avgNow,
+    avgOverall,
+    minNow,
+    maxNow,
+    valueStyle,
+    prefix,
+    stdDevOverall,
+    medianOverall,
+  } = calculateStatistic(processedAnalysisData, messagesData);
+
+  const statistics = [
+    { name: "avgOverall", value: avgOverall },
+    { name: "avgNow", value: avgNow },
+    { name: "minNow", value: minNow },
+    { name: "maxNow", value: maxNow },
+    { name: "stdDevOverall", value: stdDevOverall },
+  ];
+
+  const next = () => {
+    if (!carouselRef?.current) return;
+    (carouselRef.current as any).next();
+  };
+
   return (
     <div className="flex flex-col justify-between min-h-full space-y-4">
       <List
@@ -145,6 +293,7 @@ const AnalysisBar = ({ selectedChatId }: { selectedChatId: string }) => {
         }
         renderItem={(item) => <List.Item>{item}</List.Item>}
       />
+      {/* 
       <Card
         title={
           <div className="flex flex-row justify-between min-w-full">
@@ -154,31 +303,62 @@ const AnalysisBar = ({ selectedChatId }: { selectedChatId: string }) => {
         }
         style={{ minHeight: "420px" }}
         loading={isLoadingOverall}
+      ></Card> */}
+      <Card
+        title={
+          <div className="flex flex-row justify-between min-w-full items-center">
+            <Text>Sentiment Analysis</Text>
+            <div className="flex flex-row">
+              <Button type="primary" onClick={next}>
+                Next Analysis
+              </Button>
+              <Button onClick={execute}>Refresh</Button>
+            </div>
+          </div>
+        }
+        style={{ minHeight: "420px" }}
+        loading={isLoadingOverall}
       >
-        <ResponsiveContainer width="100%" height={320}>
-          <AreaChart
-            data={processedAnalysisData}
-            margin={{
-              top: 5,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="timestamp" />
-            <YAxis dataKey="sentimentAnalysisScore" />
-            <Tooltip />
-            <Legend />
-            <Area
-              type="monotone"
-              dataKey="Sentiment Analysis Score"
-              fill="#BB6192"
-              stroke="#BB6192"
-              fillOpacity={0.3}
-            />
-          </AreaChart>
-        </ResponsiveContainer>
+        <Carousel ref={carouselRef} className="bg-white">
+          <div>
+            <ResponsiveContainer width="100%" height={320}>
+              <AreaChart
+                data={processedAnalysisData}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="timestamp" />
+                <YAxis dataKey="sentimentAnalysisScore" />
+                <Tooltip />
+                <Legend />
+                <Area
+                  type="monotone"
+                  dataKey="Sentiment Analysis Score"
+                  fill="#BB6192"
+                  stroke="#BB6192"
+                  fillOpacity={0.3}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="flex flex-wrap justify-around items-center w-full h-full">
+            {statistics.map((item: any) => (
+              <Statistic
+                key={item.name}
+                title={convertToName(item.name)}
+                value={item.value}
+                precision={3}
+                valueStyle={valueStyle(item.value)}
+                prefix={prefix(item.value)}
+              />
+            ))}
+          </div>
+        </Carousel>
       </Card>
     </div>
   );
