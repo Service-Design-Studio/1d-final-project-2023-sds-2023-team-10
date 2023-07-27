@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Layout, List, Avatar, Divider, Typography, Spin, Badge } from "antd";
-import { UserOutlined } from "@ant-design/icons";
-import { User, ChatRoom, Message } from "../../../types";
+import { Typography, Spin } from "antd";
+
 import MainLayout from "../../../components/MainLayout";
 import axios from "../axiosFrontend";
 
@@ -10,7 +9,14 @@ import ContactsBar from "./ContactsBar";
 import AnalysisBar from "./AnalysisBar";
 import withAuth from "../../../components/withAuth";
 
+const { Title } = Typography;
+
 export const ADMIN_USER_ID = 1;
+
+const barStyle = {
+  maxHeight: "calc(100vh - 152px)",
+  margin: "10px",
+};
 
 const ChatPageLayout = ({
   contactsBar,
@@ -23,9 +29,15 @@ const ChatPageLayout = ({
 }) => {
   return (
     <div className="flex flex-row space-x-5">
-      <div className="flex flex-col w-1/3">{contactsBar}</div>
-      <div className="flex flex-col w-1/3">{messagesBar}</div>
-      <div className="flex flex-col w-1/3">{analysisBar}</div>
+      <div className="flex flex-col w-1/3" style={barStyle}>
+        {contactsBar}
+      </div>
+      <div className="flex flex-col w-1/3" style={barStyle}>
+        {messagesBar}
+      </div>
+      <div className="flex flex-col w-1/3" style={barStyle}>
+        {analysisBar}
+      </div>
     </div>
   );
 };
@@ -42,28 +54,6 @@ const ChatPage: React.FC = () => {
   const [contacts, setContacts] = useState<any>([]);
   const [selectedChatId, setSelectedChatId] = useState<string>("");
 
-  // const fetchChatRoomData = async () => {
-  //   if (!selectedChatId || selectedChatId.length === 0) return;
-  //   try {
-  //     const response = await axios.get(
-  //       `/api/chat_rooms_with_messages/${selectedChatId}`
-  //     );
-  //     setChatRoomData(response.data);
-  //     setLoadingChatRoomData(false);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   setLoadingChatRoomData(true);
-
-  //   const intervalId = setInterval(() => {
-  //     fetchChatRoomData();
-  //   }, 1000); // in milliseconds
-  //   return () => clearInterval(intervalId);
-  // }, [selectedChatId, contacts]);
-
   useEffect(() => {
     setLoading(true);
     fetchContacts((c: any) => {
@@ -75,7 +65,10 @@ const ChatPage: React.FC = () => {
   if (loading) {
     return (
       <MainLayout>
-        <Spin />
+        <div className="flex flex-col min-h-screen min-w-screen items-center justify-center">
+          <Spin size="large" />
+          <Title level={4}>Loading Chat Data...</Title>
+        </div>
       </MainLayout>
     );
   }
