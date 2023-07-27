@@ -19,14 +19,17 @@ Scenario: Entering a chat
     Then the user will be in that chat
 
 Scenario: Sending empty message
-    Given the user is already in a chat
-    When the user clicks on the 'Type something' Text box
+    Given the user is at message page
+    When the user selects the first chat
+    When the user clicks on the Text box
     And user clicks 'send'
     Then nothing will happen
 
 Scenario: Sending a message
-    Given the user is in a chat again
-    When types 'I'm Scared, what should I do?'
+    Given user log in
+    And user goes to message
+    And the user is in a chat again
+    When user types message
     Then user clicks enter
     And sees the message appear on the chat
 
