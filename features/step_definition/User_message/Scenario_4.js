@@ -7,10 +7,10 @@ let browser, page;
 Given('user log in', async function () {
   browser = await puppeteer.launch({headless:false});
   page = await browser.newPage();
-  await page.goto('http://localhost:3000/login',{ waitUntil: 'networkidle0', timeout: 60000 });  // replace with your login/signup page url
+  await page.goto('https://clientfrontend-xnabw36hha-as.a.run.app/login',{ waitUntil: 'networkidle0', timeout: 60000 });  // replace with your login/signup page url
   await page.type('#email', '1');
   await page.type('#password', '2');
-  const loginButtonSelector = '[data-testid="login-button"]'; // replace with your button selector
+  const loginButtonSelector = 'button.chakra-button.css-okncv'; // replace with your button selector
   await Promise.all([
       page.click(loginButtonSelector), // Triggers navigation
       page.waitForNavigation({ waitUntil: 'networkidle0' })  // Waits until navigation finishes
@@ -18,7 +18,7 @@ Given('user log in', async function () {
 });
 
 Given('user goes to message', async function () {
-    const messageUrl = "http://localhost:3000/messages"; // Replace with the desired URL
+    const messageUrl = "https://clientfrontend-xnabw36hha-as.a.run.app/messages"; // Replace with the desired URL
 
     await page.goto(messageUrl, { waitUntil: "networkidle0" });
   });
