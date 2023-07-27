@@ -33,6 +33,7 @@ And("the admin should see a list of all the active chats under the 'Chatbot' tab
 // Scenario 2: Opening one of the profiles
 Given("the admin is in the 'Chatbot' page of the admin dashboard", async function () {
   // Implement the code to navigate to the 'Chatbot' page of the admin dashboard
+  await page.goto('https://admindashboard-xnabw36hha-as.a.run.app/chat2');
 });
 
 When("the admin selects one of the active profiles", async function () {
