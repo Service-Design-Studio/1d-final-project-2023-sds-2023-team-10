@@ -16,7 +16,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         },
       });
 
-      console.log(result.data);
       res.json(result.data);
     } catch (error) {
       console.error(error);
