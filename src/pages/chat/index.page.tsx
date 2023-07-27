@@ -3,11 +3,13 @@ import { Layout, List, Avatar, Divider, Typography, Spin, Badge } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { User, ChatRoom, Message } from "../../../types";
 import MainLayout from "../../../components/MainLayout";
-import axios from "axios";
+import axios from "../axiosFrontend";
 
 import MessagesBar from "./MessageBar";
 import ContactsBar from "./ContactsBar";
 import AnalysisBar from "./AnalysisBar";
+import withAuth from "../../../components/withAuth";
+
 export const ADMIN_USER_ID = 1;
 
 const ChatPageLayout = ({
@@ -20,13 +22,11 @@ const ChatPageLayout = ({
   analysisBar: React.ReactNode;
 }) => {
   return (
-    <>
-      <div className="flex flex-row space-x-5">
-        <div className="flex flex-col w-1/3">{contactsBar}</div>
-        <div className="flex flex-col w-1/3">{messagesBar}</div>
-        <div className="flex flex-col w-1/3">{analysisBar}</div>
-      </div>
-    </>
+    <div className="flex flex-row space-x-5">
+      <div className="flex flex-col w-1/3">{contactsBar}</div>
+      <div className="flex flex-col w-1/3">{messagesBar}</div>
+      <div className="flex flex-col w-1/3">{analysisBar}</div>
+    </div>
   );
 };
 
@@ -41,26 +41,28 @@ const ChatPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [contacts, setContacts] = useState<any>([]);
   const [selectedChatId, setSelectedChatId] = useState<string>("");
-  const [chatRoomData, setChatRoomData] = useState<any>({}); // this also have message inside
-  const [loadingChatRoomData, setLoadingChatRoomData] = useState(false);
 
-  const fetchChatRoomData = async () => {
-    if (!selectedChatId || selectedChatId.length === 0) return;
-    try {
-      const response = await axios.get(
-        `/api/chat_rooms_with_messages/${selectedChatId}`
-      );
-      setChatRoomData(response.data);
-      setLoadingChatRoomData(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const fetchChatRoomData = async () => {
+  //   if (!selectedChatId || selectedChatId.length === 0) return;
+  //   try {
+  //     const response = await axios.get(
+  //       `/api/chat_rooms_with_messages/${selectedChatId}`
+  //     );
+  //     setChatRoomData(response.data);
+  //     setLoadingChatRoomData(false);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  useEffect(() => {
-    setLoadingChatRoomData(true);
-    fetchChatRoomData();
-  }, [selectedChatId, contacts]);
+  // useEffect(() => {
+  //   setLoadingChatRoomData(true);
+
+  //   const intervalId = setInterval(() => {
+  //     fetchChatRoomData();
+  //   }, 1000); // in milliseconds
+  //   return () => clearInterval(intervalId);
+  // }, [selectedChatId, contacts]);
 
   useEffect(() => {
     setLoading(true);
@@ -90,24 +92,14 @@ const ChatPage: React.FC = () => {
         }
         messagesBar={
           selectedChatId ? (
-            <MessagesBar
-              fetchChatRoomData={fetchChatRoomData}
-              chatRoomData={chatRoomData}
-              loading={loadingChatRoomData}
-              selectedChatId={selectedChatId}
-            />
+            <MessagesBar selectedChatId={selectedChatId} />
           ) : (
             <div> Select a contact to get started.</div>
           )
         }
         analysisBar={
           selectedChatId ? (
-            <AnalysisBar
-              fetchChatRoomData={fetchChatRoomData}
-              chatRoomData={chatRoomData}
-              loading={loadingChatRoomData}
-              selectedChatId={selectedChatId}
-            />
+            <AnalysisBar selectedChatId={selectedChatId} />
           ) : (
             <div> Select a contact to get started.</div>
           )
@@ -117,4 +109,4 @@ const ChatPage: React.FC = () => {
   );
 };
 
-export default ChatPage;
+export default withAuth(ChatPage);
