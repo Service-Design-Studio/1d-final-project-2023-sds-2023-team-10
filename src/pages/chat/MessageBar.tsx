@@ -160,8 +160,8 @@ const useMessagesToDisplay = (selectedChatId: number) => {
   /* FETCH once to load the old chats */
   useEffect(() => {
     if (
-      !chatRoomMessagesData?.messages ||
-      (messagesFromSocket.length > 0 && prevSelectedChatId === selectedChatId)
+      (!chatRoomMessagesData?.messages || messagesFromSocket.length > 0) &&
+      prevSelectedChatId === selectedChatId
     )
       return;
     setMessages(chatRoomMessagesData.messages);
