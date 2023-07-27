@@ -23,7 +23,6 @@ export default function handler(
     //GET user id from request
 
     const userId = req.query.id as string;
-    console.log(`User ID: ${userId}`);
 
     const fileContent = fs.readFileSync(filePath, 'utf-8');
     const data: ResponseData = JSON.parse(fileContent);

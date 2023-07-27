@@ -79,7 +79,6 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
       const response = await axios.get(
         `/api/chat_rooms_with_messages/${selectedChatId}`
       );
-      console.log("get chat room with messages", response.data);
       setChatRoom(response.data);
       setMessages(response.data.messages);
     } catch (error) {

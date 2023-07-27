@@ -20,12 +20,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         }
       );
-      //console.log("trying to send message", response.data);
 
       const data = await response.data;
       return res.status(200).json(data);
     } catch (error) {
-      //console.log("error sending message", error);
       return res.status(500).json({ error: error });
     }
   } else {
@@ -49,10 +47,8 @@ export const sendMessageToAPI = async (
       },
     });
 
-    //console.log("SENDING MESSAGE TO API", response.data);
     return response;
   } catch (error) {
-    //console.log("There was an error!", error);
     return null;
   }
 };

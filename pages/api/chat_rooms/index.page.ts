@@ -17,7 +17,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                     },
                 }
             );
-            console.log(response);
 
             const data = await response.data;
             return res.status(200).json(data);
@@ -42,7 +41,6 @@ export const APICreateChatRoom = async (
             },
         });
 
-        console.log(response.data);
         return response;
     } catch (error) {
         console.log("There was an error!", error);
