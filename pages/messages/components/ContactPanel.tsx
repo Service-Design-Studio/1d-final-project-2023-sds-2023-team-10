@@ -38,7 +38,13 @@ const ContactPanel: React.FC<ContactPanelProps> = ({
               key={chatroom.id}
               cursor="pointer"
               _hover={{ bg: "pink.100" }}
-              bg={chatroom.id !== selectedChatId ? "" : backColor}
+              bg={
+                chatroom.id === -1
+                  ? "pink.50" // You need to define this color in your theme or replace with an existing color
+                  : chatroom.id === selectedChatId
+                  ? backColor
+                  : ""
+              }
               onClick={() => {
                 setbackColor("pink.300");
                 setTimeout(() => {
@@ -59,8 +65,10 @@ const ContactPanel: React.FC<ContactPanelProps> = ({
                 />
                 <Box ml={3}>
                   <Text as="b">
-                    {chatroom.opponent_first_name &&
-                    chatroom.opponent_second_name
+                    {chatroom.id === -1
+                      ? "Chat Bot"
+                      : chatroom.opponent_first_name &&
+                        chatroom.opponent_second_name
                       ? `${chatroom.opponent_first_name} ${chatroom.opponent_second_name}`
                       : `Guest user ${chatroom.id}`}
                   </Text>

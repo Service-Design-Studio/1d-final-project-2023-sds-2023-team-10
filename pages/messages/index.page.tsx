@@ -2,15 +2,14 @@ import AppLayout from "@/components/AppLayout";
 import React, { useEffect, useState } from "react";
 import MessagePanel from "./components/MessagePanel";
 import ContactPanel from "./components/ContactPanel";
+
 import { ChatRoom, User } from "@/types";
 import axios from "../axiosFrontend";
 import { Box, Spinner, Text } from "@chakra-ui/react";
 import useUser from "@/components/useUser";
-import App from "../_app.page";
 import AddChatButton from "./components/AddChatButton";
 import AddChatModal from "./components/AddChatModal";
 export const ADMIN_USER_ID = 1;
-// export const userId = 1;
 
 function Messages() {
   const [loading, setLoading] = useState(true);
@@ -31,18 +30,19 @@ function Messages() {
   const fetchChatRooms = async () => {
     try {
       const response = await axios.get(`/api/chat_rooms_for_user/${userId}`);
-
-      console.log("Gettting chat rooms for user", response.data);
-
-      setTimeout(() => {
-        setChatRooms(response.data);
-        // fetchChatUsers(response.data);
-        setLoading(false);
-      }, 20);
+      let fetchedChatRooms = response.data;
+      setChatRooms(fetchedChatRooms);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (userId) {
+      fetchChatRooms();
+    }
+  }, [userId]);
 
   const handleAddChat = () => {
     console.log("handleAddChat", isAddChatModalOpen);
