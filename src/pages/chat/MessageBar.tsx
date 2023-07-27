@@ -274,7 +274,7 @@ const MessagesBar = ({ selectedChatId }: any) => {
                 timestamp: new Date().toISOString(),
                 read: false,
                 message_type: "string",
-                sentiment_analysis_score: 0.5,
+                sentiment_analysis_score: 1,
                 chat_room_id: selectedChatId,
               });
               setInputValue("");
