@@ -15,13 +15,15 @@ import {
   AreaChart,
 } from "recharts";
 import { useEffect, useRef } from "react";
-import axios from "../axiosFrontend";
-import useAsync from "../../../components/useAsync";
 import Icon from "@ant-design/icons/lib/components/Icon";
-import { ArrowUpOutlined } from "@ant-design/icons";
-import { SmileOutlined } from "@ant-design/icons";
-import { FrownOutlined } from "@ant-design/icons";
-import { MehOutlined } from "@ant-design/icons";
+import {
+  ArrowUpOutlined,
+  SmileOutlined,
+  FrownOutlined,
+  MehOutlined,
+} from "@ant-design/icons";
+import useAsync from "../../../components/useAsync";
+import axios from "../axiosFrontend";
 
 const { Text } = Typography;
 
