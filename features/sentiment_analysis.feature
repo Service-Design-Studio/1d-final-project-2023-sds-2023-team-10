@@ -11,6 +11,6 @@ Feature: Admin Dashboard - sentiment analysis
 
     #2 - Sad path
     Scenario: Empty sentiment analysis
-        Given the admin is in a chat
+        Given the admin is in an active chat
         When the user has not given any positive or negative responses
         Then the admin will see the sentiment analysis graph at a constant of 0.5

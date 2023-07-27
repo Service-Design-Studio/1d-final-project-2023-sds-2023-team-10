@@ -6,7 +6,7 @@ Feature: Admin Dashboard - Chatbot
     #1
     Scenario: Viewing 'Chatbot' tab with active chats
         Given an admin is on the landing page
-        Then the admin clicks on the 'Chatbot' tab
+        When the admin clicks on the 'Chatbot' tab
         Then the admin should see a list of all the active chats under the 'Chatbot' tab
     
     #2 
