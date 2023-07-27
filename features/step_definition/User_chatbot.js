@@ -20,22 +20,22 @@ Given("the user is on the chatbot page", async () => {
 ]);
 });
 
-Then("the user clicks on the 'Type something' Text box below", async () => {
+When("the user clicks on the 'Type something' Text box below", async () => {
   await page.waitForSelector('.type-something-textbox');
   await page.click('.type-something-textbox');
 });
 
-And("types 'I am so stressed out'", async () => {
+When("types 'I am so stressed out'", async () => {
   await page.waitForSelector('.type-something-textbox');
   await page.type('.type-something-textbox', 'I am so stressed out');
 });
 
-Then("clicks the arrow button to send message", async () => {
+When("clicks the arrow button to send message", async () => {
   await page.waitForSelector('.send-button');
   await page.click('.send-button');
 });
 
-And("sees the message appear in the chat", async () => {
+When("sees the message appear in the chat", async () => {
   await page.waitForSelector('.chat-message');
   // Implement the code to verify that the sent message appears in the chat
   // For example, you can check the content of the last message in the chat.
