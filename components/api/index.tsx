@@ -81,3 +81,20 @@ export function APICreateUser(
     },
   });
 }
+
+export function getGpt3Response(message: string): Promise<AxiosResponse<any>> {
+  return axios.post(
+    `<your_GPT3_Endpoint>`,
+    {
+      // your message structure here
+      prompt: message,
+      max_tokens: 60,
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.OPENAI_SECRET_KEY}`,
+      },
+    }
+  );
+}
