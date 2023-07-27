@@ -222,15 +222,13 @@ Then("user clicks on 'Submit'", async () => {
     "#__next > div > div > div > form > div > div > input.app_nextQButton__lp55v"
   );
   await Promise.all([
-    page.click(
-      "#__next > div > div > div > form > div > div > input.app_nextQButton__lp55v"
-    ), // Triggers navigation
-    page.waitForNavigation({ waitUntil: "networkidle0" }), // Waits until navigation finishes
+    page.click('#__next > div > div > div > form > div > div > input.app_nextQButton__lp55v'), // Triggers navigation
+    page.waitForNavigation({ waitUntil: 'networkidle0'})  // Waits until navigation finishes
   ]);
 });
 
-Then("User lands on Log In page", async () => {
-  const expectedUrl = "http://localhost:3000/login"; // replace with your dashboard page url
+Then("User lands on Log In page",  async () => {
+  const expectedUrl = 'http://localhost:3000/login'; // replace with your dashboard page url
   const currentUrl = await page.url();
   expect(currentUrl).to.equal(expectedUrl);
 });
