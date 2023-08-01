@@ -55,12 +55,31 @@ const ChatPage: React.FC = () => {
   const [selectedChatId, setSelectedChatId] = useState<string>("");
 
   useEffect(() => {
-    setLoading(true);
-    fetchContacts((c: any) => {
-      setContacts(c);
-      setLoading(false);
-    });
+    const fetchContactsAndSetState = () => {
+      fetchContacts((fetchedContacts: any) => {
+        setContacts(fetchedContacts);
+        setLoading(false);
+      }).catch((error) => {
+        console.error(error);
+        setLoading(false);
+      });
+    };
+
+    // Fetch contacts immediately and then every 10 seconds
+    fetchContactsAndSetState();
+    const intervalId = setInterval(fetchContactsAndSetState, 10000); // in milliseconds
+
+    // Clear interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
+
+  // useEffect(() => {
+  //   setLoading(true);
+  //   fetchContacts((c: any) => {
+  //     setContacts(c);
+  //     setLoading(false);
+  //   });
+  // }, []);
 
   if (loading) {
     return (
