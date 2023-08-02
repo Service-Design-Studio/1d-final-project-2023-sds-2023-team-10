@@ -54,12 +54,6 @@ function Messages() {
   };
 
   useEffect(() => {
-    if (userId) {
-      fetchChatRooms();
-    }
-  }, [userId]);
-
-  useEffect(() => {
     console.log("change in selectedChatId", selectedChatId);
   }, [selectedChatId]);
 

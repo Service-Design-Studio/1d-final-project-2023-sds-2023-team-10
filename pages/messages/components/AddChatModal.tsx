@@ -18,6 +18,7 @@ import {
 import axios from "../../axiosFrontend";
 import { ChatRoomBeforeSend, User } from "@/types";
 import useUser from "@/components/useUser";
+import { ADMIN_USER_ID } from "../index.page";
 
 type AddChatModalProps = {
   isOpen: boolean;
@@ -51,9 +52,16 @@ const AddChatModal: React.FC<AddChatModalProps> = ({
 
   const handleStartChat = async (userId: number) => {
     // your code to start a chat with the selected user
-    console.log(`Start chat with ${userId}`);
+    if (userId === 2) {
+      // chat with bot
+      console.log("starting chat with chatbot NOT IMPLEMENTED YET");
+      //! FOR PATRICK AI CHATBOT create a new chatroom with the bot here,
+      return;
+    }
     const newChatRoom: ChatRoomBeforeSend = {
-      user1_id: userId,
+      // No matter what, we will always start a chat with the admin with user id 1
+      user1_id: ADMIN_USER_ID,
+      // user1_id: userId,
       user2_id: user!.id,
       date_created: new Date().toISOString(),
       is_ai_chat: false,
@@ -85,6 +93,14 @@ const AddChatModal: React.FC<AddChatModalProps> = ({
         <ModalCloseButton />
         <ModalBody>
           <VStack spacing={4}>
+            <Stack key={0}>
+              <Text>
+                Chatbot: I am a chatbot. I am here to help you with your
+                pregnancy related questions and direct you to the right
+                resources.
+              </Text>
+              <Button onClick={() => handleStartChat(2)}>chat</Button>
+            </Stack>
             {users.map((user) =>
               user.user_type === "admin" ? (
                 <Stack key={user.id}>

@@ -4,8 +4,6 @@ import path from "path";
 import axios, { AxiosResponse } from "axios";
 import { APIGetAllArticles, BACKEND_URL } from "@/components/api";
 
-// export const baseUrl = "https://rubybackend-rgegurmvca-as.a.run.app"
-
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   // if (req.method === "POST") {
   //   console.log("backend received", req.body);
@@ -32,7 +30,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (req.method === "GET") {
     const result = await axios.get(
-      "https://rubybackend-xnabw36hha-as.a.run.app/articles",
+      `${BACKEND_URL}/articles`,
       {
         headers: {
           Authorization: req.headers.authorization,

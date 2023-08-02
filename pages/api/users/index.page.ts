@@ -1,12 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import axios, { AxiosResponse } from "axios";
+import { BACKEND_URL } from "@/components/api";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     console.log("backend received", req.body);
 
     const result = await axios.post(
-      "https://rubybackend-xnabw36hha-as.a.run.app/users",
+      `${BACKEND_URL}/users`,
       JSON.stringify(req.body),
       {
         headers: {
@@ -23,7 +24,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (req.method === "GET") {
     const result = await axios.get(
-      "https://rubybackend-xnabw36hha-as.a.run.app/users",
+      `${BACKEND_URL}/users`,
       {
         headers: {
           Authorization: req.headers.authorization,
@@ -38,7 +39,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export function APIGetArticles(): Promise<AxiosResponse<any>> {
-  return axios.get("https://rubybackend-xnabw36hha-as.a.run.app/users", {
+  return axios.get(`${BACKEND_URL}/users`, {
     headers: {
       accept: "application/json",
     },
