@@ -136,7 +136,7 @@ When("she types I'm worried about my health", {timeout: 60 * 1000}, async functi
 
 Then("the admin sees a graph", {timeout: 60 * 1000}, async function () {
     
-    await Page.goto('https://admindashboard-xnabw36hha-as.a.run.app/login', { waitUntil: 'networkidle0', timeout: 60000 });
+    await page.goto('https://admindashboard-xnabw36hha-as.a.run.app/login', { waitUntil: 'networkidle0', timeout: 60000 });
     await page.type('#normal_login_email', 'admin');
     await page.type('#normal_login_password', 'admin');
     const loginButtonSelector = 'button.ant-btn.css-1q11svj.ant-btn-primary.login-form-button.w-full'; // replace with your button selector
@@ -159,14 +159,22 @@ When("she types I'm so angry right now", async function () {
   await page.waitForSelector('#__next > div > div > div.py-5 > div > div > div > div.css-sdxdhq > input');
   await page.click('#__next > div > div > div.py-5 > div > div > div > div.css-sdxdhq > input');
   await page.type('#__next > div > div > div.py-5 > div > div > div > div.css-sdxdhq > input', "I'm so angry right now");
-  await page.waitForTimeout(5000);
+  await page.waitForTimeout(100);
+
+  await page.keyboard.press('Enter');
+  
+
 });
 
 When("she types But my parents are very supportive", async function () {
   await page.waitForSelector('#__next > div > div > div.py-5 > div > div > div > div.css-sdxdhq > input');
   await page.click('#__next > div > div > div.py-5 > div > div > div > div.css-sdxdhq > input');
   await page.type('#__next > div > div > div.py-5 > div > div > div > div.css-sdxdhq > input', "But my parents are very supportive");
-  await page.waitForTimeout(5000);
+  await page.waitForTimeout(100);
+
+  await page.keyboard.press('Enter');
+  
+
 });
 
 // Implement the remaining "she types" steps in the same format
@@ -174,14 +182,21 @@ When("she types 'Thank you counsellor'", async function () {
     await page.waitForSelector('#__next > div > div > div.py-5 > div > div > div > div.css-sdxdhq > input');
     await page.click('#__next > div > div > div.py-5 > div > div > div > div.css-sdxdhq > input');
     await page.type('#__next > div > div > div.py-5 > div > div > div > div.css-sdxdhq > input', "Thank you counsellor");
-    await page.waitForTimeout(5000);
+    await page.waitForTimeout(100);
+
+    await page.keyboard.press('Enter');
+    
+
   });
 
 When("she types 'I'm feeling much better today'", async function () {
     await page.waitForSelector('#__next > div > div > div.py-5 > div > div > div > div.css-sdxdhq > input');
     await page.click('#__next > div > div > div.py-5 > div > div > div > div.css-sdxdhq > input');
     await page.type('#__next > div > div > div.py-5 > div > div > div > div.css-sdxdhq > input', "I'm feeling much better today");
-    await page.waitForTimeout(5000);
+    await page.waitForTimeout(100);
+
+    await page.keyboard.press('Enter');
+
 });
 
 

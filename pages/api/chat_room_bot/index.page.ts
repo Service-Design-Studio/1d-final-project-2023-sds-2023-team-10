@@ -1,7 +1,9 @@
 import {NextApiRequest, NextApiResponse} from 'next';
 const {Configuration, OpenAIApi} = require('openai');
+
+
 const openai = new OpenAIApi(new Configuration({
-  apiKey: "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"
+  apiKey: process.env.OPENAI_APIKEY
 }));
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
