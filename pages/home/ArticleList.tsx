@@ -89,6 +89,7 @@ const ArticleList: React.FC = () => {
                 borderRadius={20}
                 cursor={"pointer"}
                 w="100%"
+                key={article.id}
               >
                 <Image
                   objectFit="cover"
