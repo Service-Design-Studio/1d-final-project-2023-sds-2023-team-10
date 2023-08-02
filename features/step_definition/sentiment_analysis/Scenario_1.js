@@ -4,10 +4,15 @@ const puppeteer = require('puppeteer');
 
 let browser, page;
 
+
+url = "http://localhost:3000/"
+// Change to server url when deployed
+// https://clientfrontend-xnabw36hha-as.a.run.app
+
 Given('Alice is on the home page of the user dashboard', async function () {
   browser = await puppeteer.launch({headless:false, args: ['--allow-running-insecure-content']});
   page = await browser.newPage();
-  await page.goto('https://clientfrontend-xnabw36hha-as.a.run.app/login',{ waitUntil: 'networkidle0', timeout: 60000 });  // replace with your login/signup page url
+  await page.goto(url+'/login',{ waitUntil: 'networkidle0', timeout: 60000 });  // replace with your login/signup page url
   await page.type('#email', '1');
   await page.type('#password', '2');
   const loginButtonSelector = 'button.chakra-button.css-okncv'; // replace with your button selector
@@ -21,7 +26,7 @@ Given('Alice is on the home page of the user dashboard', async function () {
 });
 
 When("she clicks on the 'Message' icon", {timeout: 60 * 1000}, async function () {
-    const messageUrl = "https://clientfrontend-xnabw36hha-as.a.run.app/messages"; // Replace with the desired URL
+    const messageUrl = url+"/messages"; // Replace with the desired URL
     await page.goto(messageUrl, { waitUntil: "networkidle0" });
 });
 
@@ -49,6 +54,7 @@ When("she types hello", {timeout: 60 * 1000}, async function () {
     // Type the desired words in the text box
     await page.type('#__next > div > div > div.py-5 > div > div > div > div.css-sdxdhq > input', "hello");
     await page.waitForTimeout(5000)
+    await page.keyboard.press('Enter');
     // await page.type('\n');
     // await page.click('#__next > div > div > div.py-5 > div > div > div > div.css-sdxdhq > button');
     // await page.click('#__next > div > div > div.py-5 > div > div > div > div.css-sdxdhq > button');
@@ -106,6 +112,8 @@ When("she types I'm panicking", {timeout: 60 * 1000}, async function () {
 
     // Type the desired words in the text box
     await page.type('input.chakra-input.css-1fpoko8', "I'm panicking");
+    await page.waitForTimeout(1000);
+    await page.keyboard.press('Enter');
     await page.waitForTimeout(5000)
 });
 
@@ -118,6 +126,11 @@ When("she types I'm worried about my health", {timeout: 60 * 1000}, async functi
 
     // Type the desired words in the text box
     await page.type('input.chakra-input.css-1fpoko8', "I'm worried about my health");
+
+    await page.waitForTimeout(100);
+
+    await page.keyboard.press('Enter');
+    
     await page.waitForTimeout(5000)
 });
 

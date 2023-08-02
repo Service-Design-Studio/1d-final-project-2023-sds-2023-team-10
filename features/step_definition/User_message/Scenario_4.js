@@ -4,10 +4,14 @@ const puppeteer = require('puppeteer');
 
 let browser, page;
 
+url = "http://localhost:3000"
+// Change to server url when deployed
+// https://clientfrontend-xnabw36hha-as.a.run.app
+
 Given('user log in', async function () {
   browser = await puppeteer.launch({headless:false});
   page = await browser.newPage();
-  await page.goto('https://clientfrontend-xnabw36hha-as.a.run.app/login',{ waitUntil: 'networkidle0', timeout: 60000 });  // replace with your login/signup page url
+  await page.goto(url+'/login',{ waitUntil: 'networkidle0', timeout: 60000 });  // replace with your login/signup page url
   await page.type('#email', '1');
   await page.type('#password', '2');
   const loginButtonSelector = 'button.chakra-button.css-okncv'; // replace with your button selector
@@ -18,7 +22,7 @@ Given('user log in', async function () {
 });
 
 Given('user goes to message', async function () {
-    const messageUrl = "https://clientfrontend-xnabw36hha-as.a.run.app/messages"; // Replace with the desired URL
+    const messageUrl = url+"/messages"; // Replace with the desired URL
 
     await page.goto(messageUrl, { waitUntil: "networkidle0" });
   });
@@ -44,7 +48,8 @@ When("user types message", {timeout: 60 * 1000}, async function () {
 });
 
 Then("user clicks enter", {timeout: 60 * 1000}, async function () {
-    await page.keyboard.press('Enter');
+  await page.waitForTimeout(100);
+  await page.keyboard.press('Enter');
 });
 
 Then("sees the message appear on the chat", {timeout: 60 * 1000}, async function () {
