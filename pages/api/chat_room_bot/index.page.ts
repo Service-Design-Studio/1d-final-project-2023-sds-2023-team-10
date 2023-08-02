@@ -1,7 +1,7 @@
 import {NextApiRequest, NextApiResponse} from 'next';
 const {Configuration, OpenAIApi} = require('openai');
 const openai = new OpenAIApi(new Configuration({
-  apiKey: "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"
+  apiKey: "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"
 }));
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -13,11 +13,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const response = await openai.createCompletion({
         model: 'text-davinci-003',
         prompt: message,
-        max_tokens: 60,
+        max_tokens: 200,
         temperature: 1.0
       });
 
       const botMessage = response.data.choices[0].text;
+      console.log(botMessage)
       
       // Send the bot's message in the response
       res.status(200).json({message: botMessage});

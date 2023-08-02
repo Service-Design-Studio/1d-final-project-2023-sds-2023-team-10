@@ -37,9 +37,6 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({ selectedChatId }) => {
 
   const [lastChatId, setLastChatId] = useState<number | undefined>(undefined);
 
-  const OPENAI_SECRET_KEY =
-    "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";
-
   selectedChatId = -1;
 
   const handleToggle = () => {
