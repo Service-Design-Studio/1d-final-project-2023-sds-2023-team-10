@@ -53,7 +53,7 @@ When("she types hello", {timeout: 60 * 1000}, async function () {
 
     // Type the desired words in the text box
     await page.type('#__next > div > div > div.py-5 > div > div > div > div.css-sdxdhq > input', "hello");
-    await page.waitForTimeout(5000)
+
     await page.keyboard.press('Enter');
     // await page.type('\n');
     // await page.click('#__next > div > div > div.py-5 > div > div > div > div.css-sdxdhq > button');
@@ -114,7 +114,6 @@ When("she types I'm panicking", {timeout: 60 * 1000}, async function () {
     await page.type('input.chakra-input.css-1fpoko8', "I'm panicking");
     await page.waitForTimeout(1000);
     await page.keyboard.press('Enter');
-    await page.waitForTimeout(5000)
 });
 
 When("she types I'm worried about my health", {timeout: 60 * 1000}, async function () {
@@ -131,7 +130,6 @@ When("she types I'm worried about my health", {timeout: 60 * 1000}, async functi
 
     await page.keyboard.press('Enter');
     
-    await page.waitForTimeout(5000)
 });
 
 Then("the admin sees a graph", {timeout: 60 * 1000}, async function () {
