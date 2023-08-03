@@ -11,6 +11,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import PrivacyPanel from "./PrivacyPanel";
+import useUser from "@/components/useUser";
 
 function Account() {
   return (
@@ -23,6 +24,7 @@ function Account() {
 function ProfilePanel() {
   const [isAnonymous, setAnonymous] = React.useState(false);
   const [selected, setSelected] = useState<string>();
+  const [user, isLoadingUser] = useUser();
 
   const toggleAnonymous = () => {
     setAnonymous(!isAnonymous);
@@ -39,7 +41,7 @@ function ProfilePanel() {
     <Flex justifyContent={"center"}>
       <Box padding="5" bg="white" maxW="md" borderRadius="lg">
         <Text fontSize="2xl" mb="5">
-          Sarah Wang
+          {user?.first_name} {user?.second_name}
         </Text>
 
         <Box borderWidth={1} borderRadius="md" padding="3" bg={"gray.200"}>
