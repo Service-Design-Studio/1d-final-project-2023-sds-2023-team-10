@@ -1,5 +1,5 @@
-import {NextApiRequest, NextApiResponse} from 'next';
-const {Configuration, OpenAIApi} = require('openai');
+import { NextApiRequest, NextApiResponse } from 'next';
+const { Configuration, OpenAIApi } = require('openai');
 
 
 const openai = new OpenAIApi(new Configuration({
@@ -7,10 +7,13 @@ const openai = new OpenAIApi(new Configuration({
 }));
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const {message} = req.body;
-  
+  const { message, conversationHistory } = req.body;
+
   if (req.method === 'POST') {
     try {
+      // const prompt = conversationHistory + '\n' + message; 
+
+
       // Call the OpenAI API
       const response = await openai.createCompletion({
         model: 'text-davinci-003',
@@ -21,13 +24,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       const botMessage = response.data.choices[0].text;
       console.log(botMessage)
-      
+
       // Send the bot's message in the response
-      res.status(200).json({message: botMessage});
+      res.status(200).json({ message: botMessage });
     } catch (error) {
-        console.error('OpenAI API call failed:');
-        console.error(error);
-        res.status(500).json({message: 'Error in OpenAI API call'});
+      console.error('OpenAI API call failed:');
+      console.error(error);
+      res.status(500).json({ message: 'Error in OpenAI API call' });
     }
   } else {
     // Handle any HTTP methods other than POST here
