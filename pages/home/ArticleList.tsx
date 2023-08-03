@@ -72,7 +72,10 @@ const ArticleList: React.FC = () => {
   const renderArticles = () => {
     return (
       <>
-        <div className="flex flex-col items-center justify-center">
+        <div
+          className="flex flex-col items-center justify-center"
+          data-testid="articlelist"
+        >
           {articles.map((article, index) => {
             if (index === 0) {
               return null;
@@ -121,7 +124,7 @@ const ArticleList: React.FC = () => {
     <>
       {!isLoading && (
         <>
-          <Heading as="h3" size={"lg"} textAlign={"left"} className="p-4">
+          <Heading as="h3" size={"lg"} textAlign={"left"} className="p-4" data-testid="recommendedarticle">
             Recommended Article
           </Heading>
           <RecommendedArticle
@@ -131,7 +134,7 @@ const ArticleList: React.FC = () => {
         </>
       )}
 
-      <Heading as="h3" size={"lg"} textAlign={"left"} className="p-4">
+      <Heading as="h3" size={"lg"} textAlign={"left"} className="p-4" data-testid="morearticle">
         More Articles
       </Heading>
       <div>{renderArticles()}</div>
@@ -148,6 +151,7 @@ const ArticleList: React.FC = () => {
         borderRadius={20}
         cursor={"pointer"}
         w="100%"
+        data-testid="alife"
       >
         <Image
           objectFit="cover"

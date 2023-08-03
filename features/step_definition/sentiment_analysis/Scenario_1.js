@@ -4,8 +4,8 @@ const puppeteer = require("puppeteer");
 
 let browser, page;
 
-const adminLocalTestUrl = "http://localhost:3001/";
-const userLocalTestUrl = "http://localhost:3000/";
+const adminLocalTestUrl = "http://localhost:3001";
+const userLocalTestUrl = "http://localhost:3000";
 const adminTestUrl = "https://adminfrontend-xnabw36hha-as.a.run.app/";
 const userTestUrl = "https://clientfrontend-xnabw36hha-as.a.run.app/";
 
