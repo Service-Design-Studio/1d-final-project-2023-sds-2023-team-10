@@ -144,6 +144,7 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
         message:
           "You are a counsellor that talks to people going through unplanned pregnancies (Please give an appropriate response if you feel the message isn't anything related to the scope of assistance you can provide as an unplanned pregnancy counsellor ) : " +
           message,
+        // messages: messages,
       });
 
       console.log(response.data.message);
