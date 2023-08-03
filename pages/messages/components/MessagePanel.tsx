@@ -45,7 +45,10 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
       right="0"
       zIndex="1000"
       mr="10"
-      onClick={onClick}
+      onClick={() => {
+        onClick();
+        handleGoToBotChat(); // Call handleGoToBotChat function when ToggleButton is clicked
+      }}
     >
       Chat-Bot
     </Button>
@@ -165,7 +168,10 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
       <ToggleButton onClick={handleGoToBotChat} />
 
       {isChatWithBot ? (
-        <ChatBotPanel selectedChatId={selectedChatId} /> // Might need to pass any necessary props.
+        <ChatBotPanel
+          selectedChatId={selectedChatId}
+          handleGoToBotChat={handleGoToBotChat}
+        /> // Might need to pass any necessary props.
       ) : (
         <Flex w="100%" h="100%" flexDir="column">
           <Header
@@ -174,6 +180,7 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
           />
           <Divider />
           <Messages messages={messages} opponentUser={opponentUser} />
+
           <Divider />
           <Footer
             inputMessage={inputMessage}

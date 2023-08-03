@@ -112,7 +112,7 @@ When("she types I'm panicking", {timeout: 60 * 1000}, async function () {
 
     // Type the desired words in the text box
     await page.type('input.chakra-input.css-1fpoko8', "I'm panicking");
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(100);
     await page.keyboard.press('Enter');
 });
 

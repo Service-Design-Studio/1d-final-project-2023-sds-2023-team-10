@@ -24,29 +24,22 @@ const openai = new OpenAIApi(configuration);
 
 type ChatBotPanelProps = {
   selectedChatId: number;
+  handleGoToBotChat: () => void; // Add handleGoToBotChat function as a prop
 };
 
-const ChatBotPanel: React.FC<ChatBotPanelProps> = ({ selectedChatId }) => {
-  const [chatTitle, setChatTitle] = useState<string>("Chat-Bot");
-
+const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
+  selectedChatId,
+  handleGoToBotChat,
+}) => {
   const [chatRoom, setChatRoom] = useState<ChatRoomWithMessages>();
   const [messages, setMessages] = useState<Message[]>([]);
-  const [opponentUser, setOpponentUser] = useState<User>();
   const [loadingMessages, setLoadingMessages] = useState(true);
   const [inputMessage, setInputMessage] = useState<string>("");
-
-  const [lastChatId, setLastChatId] = useState<number | undefined>(undefined);
 
   selectedChatId = -1;
 
   const handleToggle = () => {
-    if (selectedChatId !== -1) {
-      setLastChatId(selectedChatId);
-      setSelectedChatId(-1);
-    } else {
-      setSelectedChatId(lastChatId);
-      setLastChatId(undefined);
-    }
+    handleGoToBotChat(); // Call the handleGoToBotChat function directly when the button is clicked
   };
 
   const ToggleButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
@@ -98,8 +91,6 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({ selectedChatId }) => {
 
       // Fetch the user as usual
       const response = await axios.get(`/api/users/${opponentUserId}`);
-
-      setOpponentUser(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -165,8 +156,7 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({ selectedChatId }) => {
   };
 
   const handleBackButtonPressed = () => {
-    setSelectedChatId(undefined);
-    fetchChatRooms();
+    handleGoToBotChat();
   };
 
   if (loadingMessages) {
@@ -192,10 +182,10 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({ selectedChatId }) => {
       <Flex w="100%" h="100%" flexDir="column">
         <Header
           onBackButtonPressed={handleBackButtonPressed}
-          opponentUser={opponentUser}
+          opponentUser={"Chatbot"}
         />
         <Divider />
-        <Messages messages={messages} opponentUser={opponentUser} />
+        <Messages messages={messages} opponentUser={"Chatbot"} />
         <Divider />
         <Footer
           inputMessage={inputMessage}
