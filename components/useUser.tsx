@@ -1,10 +1,8 @@
-// lib/useUser.tsx
-
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { User } from "../types";
 
-const useUser = (): [User | null, string | null, boolean] => {
+const useUser = (): [User | null, string | null, boolean, () => void] => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -28,7 +26,14 @@ const useUser = (): [User | null, string | null, boolean] => {
     getUser();
   }, []);
 
-  return [user, token, loading];
+  const clearUser = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    setUser(null);
+    setToken(null);
+  };
+
+  return [user, token, loading, clearUser];
 };
 
 export default useUser;

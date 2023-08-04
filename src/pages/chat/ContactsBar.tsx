@@ -19,8 +19,22 @@ const ContactsBar = ({ contacts, setSelectedChatId, selectedChatId }: any) => {
   const sortedContacts = contacts
     .filter((chatroom: any) => chatroom.last_message != null)
     .sort((a: any, b: any) => {
+      // Check for unread messages, if a message is unread it should appear first
+      const aUnread = a.last_message.sender_id !== user!.id;
+      const bUnread = b.last_message.sender_id !== user!.id;
+
+      if (aUnread && !bUnread) {
+        return 1; // a is unread, b is not, a should come first
+      }
+
+      if (!aUnread && bUnread) {
+        return -1; // b is unread, a is not, b should come first
+      }
+
+      // If both messages are unread or both are read, sort by last updated date
       const aDate = a.last_message.updated_at;
       const bDate = b.last_message.updated_at;
+
       return new Date(bDate).getTime() - new Date(aDate).getTime();
     });
 
@@ -55,8 +69,8 @@ const ContactsBar = ({ contacts, setSelectedChatId, selectedChatId }: any) => {
             formattedTime = lastMessageDate.toLocaleDateString("en-GB");
           }
           const notificationBadge =
-            chatroom.last_message.sender_id !== user!.id ? (
-              <Badge dot offset={[10, 10]} />
+            chatroom.last_message.sender_id === user!.id ? (
+              <Badge dot offset={[-10, 10]} />
             ) : null;
 
           return (
@@ -86,9 +100,9 @@ const ContactsBar = ({ contacts, setSelectedChatId, selectedChatId }: any) => {
                 description={chatroom.last_message?.content}
               />
               {notificationBadge}
-              <Typography.Text style={{ alignSelf: "center" }}>
+              {/* <Typography.Text style={{ alignSelf: "center" }}>
                 {formattedTime}
-              </Typography.Text>
+              </Typography.Text> */}
             </List.Item>
           );
         })}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Spin } from "antd";
+import { Typography, Spin, message } from "antd";
 
 import MainLayout from "../../../components/MainLayout";
 import axios from "../axiosFrontend";
@@ -16,6 +16,7 @@ export const ADMIN_USER_ID = 1;
 const barStyle = {
   maxHeight: "calc(100vh - 152px)",
   margin: "10px",
+  minWidth: "30%",
 };
 
 const ChatPageLayout = ({
@@ -41,6 +42,28 @@ const ChatPageLayout = ({
     </div>
   );
 };
+const stringifySorted = (arr: any[]) =>
+  JSON.stringify(arr.sort((a, b) => a.id - b.id));
+
+const handleNewMessage = (prev: any, fetchedContacts: any) => {
+  if (!prev) return;
+  if (stringifySorted(prev) !== stringifySorted(fetchedContacts)) {
+    // Identify the sender of the new message
+    const newMessageSender = fetchedContacts.find((contact: any) => {
+      const prevContact = prev.find((pc: any) => pc.id === contact.id);
+      return (
+        !prevContact ||
+        prevContact.last_message?.id !== contact.last_message?.id
+      );
+    });
+    const senderName = newMessageSender
+      ? `${newMessageSender.opponent_first_name} ${newMessageSender.opponent_second_name}`
+      : "Unknown";
+
+    if (newMessageSender?.last_message?.sender_id === ADMIN_USER_ID) return;
+    message.info(`New Message from ${senderName}`);
+  }
+};
 
 const fetchContacts = async (callback: any) => {
   const response = await axios.get(`/api/chat_rooms_for_user/${ADMIN_USER_ID}`);
@@ -57,7 +80,10 @@ const ChatPage: React.FC = () => {
   useEffect(() => {
     const fetchContactsAndSetState = () => {
       fetchContacts((fetchedContacts: any) => {
-        setContacts(fetchedContacts);
+        setContacts((prev: any) => {
+          handleNewMessage(prev, fetchedContacts);
+          return fetchedContacts;
+        });
         setLoading(false);
       }).catch((error) => {
         console.error(error);
@@ -67,7 +93,7 @@ const ChatPage: React.FC = () => {
 
     // Fetch contacts immediately and then every 10 seconds
     fetchContactsAndSetState();
-    const intervalId = setInterval(fetchContactsAndSetState, 10000); // in milliseconds
+    const intervalId = setInterval(fetchContactsAndSetState, 2000); // in milliseconds
 
     // Clear interval on component unmount
     return () => clearInterval(intervalId);

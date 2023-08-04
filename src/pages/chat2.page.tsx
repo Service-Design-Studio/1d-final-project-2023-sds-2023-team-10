@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import MainLayout from '../../components/MainLayout';
-import { ChatRoom, Message, User } from '../../types';
+import React, { useEffect, useState } from "react";
+import MainLayout from "../../components/MainLayout";
+import { ChatRoom, Message, User } from "../../types";
 
 const ChatPageLayout = ({
   contactsBar,
@@ -12,13 +12,26 @@ const ChatPageLayout = ({
   analysisBar: React.ReactNode;
 }) => {
   return (
-    <>
-      <div className="flex flex-row">
-        <div className="flex flex-col w-1/3">{contactsBar}</div>
-        <div className="flex flex-col w-1/3">{messagesBar}</div>
-        <div className="flex flex-col w-1/3">{analysisBar}</div>
+    <div className="flex flex-row">
+      <div
+        className="flex flex-col w-1/3 overflow-hidden"
+        style={{ maxWidth: "33.33%", minWidth: "33.33%" }}
+      >
+        {contactsBar}
       </div>
-    </>
+      <div
+        className="flex flex-col w-1/3 overflow-hidden"
+        style={{ maxWidth: "33.33%", minWidth: "33.33%" }}
+      >
+        {messagesBar}
+      </div>
+      <div
+        className="flex flex-col w-1/3 overflow-hidden"
+        style={{ maxWidth: "33.33%", minWidth: "33.33%" }}
+      >
+        {analysisBar}
+      </div>
+    </div>
   );
 };
 
@@ -41,15 +54,15 @@ const ChatPage: React.FC = () => {
   const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
 
   useEffect(() => {
-    fetch('/api/users')
+    fetch("/api/users")
       .then((response) => response.json())
       .then((data) => setUsers(data));
 
-    fetch('/api/chat')
+    fetch("/api/chat")
       .then((response) => response.json())
       .then((data) => setChat(data));
 
-    fetch('/api/chatRooms')
+    fetch("/api/chatRooms")
       .then((response) => response.json())
       .then((data) => setChatRooms(data));
   }, []);
