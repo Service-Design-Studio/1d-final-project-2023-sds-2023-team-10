@@ -26,7 +26,7 @@ const ArticleList: React.FC = () => {
   useEffect(() => {
     fetchArticles();
 
-    console.log("articles", articles);
+
 
     return () => {
       setArticles([]);

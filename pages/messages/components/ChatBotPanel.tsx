@@ -169,7 +169,7 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
     }
   
     const newBotLog = {
-      role: "bot",
+      role: "assistant",
       content: botResponse,
     };
   
