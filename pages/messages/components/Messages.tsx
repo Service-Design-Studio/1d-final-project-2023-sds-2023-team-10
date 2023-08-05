@@ -36,7 +36,7 @@ const Messages: React.FC<MessagesProps> = ({ messages, opponentUser }) => {
           },
         }
       );
-      console.log(createChatRoomResponse); // Check the API response
+// Check the API response
     } catch (err) {
       console.error(err);
     }

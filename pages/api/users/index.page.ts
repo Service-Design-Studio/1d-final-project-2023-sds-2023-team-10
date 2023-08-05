@@ -4,7 +4,7 @@ import { BACKEND_URL } from "@/components/api";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
-    console.log("backend received", req.body);
+
 
     const result = await axios.post(
       `${BACKEND_URL}/users`,

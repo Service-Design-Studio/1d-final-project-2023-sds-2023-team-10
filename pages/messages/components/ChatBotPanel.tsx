@@ -36,6 +36,15 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
   const [loadingMessages, setLoadingMessages] = useState(true);
   const [inputMessage, setInputMessage] = useState<string>("");
   const [currentContext, setCurrentContext] = useState<Array<any>>([]);
+  const [chatLog, setChatLog] = useState([{
+    role: "system",
+    content:
+      "You are a counsellor that talks to people going through unplanned pregnancies (Please give an appropriate response if you feel the message isn't anything related to the scope of assistance you can provide as an unplanned pregnancy counsellor)",
+  }]);
+
+  useEffect(() => {
+   
+  }, [chatLog]);
 
   selectedChatId = -1;
 
@@ -73,6 +82,9 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
     }
   }, [userId, chatRoom]);
 
+
+  
+
   const fetchChatRoomsWithMessages = async () => {
     try {
       const response = await axios.get(`/api/chat_rooms_with_messages/-1`);
@@ -80,7 +92,7 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
       setChatRoom(response.data);
       setMessages(response.data.messages);
     } catch (error) {
-      console.log(error);
+  
     }
     setLoadingMessages(false);
   };
@@ -93,7 +105,7 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
       // Fetch the user as usual
       const response = await axios.get(`/api/users/${opponentUserId}`);
     } catch (error) {
-      console.log(error);
+     
     }
     setLoadingMessages(false);
   };
@@ -114,64 +126,81 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
     };
   };
 
-  const handleSendMessage = async () => {
+  useEffect(() => {
+   
+  }, [chatLog]);
+ 
+
+
+  async function handleSendMessage() {
     if (!inputMessage.trim().length) {
       return;
     }
-
     // User's message
     const newMessage = createNewMessage(userId!, inputMessage);
-
+   
+  
     // Add the new message to your state
     setMessages((old) => [...old, newMessage]);
-
+  
     // Clear the input
     setInputMessage("");
-
+  
     // Get the Chatbot response
-
-    const botResponse = await getChatbotResponse(
-      inputMessage,
-      currentContext.join("\n")
-    );
-
-    const cleanBotResponse = botResponse.replace(/\n/g, "");
-
+    const newLog = {
+      role: "user",
+      content: inputMessage,
+    };
+  
+    
+  
+    var botResponse = await getChatbotResponse([...chatLog,newLog]);
+  
     setCurrentContext((prevContext) => [
       ...prevContext,
       "User: " + inputMessage,
-      "Bot: " + cleanBotResponse,
+      "Bot: " + botResponse,
     ]);
-    // Create a new message for the bot's response
-    const botMessage = createNewMessage(-1, botResponse);
 
+    // Create a new message for the bot's response
+    if (botResponse === "") {
+      botResponse =
+        "I do not understand your input, could you word that differently for me?";
+    }
+  
+    const newBotLog = {
+      role: "bot",
+      content: botResponse,
+    };
+  
+    setChatLog((prevChatLog) => [...prevChatLog,newLog,newBotLog]);
+
+    console.log("CHATLOG WITH BOT RESPONSE", chatLog)
+  
+    const botMessage = createNewMessage(-1, botResponse);
+  
     // Add the new message to your state
     setMessages((old) => [...old, botMessage]);
-
-    console.log(currentContext);
-  };
-
-  useEffect(() => {
-    // This effect will be triggered whenever currentContext changes
-    console.log(currentContext);
-  }, [currentContext]);
+  }
+  
+  
 
   // Helper function to send a request to your API which will in turn communicate with GPT-3. You'll need to implement this.
-  const getChatbotResponse = async (message, context) => {
-    try {
-      const response = await axios.post("/api/chat_room_bot", {
-        message:
-          "You are a counsellor that talks to people going through unplanned pregnancies (Please give an appropriate response if you feel the message isn't anything related to the scope of assistance you can provide as an unplanned pregnancy counsellor ) : " +
-          message +
-          "You may look at the chat context to base your resopnse upon : " +
-          context,
-      });
 
-      console.log(response.data.message);
+
+
+
+
+  const getChatbotResponse = async (chatLog) => {
+    try {
+      console.log("chatLog",chatLog)
+      const response = await axios.post("/api/chat_room_bot", {
+        chatLog: chatLog
+      });
+     
       // Right here we are assuming the server will respond with a JSON that has the bot response in a property named 'message'
       return response.data.message;
     } catch (error) {
-      console.error("Error:", error);
       return "An error occurred while talking with the chat bot.";
     }
   };
@@ -211,7 +240,7 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
         <Footer
           inputMessage={inputMessage}
           setInputMessage={setInputMessage}
-          handleSendMessage={handleSendMessage}
+          handleSendMessage={handleSendMessage} // Pass the function reference to Footer
         />
       </Flex>
     </Flex>

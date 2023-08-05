@@ -13,6 +13,12 @@ const Footer: React.FC<FooterProps> = ({
   setInputMessage,
   handleSendMessage,
 }) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && inputMessage.trim().length > 0) {
+      handleSendMessage(); // Call handleSendMessage only when Enter key is pressed and inputMessage is not empty
+    }
+  };
+
   return (
     <Flex w="100%" mt="5">
       <Input
@@ -22,13 +28,9 @@ const Footer: React.FC<FooterProps> = ({
         _focus={{
           border: "1px solid black",
         }}
-        onKeyPress={(e) => {
-          if (e.key === "Enter") {
-            handleSendMessage();
-          }
-        }}
         value={inputMessage}
         onChange={(e) => setInputMessage(e.target.value)}
+        onKeyPress={handleKeyPress} // Attach the handleKeyPress event handler here
       />
       <Button
         bg="transparent"
@@ -41,7 +43,7 @@ const Footer: React.FC<FooterProps> = ({
         }}
         mr="5px"
         disabled={inputMessage.trim().length <= 0}
-        onClick={handleSendMessage}
+        onClick={handleSendMessage} // Call handleSendMessage when the send button is clicked
       >
         <ChevronRightIcon color="#BB6192" boxSize={8} />
       </Button>
@@ -50,3 +52,4 @@ const Footer: React.FC<FooterProps> = ({
 };
 
 export default Footer;
+

@@ -43,7 +43,7 @@ const AddChatModal: React.FC<AddChatModalProps> = ({
           const response = await axios.get("/api/users/"); // change this URL to where your API serves a list of all users
           setUsers(response.data);
         } catch (err) {
-          console.log(err);
+
         }
       };
       fetchUsers();
@@ -54,7 +54,7 @@ const AddChatModal: React.FC<AddChatModalProps> = ({
     // your code to start a chat with the selected user
     if (userId === 2) {
       // chat with bot
-      console.log("starting chat with chatbot NOT IMPLEMENTED YET");
+  
       //! FOR PATRICK AI CHATBOT create a new chatroom with the bot here,
       return;
     }
