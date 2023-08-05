@@ -35,6 +35,7 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
   const [messages, setMessages] = useState<Message[]>([]);
   const [loadingMessages, setLoadingMessages] = useState(true);
   const [inputMessage, setInputMessage] = useState<string>("");
+  const [currentContext, setCurrentContext] = useState<Array<any>>([]);
 
   selectedChatId = -1;
 
@@ -128,23 +129,42 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
     setInputMessage("");
 
     // Get the Chatbot response
-    const botResponse = await getChatbotResponse(inputMessage);
 
+    const botResponse = await getChatbotResponse(
+      inputMessage,
+      currentContext.join("\n")
+    );
+
+    const cleanBotResponse = botResponse.replace(/\n/g, "");
+
+    setCurrentContext((prevContext) => [
+      ...prevContext,
+      "User: " + inputMessage,
+      "Bot: " + cleanBotResponse,
+    ]);
     // Create a new message for the bot's response
     const botMessage = createNewMessage(-1, botResponse);
 
     // Add the new message to your state
     setMessages((old) => [...old, botMessage]);
+
+    console.log(currentContext);
   };
 
+  useEffect(() => {
+    // This effect will be triggered whenever currentContext changes
+    console.log(currentContext);
+  }, [currentContext]);
+
   // Helper function to send a request to your API which will in turn communicate with GPT-3. You'll need to implement this.
-  const getChatbotResponse = async (message) => {
+  const getChatbotResponse = async (message, context) => {
     try {
       const response = await axios.post("/api/chat_room_bot", {
         message:
           "You are a counsellor that talks to people going through unplanned pregnancies (Please give an appropriate response if you feel the message isn't anything related to the scope of assistance you can provide as an unplanned pregnancy counsellor ) : " +
-          message,
-        // messages: messages,
+          message +
+          "You may look at the chat context to base your resopnse upon : " +
+          context,
       });
 
       console.log(response.data.message);
