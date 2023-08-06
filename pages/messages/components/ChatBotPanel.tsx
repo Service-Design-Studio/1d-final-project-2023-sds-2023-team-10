@@ -24,54 +24,55 @@ const openai = new OpenAIApi(configuration);
 
 type ChatBotPanelProps = {
   selectedChatId: number;
-  handleGoToBotChat: () => void; // Add handleGoToBotChat function as a prop
+  // handleGoToBotChat: () => void; // Add handleGoToBotChat function as a prop
+  setSelectedChatId: (id: number | undefined) => void;
+  fetchChatRooms: () => void;
 };
 
 const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
   selectedChatId,
-  handleGoToBotChat,
+  // handleGoToBotChat, // Add handleGoToBotChat function as a prop
+  setSelectedChatId,
+  fetchChatRooms,
 }) => {
   const [chatRoom, setChatRoom] = useState<ChatRoomWithMessages>();
   const [messages, setMessages] = useState<Message[]>([]);
   const [loadingMessages, setLoadingMessages] = useState(true);
   const [inputMessage, setInputMessage] = useState<string>("");
   const [currentContext, setCurrentContext] = useState<Array<any>>([]);
-  const [chatLog, setChatLog] = useState([{
-    role: "system",
-    content:
-      "You are a counsellor that talks to people going through unplanned pregnancies (Please give an appropriate response if you feel the message isn't anything related to the scope of assistance you can provide as an unplanned pregnancy counsellor)",
-  }]);
+  const [chatLog, setChatLog] = useState([
+    {
+      role: "system",
+      content:
+        "You are a counsellor that talks to people going through unplanned pregnancies (Please give an appropriate response if you feel the message isn't anything related to the scope of assistance you can provide as an unplanned pregnancy counsellor)",
+    },
+  ]);
 
-  useEffect(() => {
-   
-  }, [chatLog]);
+  // const handleToggle = () => {
+  //   handleGoToBotChat(); // Call the handleGoToBotChat function directly when the button is clicked
+  // };
 
-  selectedChatId = -1;
-
-  const handleToggle = () => {
-    handleGoToBotChat(); // Call the handleGoToBotChat function directly when the button is clicked
-  };
-
-  const ToggleButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
-    <Button
-      position="fixed"
-      top="0"
-      right="0"
-      zIndex="1000"
-      mr="10"
-      onClick={onClick}
-    >
-      Counsellor
-    </Button>
-  );
+  // const ToggleButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
+  //   <Button
+  //     position="fixed"
+  //     top="0"
+  //     right="0"
+  //     zIndex="1000"
+  //     mr="10"
+  //     onClick={onClick}
+  //   >
+  //     Counsellor
+  //   </Button>
+  // );
 
   const [user, isLoadingUser] = useUser();
   const userId = user?.id;
 
   useEffect(() => {
     const intervalId = setInterval(() => {
+      console.log("fetching messages for chat id: ", selectedChatId);
       if (selectedChatId) {
-        fetchChatRoomsWithMessages();
+        fetchChatRoomsWithMessages(selectedChatId);
       }
     }, 100000); // in milliseconds
     return () => clearInterval(intervalId);
@@ -82,18 +83,15 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
     }
   }, [userId, chatRoom]);
 
-
-  
-
-  const fetchChatRoomsWithMessages = async () => {
+  const fetchChatRoomsWithMessages = async (selectedChatId: number) => {
     try {
-      const response = await axios.get(`/api/chat_rooms_with_messages/-1`);
+      const response = await axios.get(
+        `/api/chat_rooms_with_messages/${selectedChatId}}`
+      );
 
       setChatRoom(response.data);
       setMessages(response.data.messages);
-    } catch (error) {
-  
-    }
+    } catch (error) {}
     setLoadingMessages(false);
   };
 
@@ -104,9 +102,7 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
 
       // Fetch the user as usual
       const response = await axios.get(`/api/users/${opponentUserId}`);
-    } catch (error) {
-     
-    }
+    } catch (error) {}
     setLoadingMessages(false);
   };
 
@@ -126,36 +122,30 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
     };
   };
 
-  useEffect(() => {
-   
-  }, [chatLog]);
- 
-
-
   async function handleSendMessage() {
     if (!inputMessage.trim().length) {
       return;
     }
     // User's message
     const newMessage = createNewMessage(userId!, inputMessage);
-   
-  
+
     // Add the new message to your state
     setMessages((old) => [...old, newMessage]);
-  
+
     // Clear the input
     setInputMessage("");
-  
+
     // Get the Chatbot response
     const newLog = {
       role: "user",
       content: inputMessage,
     };
-  
-    
-  
-    var botResponse = await getChatbotResponse([...chatLog,newLog]);
-  
+
+    var botResponse = await getChatbotResponse(
+      [...chatLog, newLog],
+      newMessage
+    );
+
     setCurrentContext((prevContext) => [
       ...prevContext,
       "User: " + inputMessage,
@@ -167,46 +157,60 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
       botResponse =
         "I do not understand your input, could you word that differently for me?";
     }
-  
+
     const newBotLog = {
       role: "assistant",
       content: botResponse,
     };
-  
-    setChatLog((prevChatLog) => [...prevChatLog,newLog,newBotLog]);
 
-    console.log("CHATLOG WITH BOT RESPONSE", chatLog)
-  
+    setChatLog((prevChatLog) => [...prevChatLog, newLog, newBotLog]);
+
+    console.log("CHATLOG WITH BOT RESPONSE", chatLog);
+
     const botMessage = createNewMessage(-1, botResponse);
-  
+
     // Add the new message to your state
     setMessages((old) => [...old, botMessage]);
   }
-  
-  
 
-  // Helper function to send a request to your API which will in turn communicate with GPT-3. You'll need to implement this.
+  // Helper function to send a request to your API which will in turn communicate with GPT-3.
+  const getChatbotResponse = async (
+    chatLog: { role: string; content: string }[],
+    newMessage: MessageBeforeSend
+  ) => {
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
-
-
-
-
-  const getChatbotResponse = async (chatLog) => {
     try {
-      console.log("chatLog",chatLog)
-      const response = await axios.post("/api/chat_room_bot", {
-        chatLog: chatLog
-      });
-     
+      console.log("chatLog", chatLog);
+      const response = await axios.post(
+        "/api/chat_room_bot",
+        {
+          chatLog: chatLog,
+          newMessage: newMessage,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("chatbot response", response);
       // Right here we are assuming the server will respond with a JSON that has the bot response in a property named 'message'
       return response.data.message;
     } catch (error) {
+      console.log("error", error);
       return "An error occurred while talking with the chat bot.";
     }
   };
 
   const handleBackButtonPressed = () => {
-    handleGoToBotChat();
+    // handleGoToBotChat();
+    setSelectedChatId(undefined);
+    fetchChatRooms();
   };
 
   if (loadingMessages) {
@@ -228,7 +232,7 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
       p="0"
       boxSizing="border-box"
     >
-      <ToggleButton onClick={handleToggle} />
+      {/* <ToggleButton onClick={handleToggle} /> */}
       <Flex w="100%" h="100%" flexDir="column">
         <Header
           onBackButtonPressed={handleBackButtonPressed}

@@ -21,8 +21,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             const data = await response.data;
             return res.status(200).json(data);
         } catch (error) {
-            console.log(error);
-            return res.status(500).json({ error: error });
+            console.log("error in api/chat_rooms/index.page.ts: post");
+            return res.status(error.response.status).json({ error: error });
         }
     } else {
         return res.status(405).json({ error: "Method not allowed" });

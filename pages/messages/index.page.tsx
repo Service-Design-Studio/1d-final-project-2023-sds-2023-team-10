@@ -9,6 +9,7 @@ import { Box, Spinner, Text } from "@chakra-ui/react";
 import useUser from "@/components/useUser";
 import AddChatButton from "./components/AddChatButton";
 import AddChatModal from "./components/AddChatModal";
+import ChatBotPanel from "./components/ChatBotPanel";
 export const ADMIN_USER_ID = 1;
 
 function Messages() {
@@ -34,7 +35,7 @@ function Messages() {
       setChatRooms(fetchedChatRooms);
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.log("error in trying to get chatrooms for user");
     }
   };
 
@@ -71,6 +72,23 @@ function Messages() {
   }
 
   if (selectedChatId) {
+    const selectedChatRoom = chatrooms.find(
+      (chatroom) => chatroom.id === selectedChatId
+    );
+    if (selectedChatRoom?.is_ai_chat) {
+      return (
+        <AppLayout>
+          <Box className="animate-slideIn">
+            <ChatBotPanel
+              selectedChatId={selectedChatId}
+              setSelectedChatId={setSelectedChatId} // set to undefined when the user presses back
+              fetchChatRooms={fetchChatRooms} // passed down so that we can update chatrooms when the user presses back
+            />
+          </Box>
+        </AppLayout>
+      );
+    }
+
     return (
       <AppLayout>
         <Box className="animate-slideIn">

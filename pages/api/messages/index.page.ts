@@ -5,9 +5,8 @@ import { Message, MessageBeforeSend } from "@/types";
 import { headers } from "next/dist/client/components/headers";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log("REq header received", req.headers);
-
   if (req.method === "POST") {
+    console.log("messages api 9: req.body : ", req.body);
     try {
       const response = await axios.post(
         `${BACKEND_URL}/messages`,
@@ -39,6 +38,7 @@ export const sendMessageToAPI = async (
   try {
     const token =
       typeof window !== "undefined" ? localStorage.getItem("token") : null;
+
     const response = await axios.post("/api/messages", message, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -46,7 +46,6 @@ export const sendMessageToAPI = async (
         "Content-Type": "application/json",
       },
     });
-
     return response;
   } catch (error) {
     return null;
