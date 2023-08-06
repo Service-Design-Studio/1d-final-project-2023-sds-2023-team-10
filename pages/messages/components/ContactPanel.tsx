@@ -1,6 +1,14 @@
 import { ChatRoom, User } from "@/types";
 import { CheckCircleIcon } from "@chakra-ui/icons";
-import { Avatar, Badge, Box, List, ListItem, Text } from "@chakra-ui/react";
+import {
+  Avatar,
+  AvatarBadge,
+  Badge,
+  Box,
+  List,
+  ListItem,
+  Text,
+} from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
 export const chatbotAvatarUrl =
@@ -37,16 +45,20 @@ const ChatroomRow: React.FC<ChatroomRowProps> = ({
       p={4}
     >
       <Box display="flex" alignItems="center">
-        <Avatar src={opponentPicture || defaultAvatarUrl} size="lg" />
+        <Avatar src={opponentPicture || defaultAvatarUrl} size="lg">
+          {opponentFirstName === "Chatbot" && (
+            <AvatarBadge boxSize="1.25em" bg="green.500" />
+          )}
+        </Avatar>
         <Box ml={3}>
           <Text as="b">{`${opponentFirstName} ${opponentSecondName}`}</Text>
           <Text mt={1}>{lastMessage}</Text>
         </Box>
-        {unreadMessagesCount > 0 && (
+        {/* {unreadMessagesCount > 0 && (
           <Badge ml="auto" colorScheme="green">
             {unreadMessagesCount}
           </Badge>
-        )}
+        )} */}
       </Box>
     </ListItem>
   );
