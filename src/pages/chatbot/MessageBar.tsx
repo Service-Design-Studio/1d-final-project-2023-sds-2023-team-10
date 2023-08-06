@@ -146,12 +146,14 @@ const handleSendMessage = async (props: any) => {
 };
 
 /* A QUICK AND DIRTY HACK TO MAKE IT WORK 
-  THIS IS A TECHNICAL DEBT AND NOT A GOOD PATTERN
-  */
+THIS IS A TECHNICAL DEBT AND NOT A GOOD PATTERN
+*/
 const useMessagesToDisplay = (selectedChatId: number) => {
   const [messages, setMessages] = useState<any>([]);
   const [prevSelectedChatId, setPrevSelectedChatId] =
     useState<number>(selectedChatId);
+
+  const [componentLoading, setComponentLoading] = useState<boolean>(true);
 
   const { chatRoomMessagesData, chatRoomMessagesStatus, opponentId } =
     useChatRoomMessages(String(selectedChatId));
@@ -160,30 +162,45 @@ const useMessagesToDisplay = (selectedChatId: number) => {
 
   /* FETCH once to load the old chats */
   useEffect(() => {
+    setComponentLoading(true);
     if (
       (!chatRoomMessagesData?.messages || messagesFromSocket.length > 0) &&
       prevSelectedChatId === selectedChatId
-    )
+    ) {
+      setComponentLoading(false);
       return;
+    }
     setMessages(chatRoomMessagesData.messages);
     setPrevSelectedChatId(selectedChatId);
-  }, [chatRoomMessagesData, selectedChatId]);
+    setComponentLoading(false);
+  }, [
+    chatRoomMessagesData,
+    messagesFromSocket.length,
+    prevSelectedChatId,
+    selectedChatId,
+  ]);
 
   /* KEEP updating if there is update from WEBSOCKET */
   useEffect(() => {
-    if (!chatRoomMessagesData?.messages) return;
+    setComponentLoading(true);
+    if (!chatRoomMessagesData?.messages) {
+      setComponentLoading(false);
+      return;
+    }
     setMessages((prev: any) => [
       ...chatRoomMessagesData.messages,
       ...messagesFromSocket.filter(
         (item: any) => item.chat_room_id === selectedChatId
       ),
     ]);
-  }, [messagesFromSocket]);
+    setComponentLoading(false);
+  }, [chatRoomMessagesData.messages, messagesFromSocket, selectedChatId]);
 
   return {
     chatRoomMessagesData,
     messages,
-    loading: socketLoading || chatRoomMessagesStatus === "LOADING",
+    loading:
+      socketLoading || chatRoomMessagesStatus === "LOADING" || componentLoading,
     opponentId,
   };
 };

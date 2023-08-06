@@ -5,7 +5,7 @@ import { Message } from "../types";
 const useMessages = (chatroomId: number) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [user, token, loading] = useUser();
-  const [loadingWebsocket, setLoadingWebsocket] = useState(false);
+  const [loadingWebsocket, setLoadingWebsocket] = useState(true);
 
   useEffect(() => {
     setLoadingWebsocket(true);

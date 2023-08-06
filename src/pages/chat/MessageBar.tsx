@@ -153,6 +153,8 @@ const useMessagesToDisplay = (selectedChatId: number) => {
   const [prevSelectedChatId, setPrevSelectedChatId] =
     useState<number>(selectedChatId);
 
+  const [componentLoading, setComponentLoading] = useState<boolean>(true);
+
   const { chatRoomMessagesData, chatRoomMessagesStatus, opponentId } =
     useChatRoomMessages(String(selectedChatId));
   const { messages: messagesFromSocket, loading: socketLoading } =
@@ -160,30 +162,45 @@ const useMessagesToDisplay = (selectedChatId: number) => {
 
   /* FETCH once to load the old chats */
   useEffect(() => {
+    setComponentLoading(true);
     if (
       (!chatRoomMessagesData?.messages || messagesFromSocket.length > 0) &&
       prevSelectedChatId === selectedChatId
-    )
+    ) {
+      setComponentLoading(false);
       return;
+    }
     setMessages(chatRoomMessagesData.messages);
     setPrevSelectedChatId(selectedChatId);
-  }, [chatRoomMessagesData, selectedChatId]);
+    setComponentLoading(false);
+  }, [
+    chatRoomMessagesData,
+    messagesFromSocket.length,
+    prevSelectedChatId,
+    selectedChatId,
+  ]);
 
   /* KEEP updating if there is update from WEBSOCKET */
   useEffect(() => {
-    if (!chatRoomMessagesData?.messages) return;
+    setComponentLoading(true);
+    if (!chatRoomMessagesData?.messages) {
+      setComponentLoading(false);
+      return;
+    }
     setMessages((prev: any) => [
       ...chatRoomMessagesData.messages,
       ...messagesFromSocket.filter(
         (item: any) => item.chat_room_id === selectedChatId
       ),
     ]);
-  }, [messagesFromSocket]);
+    setComponentLoading(false);
+  }, [chatRoomMessagesData.messages, messagesFromSocket, selectedChatId]);
 
   return {
     chatRoomMessagesData,
     messages,
-    loading: socketLoading || chatRoomMessagesStatus === "LOADING",
+    loading:
+      socketLoading || chatRoomMessagesStatus === "LOADING" || componentLoading,
     opponentId,
   };
 };
@@ -236,14 +253,18 @@ const MessagesBar = ({ selectedChatId }: any) => {
   };
 
   const memoizedMessageList = useMemo(() => {
-    return messages.map((chatMessage: any, index: number) => (
-      <ChatListItem
-        key={chatMessage.id}
-        message={chatMessage.content}
-        timestamp={chatMessage.created_at}
-        isNotMyself={chatMessage.sender_id !== ADMIN_USER_ID}
-      />
-    ));
+    const messagesToDisplay = messages.map(
+      (chatMessage: any, index: number) => (
+        <ChatListItem
+          key={chatMessage.id}
+          message={chatMessage.content}
+          timestamp={chatMessage.created_at}
+          isNotMyself={chatMessage.sender_id !== ADMIN_USER_ID}
+        />
+      )
+    );
+
+    return messagesToDisplay;
   }, [messages]);
 
   // eslint-disable-next-line camelcase
