@@ -3,15 +3,24 @@ import {
   Badge,
   Button,
   Card,
+  Divider,
   Image,
   Input,
+  Popover,
   Skeleton,
   Spin,
   Typography,
   message,
 } from "antd";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import axios from "../axiosFrontend";
 import { ADMIN_USER_ID } from "./index.page";
 import useMessages from "../../../components/useMessages";
@@ -210,12 +219,64 @@ const CardTitle = ({
   avatar,
   description,
   loading,
+  isPopoverOpen,
+  setIsPopoverOpen,
+  messagesToSummarize,
+  selectedChatId,
 }: {
   title: string;
   avatar: string;
   description: string;
   loading: boolean;
+  isPopoverOpen: boolean;
+  setIsPopoverOpen: Dispatch<SetStateAction<boolean>>;
+  messagesToSummarize: any;
+  selectedChatId: number;
 }) => {
+  const [summary, setSummary] = useState<string>("");
+
+  useEffect(() => {
+    setSummary("");
+  }, [selectedChatId]);
+  const { execute, status, value } = useAsync(() => {
+    return axios
+      .post("/api/chatgpt", { messages: messagesToSummarize })
+      .then((res) => {
+        const summaryResponse = res.data;
+        setSummary(summaryResponse.content);
+      });
+  });
+
+  const generateSummary = async () => {
+    execute();
+  };
+
+  // eslint-disable-next-line react/no-unstable-nested-components
+  const SummaryContent = () => {
+    return (
+      <div style={{ minWidth: "450px", maxWidth: "450px", padding: "10px" }}>
+        <Button
+          type="primary"
+          onClick={() => {
+            generateSummary();
+          }}
+          disabled={status === "LOADING"}
+        >
+          Generate AI Summary
+        </Button>
+        <Divider className="my-4" />
+        {status === "LOADING" && (
+          <div className="mb-2 flex flex-row">
+            <Spin className="mr-3 mb-1 " />
+            <div>Generating a new AI Summary...</div>
+          </div>
+        )}
+        {summary ||
+          (status !== "LOADING" &&
+            "No Summary Yet. Click the button above to generate one.")}
+      </div>
+    );
+  };
   if (loading) return <Skeleton className="h-12 w-12" />;
   return (
     <div className="flex flex-row min-w-full space-x-5 p-2 ml-5 my-1 items-center">
@@ -237,6 +298,14 @@ const CardTitle = ({
           </Text>
         </div>
       </div>
+      <Popover
+        onOpenChange={() => setIsPopoverOpen(!isPopoverOpen)}
+        open={isPopoverOpen}
+        placement="bottom"
+        content={<SummaryContent />}
+      >
+        <Button type="primary">Summarize</Button>
+      </Popover>
     </div>
   );
 };
@@ -246,12 +315,52 @@ const adminMessageTemplate = (inp: string) => {
     ${inp}`;
 };
 
+const transformMessages = (messages: any) => {
+  if (!messages || messages.length === 0) return [];
+  const transformed = [];
+  let currentRole = messages[0].sender_id === 1 ? "assistant" : "user";
+  let aggregatedContent = "";
+
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < messages.length; i++) {
+    const messageRole = messages[i].sender_id === 1 ? "assistant" : "user";
+
+    if (messageRole !== currentRole) {
+      transformed.push({
+        role: currentRole,
+        content: aggregatedContent.trim(),
+      });
+      aggregatedContent = "";
+      currentRole = messageRole;
+    }
+
+    aggregatedContent += `${messages[i].content} `;
+
+    if (i === messages.length - 1) {
+      // if it's the last message, push it to the result
+      transformed.push({
+        role: currentRole,
+        content: aggregatedContent.trim(),
+      });
+    }
+  }
+  transformed.push({
+    role: "user",
+    content: `Summarize the conversation previously! Make sure it is concise and detailed. 
+      Your summary will be read by a pregnancy counsellor that will need to get the idea of what happen (critical problems) that the client faces.
+      Then in a short sentence briefly describe on how the counsellor should help them/approach the situation`,
+  });
+
+  return transformed;
+};
+
 const MessagesBar = ({ selectedChatId }: any) => {
   const [inputValue, setInputValue] = useState("");
   const { messages, loading, opponentId, chatRoomMessagesData } =
     useMessagesToDisplay(selectedChatId);
   // eslint-disable-next-line react/no-unstable-nested-components
   const elementRef = useRef<HTMLDivElement>(null);
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   useEffect(() => elementRef.current?.scrollIntoView(), [messages]);
   const memoizedMessageList = useMemo(() => {
     return messages.map((chatMessage: any, index: number) => (
@@ -276,6 +385,10 @@ const MessagesBar = ({ selectedChatId }: any) => {
       loading={loading}
       title={
         <CardTitle
+          selectedChatId={selectedChatId}
+          messagesToSummarize={transformMessages(messages)}
+          setIsPopoverOpen={setIsPopoverOpen}
+          isPopoverOpen={isPopoverOpen}
           loading={loading}
           avatar={opponent_picture}
           title={`${opponent_first_name} ${opponent_second_name}`}
