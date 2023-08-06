@@ -10,6 +10,7 @@ import useUser from "@/components/useUser";
 import AddChatButton from "./components/AddChatButton";
 import AddChatModal from "./components/AddChatModal";
 import ChatBotPanel from "./components/ChatBotPanel";
+import withAuth from "@/components/withAuth";
 export const ADMIN_USER_ID = 1;
 
 function Messages() {
@@ -46,11 +47,11 @@ function Messages() {
   }, [userId]);
 
   const handleAddChat = () => {
-    console.log("handleAddChat", isAddChatModalOpen);
     setAddChatModalOpen(true);
   };
 
   const handleCloseModal = () => {
+    console.log("handleCloseModal", selectedChatId);
     setAddChatModalOpen(false);
   };
 
@@ -75,6 +76,7 @@ function Messages() {
     const selectedChatRoom = chatrooms.find(
       (chatroom) => chatroom.id === selectedChatId
     );
+    console.log("selectedChatRoom", selectedChatRoom);
     if (selectedChatRoom?.is_ai_chat) {
       return (
         <AppLayout>
@@ -122,10 +124,11 @@ function Messages() {
           isOpen={isAddChatModalOpen}
           onClose={handleCloseModal}
           setSelectedChatId={setSelectedChatId}
+          setChatRooms={setChatRooms}
         />
       </AppLayout>
     );
   }
 }
 
-export default Messages;
+export default withAuth(Messages);

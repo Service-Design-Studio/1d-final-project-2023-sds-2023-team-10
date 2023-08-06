@@ -29,6 +29,7 @@ async function sendToOpenAI(chatLog: ChatLogEntry[]) {
   const response = await openai.createChatCompletion({
     model: 'gpt-3.5-turbo',
     messages: chatLog,
+    max_tokens: 150,
   });
   return response.data.choices[0].message.content;
 }

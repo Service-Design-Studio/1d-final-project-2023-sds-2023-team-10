@@ -53,23 +53,6 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
   const [loadingMessages, setLoadingMessages] = useState(true);
   const [inputMessage, setInputMessage] = useState<string>("");
   const [isChatWithBot, setIsChatWithBot] = useState(false);
-
-  const ToggleButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
-    <Button
-      position="fixed"
-      top="0"
-      right="0"
-      zIndex="1000"
-      mr="10"
-      onClick={() => {
-        onClick();
-        handleGoToBotChat(); // Call handleGoToBotChat function when ToggleButton is clicked
-      }}
-    >
-      Chat-Bot
-    </Button>
-  );
-
   const [user, isLoadingUser] = useUser();
   const userId = user?.id;
 
@@ -172,7 +155,7 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
       p="0"
       boxSizing="border-box"
     >
-      <ToggleButton onClick={handleGoToBotChat} />
+      {/* <ToggleButton onClick={handleGoToBotChat} /> */}
 
       {/* {isChatWithBot ? (
         <ChatBotPanel

@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import PrivacyPanel from "./PrivacyPanel";
 import useUser from "@/components/useUser";
+import withAuth from "@/components/withAuth";
 
 function Account() {
   return (
@@ -129,4 +130,4 @@ const DisplayComponent = ({
   }
 };
 
-export default Account;
+export default withAuth(Account);
