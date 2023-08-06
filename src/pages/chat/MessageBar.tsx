@@ -246,11 +246,8 @@ const MessagesBar = ({ selectedChatId }: any) => {
   const { messages, loading, opponentId, chatRoomMessagesData } =
     useMessagesToDisplay(selectedChatId);
   // eslint-disable-next-line react/no-unstable-nested-components
-  const AlwaysScrollToBottom = () => {
-    const elementRef = useRef<HTMLDivElement>(null);
-    useEffect(() => elementRef.current?.scrollIntoView());
-    return <div ref={elementRef} />;
-  };
+  const elementRef = useRef<HTMLDivElement>(null);
+  useEffect(() => elementRef.current?.scrollIntoView(), [messages]);
 
   const memoizedMessageList = useMemo(() => {
     const messagesToDisplay = messages.map(
@@ -290,17 +287,8 @@ const MessagesBar = ({ selectedChatId }: any) => {
           className="flex-1 overflow-y-auto"
           style={{ minHeight: "63vh", maxHeight: "63vh" }}
         >
-          {/* {messages?.map((chatMessage: any, index: number) => (
-            <ChatListItem
-              key={chatMessage.id}
-              message={chatMessage.content}
-              timestamp={chatMessage.created_at}
-              isNotMyself={chatMessage.sender_id !== ADMIN_USER_ID}
-            />
-          ))} */}
           {memoizedMessageList}
-          <AlwaysScrollToBottom />
-          {/* <AlwaysScrollToBottom /> */}
+          <div ref={elementRef} />
         </div>
         <div className="mt-4">
           <ChatInput
