@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-import React, { useEffect, useState } from "react";
-=======
 // components/AddChatModal.tsx
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
->>>>>>> e0c5343f2c53463b90ea4f01ab3369041ddf4d97
 import {
   Modal,
   ModalOverlay,
@@ -84,38 +80,6 @@ const AddChatModal: React.FC<AddChatModalProps> = ({
     // your code to start a chat with the selected user
     if (userId === 2) {
       // chat with bot
-<<<<<<< HEAD
-      // Begins Chatting with Chatbot
-
-      //! FOR PATRICK AI CHATBOT create a new chatroom with the bot here,
-      return;
-    }
-
-    const newChatRoom: ChatRoomBeforeSend = {
-      // No matter what, we will always start a chat with the admin with user id 1
-      user1_id: ADMIN_USER_ID,
-      // user1_id: userId,
-      user2_id: user!.id,
-      date_created: new Date().toISOString(),
-      is_ai_chat: false,
-      is_group_chat: false,
-      overall_sentiment_analysis_score: 0,
-    };
-    try {
-      const response = await axios.post("/api/chat_rooms/", newChatRoom);
-      console.log("new chatroom created successfully", response.data);
-      setSelectedChatId(response.data.id);
-
-      return response.data;
-    } catch (err: any) {
-      toast({
-        title: "Could not start chat with user",
-        description: err?.message,
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
-=======
 
       // AI CHATBOT create a new chatroom with the bot here,
       const newChatbotChatRoom: ChatRoomBeforeSend = {
@@ -184,7 +148,6 @@ const AddChatModal: React.FC<AddChatModalProps> = ({
           isClosable: true,
         });
       }
->>>>>>> e0c5343f2c53463b90ea4f01ab3369041ddf4d97
     }
 
     onClose();

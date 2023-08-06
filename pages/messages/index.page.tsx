@@ -126,6 +126,7 @@ function Messages() {
           setSelectedChatId={setSelectedChatId}
           setChatRooms={setChatRooms}
         />
+        <Box marginBottom={100}></Box>
       </AppLayout>
     );
   }
