@@ -10,6 +10,7 @@ import useUser from "@/components/useUser";
 import AddChatButton from "./components/AddChatButton";
 import AddChatModal from "./components/AddChatModal";
 import ChatBotPanel from "./components/ChatBotPanel";
+import withAuth from "@/components/withAuth";
 export const ADMIN_USER_ID = 1;
 
 function Messages() {
@@ -130,4 +131,4 @@ function Messages() {
   }
 }
 
-export default Messages;
+export default withAuth(Messages);
