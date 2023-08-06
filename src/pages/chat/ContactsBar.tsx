@@ -12,9 +12,12 @@ import {
 import { UserOutlined } from "@ant-design/icons";
 import useUser from "../../../components/useUser";
 
-const ContactsBar = ({ contacts, setSelectedChatId, selectedChatId }: any) => {
-  const [user, token, loading] = useUser();
-
+const ContactsBar = ({
+  contacts,
+  setSelectedChatId,
+  selectedChatId,
+  user,
+}: any) => {
   // Filter out chatrooms without a last_message, then sort contacts by last updated date
   const sortedContacts = contacts
     .filter((chatroom: any) => chatroom.last_message != null)

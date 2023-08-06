@@ -36,7 +36,7 @@ const items: MenuItem[] = [
   getItem("Chat", "/chat", "1", <PieChartOutlined />, undefined, "chat-tab"),
   getItem(
     "Chatbot",
-    "/chat2",
+    "/chatbot",
     "2",
     <DesktopOutlined data-testid="chatbot-icon" />,
     undefined,
@@ -77,7 +77,10 @@ const items: MenuItem[] = [
   ),
 ];
 
-const MainLayout: React.FC<{ children: any }> = ({ children }) => {
+const MainLayout: React.FC<{ children: any; useFooter?: boolean }> = ({
+  children,
+  useFooter,
+}) => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -116,7 +119,10 @@ const MainLayout: React.FC<{ children: any }> = ({ children }) => {
         />
       </Header>
       <Content style={{ margin: "0 16px" }}>{children}</Content>
-      <Footer style={{ textAlign: "center" }}>
+      <Footer
+        style={{ textAlign: "center" }}
+        className={!useFooter ? "hidden" : ""}
+      >
         © Copyright Echolestia 2023.
       </Footer>
     </Layout>

@@ -228,6 +228,7 @@ const MessagesBar = ({ selectedChatId }: any) => {
   const [inputValue, setInputValue] = useState("");
   const { messages, loading, opponentId, chatRoomMessagesData } =
     useMessagesToDisplay(selectedChatId);
+  // eslint-disable-next-line react/no-unstable-nested-components
   const AlwaysScrollToBottom = () => {
     const elementRef = useRef<HTMLDivElement>(null);
     useEffect(() => elementRef.current?.scrollIntoView());

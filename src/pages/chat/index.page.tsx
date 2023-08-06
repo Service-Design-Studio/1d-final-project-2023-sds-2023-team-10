@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Spin, message } from "antd";
+import { Typography, Spin, message, Card, Empty } from "antd";
 
 import MainLayout from "../../../components/MainLayout";
 import axios from "../axiosFrontend";
@@ -8,6 +8,7 @@ import MessagesBar from "./MessageBar";
 import ContactsBar from "./ContactsBar";
 import AnalysisBar from "./AnalysisBar";
 import withAuth from "../../../components/withAuth";
+import useUser from "../../../components/useUser";
 
 const { Title } = Typography;
 
@@ -29,7 +30,10 @@ const ChatPageLayout = ({
   analysisBar: React.ReactNode;
 }) => {
   return (
-    <div className="flex flex-row space-x-5">
+    <div
+      className="flex flex-row space-x-5"
+      style={{ minHeight: "calc(100vh - 152px)" }}
+    >
       <div className="flex flex-col w-1/3" style={barStyle}>
         {contactsBar}
       </div>
@@ -73,9 +77,10 @@ const fetchContacts = async (callback: any) => {
 };
 
 const ChatPage: React.FC = () => {
-  const [loading, setLoading] = useState(false);
+  const [loadingContacts, setLoading] = useState(true);
   const [contacts, setContacts] = useState<any>([]);
   const [selectedChatId, setSelectedChatId] = useState<string>("");
+  const [user, token, loading, clearUser] = useUser();
 
   useEffect(() => {
     const fetchContactsAndSetState = () => {
@@ -92,7 +97,7 @@ const ChatPage: React.FC = () => {
     };
 
     // Fetch contacts immediately and then every 10 seconds
-    fetchContactsAndSetState();
+    // fetchContactsAndSetState();
     const intervalId = setInterval(fetchContactsAndSetState, 2000); // in milliseconds
 
     // Clear interval on component unmount
@@ -107,39 +112,57 @@ const ChatPage: React.FC = () => {
   //   });
   // }, []);
 
-  if (loading) {
-    return (
-      <MainLayout>
-        <div className="flex flex-col min-h-screen min-w-screen items-center justify-center">
-          <Spin size="large" />
-          <Title level={4}>Loading Chat Data...</Title>
-        </div>
-      </MainLayout>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <MainLayout>
+  //       <div className="flex flex-col min-h-screen min-w-screen items-center justify-center">
+  //         <Spin size="large" />
+  //         <Title level={4}>Loading Chat Data...</Title>
+  //       </div>
+  //     </MainLayout>
+  //   );
+  // }
 
   return (
     <MainLayout>
       <ChatPageLayout
         contactsBar={
-          <ContactsBar
-            contacts={contacts}
-            setSelectedChatId={setSelectedChatId}
-            selectedChatId={selectedChatId}
-          />
+          loadingContacts || loading ? (
+            <Card className="min-h-full flex items-center justify-center space-x-3">
+              <Spin size="default" className="mr-5" />
+              Loading Contacts...
+            </Card>
+          ) : (
+            <ContactsBar
+              user={user}
+              contacts={contacts}
+              setSelectedChatId={setSelectedChatId}
+              selectedChatId={selectedChatId}
+            />
+          )
         }
         messagesBar={
           selectedChatId ? (
             <MessagesBar selectedChatId={selectedChatId} />
           ) : (
-            <div> Select a contact to get started.</div>
+            <Card className="min-h-full flex items-center justify-center">
+              <Empty
+                description="Select a contact to get started"
+                className="min-h-full"
+              />
+            </Card>
           )
         }
         analysisBar={
           selectedChatId ? (
             <AnalysisBar selectedChatId={selectedChatId} />
           ) : (
-            <div> Select a contact to get started.</div>
+            <Card className="min-h-full flex items-center justify-center">
+              <Empty
+                description="Select a contact to get started"
+                className="min-h-full"
+              />
+            </Card>
           )
         }
       />
