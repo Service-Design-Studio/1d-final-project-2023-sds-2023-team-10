@@ -52,7 +52,7 @@ const ChatroomRow: React.FC<ChatroomRowProps> = ({
         </Avatar>
         <Box ml={3}>
           <Text as="b">{`${opponentFirstName} ${opponentSecondName}`}</Text>
-          <Text mt={1}>{lastMessage}</Text>
+          <Text mt={1}>{lastMessage.slice(0, 70)}</Text>
         </Box>
         {/* {unreadMessagesCount > 0 && (
           <Badge ml="auto" colorScheme="green">

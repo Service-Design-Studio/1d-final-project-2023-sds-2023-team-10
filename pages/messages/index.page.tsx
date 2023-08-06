@@ -46,11 +46,11 @@ function Messages() {
   }, [userId]);
 
   const handleAddChat = () => {
-    console.log("handleAddChat", isAddChatModalOpen);
     setAddChatModalOpen(true);
   };
 
   const handleCloseModal = () => {
+    console.log("handleCloseModal", selectedChatId);
     setAddChatModalOpen(false);
   };
 
@@ -75,6 +75,7 @@ function Messages() {
     const selectedChatRoom = chatrooms.find(
       (chatroom) => chatroom.id === selectedChatId
     );
+    console.log("selectedChatRoom", selectedChatRoom);
     if (selectedChatRoom?.is_ai_chat) {
       return (
         <AppLayout>
@@ -122,6 +123,7 @@ function Messages() {
           isOpen={isAddChatModalOpen}
           onClose={handleCloseModal}
           setSelectedChatId={setSelectedChatId}
+          setChatRooms={setChatRooms}
         />
       </AppLayout>
     );

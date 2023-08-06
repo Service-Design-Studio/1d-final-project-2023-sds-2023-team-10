@@ -70,26 +70,10 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
         "You are a counsellor that talks to people going through unplanned pregnancies (Please give an appropriate response if you feel the message isn't anything related to the scope of assistance you can provide as an unplanned pregnancy counsellor)",
     },
   ]);
-
-  // const handleToggle = () => {
-  //   handleGoToBotChat(); // Call the handleGoToBotChat function directly when the button is clicked
-  // };
-
-  // const ToggleButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
-  //   <Button
-  //     position="fixed"
-  //     top="0"
-  //     right="0"
-  //     zIndex="1000"
-  //     mr="10"
-  //     onClick={onClick}
-  //   >
-  //     Counsellor
-  //   </Button>
-  // );
-
   const [user, isLoadingUser] = useUser();
   const userId = user?.id;
+  const [isLoadingChatBotMessage, setIsLoadingChatBotMessage] =
+    useState<boolean>(false);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -185,11 +169,11 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
     chatLog: { role: string; content: string }[],
     newMessage: MessageBeforeSend
   ) => {
+    setIsLoadingChatBotMessage(true);
     const token =
       typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
     try {
-      console.log("chatLog", chatLog);
       const response = await axios.post(
         "/api/chat_room_bot",
         {
@@ -204,12 +188,12 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
           },
         }
       );
-
-      console.log("chatbot response", response);
       // Right here we are assuming the server will respond with a JSON that has the bot response in a property named 'message'
+      setIsLoadingChatBotMessage(false);
       return response.data.message;
     } catch (error) {
       console.log("error", error);
+      setIsLoadingChatBotMessage(false);
       return "An error occurred while talking with the chat bot.";
     }
   };
@@ -246,7 +230,11 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
           opponentUser={chatBotUserInfo}
         />
         <Divider />
-        <Messages messages={messages} opponentUser={chatBotUserInfo} />
+        <Messages
+          messages={messages}
+          opponentUser={chatBotUserInfo}
+          isLoadingChatBotMessages={isLoadingChatBotMessage}
+        />
         <Divider />
         <Footer
           inputMessage={inputMessage}

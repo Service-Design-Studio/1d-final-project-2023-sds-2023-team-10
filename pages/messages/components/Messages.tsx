@@ -2,15 +2,40 @@ import React, { useEffect, useRef } from "react";
 import { Avatar, Flex, Text } from "@chakra-ui/react";
 import { ChatRoomBeforeSend, Message, User } from "@/types";
 import useUser from "@/components/useUser";
-import { defaultAvatarUrl } from "./ContactPanel";
+import { chatbotAvatarUrl, defaultAvatarUrl } from "./ContactPanel";
 import axios from "@/pages/axiosFrontend";
+
+const ChatBotLoadingMessage = () => {
+  return (
+    <Flex w="100%">
+      <Avatar name="Computer" src={chatbotAvatarUrl} bg="blue.300"></Avatar>
+      <Flex
+        bg="#EFEEF4"
+        color="#454C52"
+        minW="30px"
+        maxW="350px"
+        my="1"
+        p="3"
+        ml="0px"
+        borderRadius="20px"
+      >
+        <Text>...</Text>
+      </Flex>
+    </Flex>
+  );
+};
 
 type MessagesProps = {
   messages: Message[];
   opponentUser: User | undefined;
+  isLoadingChatBotMessages?: boolean;
 };
 
-const Messages: React.FC<MessagesProps> = ({ messages, opponentUser }) => {
+const Messages: React.FC<MessagesProps> = ({
+  messages,
+  opponentUser,
+  isLoadingChatBotMessages,
+}) => {
   const [user, isLoadingUser] = useUser();
   const userId = user?.id;
   const AlwaysScrollToBottom = () => {
@@ -65,7 +90,8 @@ const Messages: React.FC<MessagesProps> = ({ messages, opponentUser }) => {
           );
         }
       })}
-      <AlwaysScrollToBottom />
+      {isLoadingChatBotMessages && <ChatBotLoadingMessage />}
+      {/* <AlwaysScrollToBottom /> */}
     </Flex>
   );
 };

@@ -1,5 +1,5 @@
 // components/AddChatModal.tsx
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 
 import axios from "../../axiosFrontend";
-import { ChatRoomBeforeSend, User } from "@/types";
+import { ChatRoom, ChatRoomBeforeSend, User } from "@/types";
 import useUser from "@/components/useUser";
 import { ADMIN_USER_ID } from "../index.page";
 
@@ -24,12 +24,14 @@ type AddChatModalProps = {
   isOpen: boolean;
   onClose: () => void;
   setSelectedChatId: (id: number) => void;
+  setChatRooms: Dispatch<SetStateAction<ChatRoom[]>>;
 };
 
 const AddChatModal: React.FC<AddChatModalProps> = ({
   isOpen,
   onClose,
   setSelectedChatId,
+  setChatRooms,
 }) => {
   const [users, setUsers] = useState<User[]>([]);
   const toast = useToast();
@@ -42,9 +44,7 @@ const AddChatModal: React.FC<AddChatModalProps> = ({
         try {
           const response = await axios.get("/api/users/"); // change this URL to where your API serves a list of all users
           setUsers(response.data);
-        } catch (err) {
-
-        }
+        } catch (err) {}
       };
       fetchUsers();
     }
@@ -54,34 +54,76 @@ const AddChatModal: React.FC<AddChatModalProps> = ({
     // your code to start a chat with the selected user
     if (userId === 2) {
       // chat with bot
-  
-      //! FOR PATRICK AI CHATBOT create a new chatroom with the bot here,
-      return;
+
+      // AI CHATBOT create a new chatroom with the bot here,
+      const newChatbotChatRoom: ChatRoomBeforeSend = {
+        // No matter what, we will always start a chat with the admin with user id 1
+        user1_id: user!.id,
+        // user1_id: userId,
+        user2_id: -1,
+        date_created: new Date().toISOString(),
+        is_ai_chat: true,
+        is_group_chat: false,
+        overall_sentiment_analysis_score: 0,
+      };
+      try {
+        const response = await axios.post(
+          "/api/chat_rooms/",
+          newChatbotChatRoom,
+          {
+            // NEW: added this to the axios request to pass in the query params
+            params: {
+              ai: "true",
+            },
+          }
+        );
+        console.log("new chatroom created sucessfully", response.data);
+        setChatRooms((prevChatRooms: ChatRoomBeforeSend[]) => [
+          ...prevChatRooms,
+          response.data,
+        ]);
+        setSelectedChatId(response.data.id);
+        // return response.data;
+      } catch (err: any) {
+        toast({
+          title: "Could not start chatbot chatroom with user",
+          description: err?.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    } else {
+      const newChatRoom: ChatRoomBeforeSend = {
+        // No matter what, we will always start a chat with the admin with user id 1
+        user1_id: ADMIN_USER_ID,
+        // user1_id: userId,
+        user2_id: user!.id,
+        date_created: new Date().toISOString(),
+        is_ai_chat: false,
+        is_group_chat: false,
+        overall_sentiment_analysis_score: 0,
+      };
+      try {
+        const response = await axios.post("/api/chat_rooms/", newChatRoom);
+        console.log("new chatroom created sucessfully", response.data);
+        setChatRooms((prevChatRooms: ChatRoomBeforeSend[]) => [
+          ...prevChatRooms,
+          response.data,
+        ]);
+        setSelectedChatId(response.data.id);
+        // return response.data;
+      } catch (err: any) {
+        toast({
+          title: "Could not start chat with user",
+          description: err?.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
     }
-    const newChatRoom: ChatRoomBeforeSend = {
-      // No matter what, we will always start a chat with the admin with user id 1
-      user1_id: ADMIN_USER_ID,
-      // user1_id: userId,
-      user2_id: user!.id,
-      date_created: new Date().toISOString(),
-      is_ai_chat: false,
-      is_group_chat: false,
-      overall_sentiment_analysis_score: 0,
-    };
-    try {
-      const response = await axios.post("/api/chat_rooms/", newChatRoom);
-      console.log("new chatroom created sucessfully", response.data);
-      setSelectedChatId(response.data.id);
-      return response.data;
-    } catch (err: any) {
-      toast({
-        title: "Could not start chat with user",
-        description: err?.message,
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
-    }
+
     onClose();
   };
 

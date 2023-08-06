@@ -15,6 +15,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                         accept: "application/json",
                         "Content-Type": "application/json",
                     },
+                    params: req.query,
                 }
             );
 
