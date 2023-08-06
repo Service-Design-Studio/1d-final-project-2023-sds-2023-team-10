@@ -15,12 +15,35 @@ import {
 } from "@/types";
 import { sendMessageToAPI } from "@/pages/api/messages/index.page";
 import useUser from "@/components/useUser";
+import { chatbotAvatarUrl } from "./ContactPanel";
 
 const { Configuration, OpenAIApi } = require("openai");
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
+const chatBotUserInfo: User = {
+  id: -1,
+  first_name: "ChatBot",
+  second_name: "",
+  email: "",
+  password: "",
+  created_at: "",
+  updated_at: "",
+  age: 0,
+  gender: "",
+  is_anonymous_login: false,
+  marital_status: "",
+  occupation: "Counsellor",
+  password_digest: "",
+  phone_number: "",
+  username: "",
+  pregnancy_week: 0,
+  pregnant: false,
+  profile: chatbotAvatarUrl,
+  survey_result: "string",
+  user_type: "admin",
+};
 
 type ChatBotPanelProps = {
   selectedChatId: number;
@@ -74,14 +97,9 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
       if (selectedChatId) {
         fetchChatRoomsWithMessages(selectedChatId);
       }
-    }, 100000); // in milliseconds
+    }, 2000); // in milliseconds
     return () => clearInterval(intervalId);
   }, [selectedChatId]);
-  useEffect(() => {
-    if (userId && chatRoom) {
-      fetchOpponentUser();
-    }
-  }, [userId, chatRoom]);
 
   const fetchChatRoomsWithMessages = async (selectedChatId: number) => {
     try {
@@ -91,17 +109,6 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
 
       setChatRoom(response.data);
       setMessages(response.data.messages);
-    } catch (error) {}
-    setLoadingMessages(false);
-  };
-
-  const fetchOpponentUser = async () => {
-    try {
-      // Instead of getting the id from chatRoom, assign a hardcoded user id of -1
-      const opponentUserId = -1;
-
-      // Fetch the user as usual
-      const response = await axios.get(`/api/users/${opponentUserId}`);
     } catch (error) {}
     setLoadingMessages(false);
   };
@@ -236,10 +243,10 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
       <Flex w="100%" h="100%" flexDir="column">
         <Header
           onBackButtonPressed={handleBackButtonPressed}
-          opponentUser={"Chatbot"}
+          opponentUser={chatBotUserInfo}
         />
         <Divider />
-        <Messages messages={messages} opponentUser={"Chatbot"} />
+        <Messages messages={messages} opponentUser={chatBotUserInfo} />
         <Divider />
         <Footer
           inputMessage={inputMessage}
