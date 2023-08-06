@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Spin, message, Alert, Empty, Card } from "antd";
+import { Typography, Spin, message, Alert, Empty, Card, Button } from "antd";
 
 import MainLayout from "../../../components/MainLayout";
 import axios from "../axiosFrontend";
@@ -126,10 +126,11 @@ const ChatPage: React.FC = () => {
   return (
     <MainLayout useFooter={false}>
       <Alert
-        description="This is the chatlogs from client to AI chatbot. On the message bar, message from AI and client indicated on the right and left respectively."
+        closable
+        message="This is the chatlogs from client to AI chatbot. On the message bar, message from AI and client indicated on the right and left respectively."
         type="info"
         showIcon
-        className="h-18 mt-3"
+        className="h-12 mt-3 w-fit ml-3"
       />
       <ChatPageLayout
         contactsBar={

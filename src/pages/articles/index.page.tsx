@@ -148,10 +148,11 @@ const ArticlesPage: React.FC = () => {
   return (
     <MainLayout>
       <Alert
-        description="These are the articles that will be shown to the users. Click articles and create articles to add more articles."
+        closable
+        message="These are the articles that will be shown to the users. Click articles and create articles to add more articles."
         type="info"
         showIcon
-        className="h-18 mt-3"
+        className="h-12 mt-3 w-fit ml-3"
       />
       <div className="flex-col justify-center min-h-screen min-w-full">
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4 p-4">
