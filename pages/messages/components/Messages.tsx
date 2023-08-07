@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Avatar, Flex, Text } from "@chakra-ui/react";
 import { Message, User } from "@/types";
 import useUser from "@/components/useUser";
@@ -88,13 +88,44 @@ const Messages: React.FC<MessagesProps> = ({
   isLoadingChatBotMessages,
 }) => {
   const [user, isLoadingUser] = useUser();
-  const userId = user?.id;
-  const AlwaysScrollToBottom = () => {
-    const elementRef = useRef<HTMLDivElement>(null);
-    useEffect(() => elementRef.current?.scrollIntoView(), [messages]);
-    return <div ref={elementRef} />;
-  };
+  // State variable to keep track of whether the messages have loaded for the first time
+  const [hasInitialLoad, setHasInitialLoad] = useState(false);
 
+  const userId = user?.id;
+  // const AlwaysScrollToBottom = () => {
+  //   const elementRef = useRef<HTMLDivElement>(null);
+  //   useEffect(() => elementRef.current?.scrollIntoView(), [messages]);
+  //   return <div ref={elementRef} />;
+  // };
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Check if the user is at or near the bottom of the chat
+  const isUserNearBottom = () => {
+    if (!containerRef.current) return false;
+    const { scrollHeight, scrollTop, clientHeight } = containerRef.current;
+    const threshold = 200; // Number of pixels from the bottom
+    return scrollHeight - scrollTop <= clientHeight + threshold;
+  };
+  
+  useEffect(() => {
+    // Only scroll to the bottom if it's the initial load
+    if (!hasInitialLoad && messages.length > 0) {
+      messagesEndRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+      });
+      setHasInitialLoad(true); // Mark that the initial load has occurred
+    }
+
+    // If you still want to scroll when the user is near the bottom after the initial load
+    if (hasInitialLoad && isUserNearBottom()) {
+      messagesEndRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+      });
+    }
+  }, [messages]);
   const memoizedMessagesList = useMemo(() => {
     const messagesToDisplay = messages.map(
       (chatMessage: Message, index: number) => {
@@ -113,10 +144,18 @@ const Messages: React.FC<MessagesProps> = ({
   }, [messages, userId]);
 
   return (
-    <Flex w="100%" h="70%" overflowY="scroll" flexDirection="column" p="3">
+    <Flex
+      w="100%"
+      h="70%"
+      overflowY="scroll"
+      flexDirection="column"
+      p="3"
+      ref={containerRef}
+    >
       {memoizedMessagesList}
       {isLoadingChatBotMessages && <ChatBotLoadingMessage />}
-      <AlwaysScrollToBottom />
+      {/* <AlwaysScrollToBottom /> */}
+      <div ref={messagesEndRef} style={{ height: "1px" }} />
     </Flex>
   );
 };
