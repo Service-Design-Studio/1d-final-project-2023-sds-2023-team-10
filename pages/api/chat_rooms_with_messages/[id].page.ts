@@ -9,7 +9,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     } = req;
     try {
       const response = await axios.get(
-        `${BACKEND_URL}/chat_rooms_with_messages/${id}`,
+        `${BACKEND_URL}/chat_rooms/${id}?withMessages=true`,
         {
           headers: {
             Authorization: req.headers.authorization,
@@ -21,7 +21,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       const data = await response.data;
       return res.status(200).json(data);
     } catch (error) {
-      return res.status(500).json({ error: error });
+      return res.status(error.response?.status || 500).json(error.response?.data || { error: "An error occurred" });
     }
   } else {
     return res.status(405).json({ error: "Method not allowed" });

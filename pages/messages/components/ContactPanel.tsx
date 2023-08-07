@@ -12,7 +12,7 @@ import {
 import React, { useEffect, useState } from "react";
 
 export const chatbotAvatarUrl =
-  "https://pixabay.com/get/gcacfd53f4c3dde57c4d9de8b07c35d2eccafbe532eb82c44d85a69ac52ff778b7f9f0531cf2c3bc68390dc0ed586d9ab48850c3a03c8c92e6bb8512a53ae456fb456b6b80aaaea8ae374141526d8bd05_1280.png?attachment=";
+  "https://img.freepik.com/premium-vector/chatbot-icon-concept-chat-bot-chatterbot-robot-virtual-assistance-website_123447-1615.jpg?w=2000";
 export const defaultAvatarUrl =
   "https://s3.eu-central-1.amazonaws.com/uploads.mangoweb.org/shared-prod/visegradfund.org/uploads/2021/03/depositphotos_121233300-stock-illustration-female-default-avatar-gray-profile.jpg";
 
