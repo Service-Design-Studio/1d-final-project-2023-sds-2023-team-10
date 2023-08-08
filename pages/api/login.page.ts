@@ -2,15 +2,14 @@
 
 import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
-
-export const baseUrl = "https://rubybackend-xnabw36hha-as.a.run.app";
+import { BACKEND_URL } from "@/components/api";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     const { email, password } = req.body;
 
     try {
-      const result = await axios.post(`${baseUrl}/login`, {
+      const result = await axios.post(`${BACKEND_URL}/login`, {
         email,
         password,
       });

@@ -5,9 +5,13 @@ import { Message, MessageBeforeSend } from "@/types";
 import { headers } from "next/dist/client/components/headers";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 6853ce97dbdee67d867406f2d7d8bd10eb7224ec
   if (req.method === "POST") {
+    console.log("messages api 9: req.body : ", req.body);
     try {
       const response = await axios.post(
         `${BACKEND_URL}/messages`,
@@ -20,12 +24,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         }
       );
-      //console.log("trying to send message", response.data);
 
       const data = await response.data;
       return res.status(200).json(data);
     } catch (error) {
-      //console.log("error sending message", error);
       return res.status(500).json({ error: error });
     }
   } else {
@@ -41,6 +43,7 @@ export const sendMessageToAPI = async (
   try {
     const token =
       typeof window !== "undefined" ? localStorage.getItem("token") : null;
+
     const response = await axios.post("/api/messages", message, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -48,11 +51,8 @@ export const sendMessageToAPI = async (
         "Content-Type": "application/json",
       },
     });
-
-    //console.log("SENDING MESSAGE TO API", response.data);
     return response;
   } catch (error) {
-    //console.log("There was an error!", error);
     return null;
   }
 };

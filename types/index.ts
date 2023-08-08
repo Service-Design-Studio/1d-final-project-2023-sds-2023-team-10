@@ -71,6 +71,7 @@ export interface ChatRoom {
   opponent_id: number;
   opponent_first_name: string;
   opponent_second_name: string;
+  opponent_user_type: string;
   opponent_picture: string;
   last_message: Message;
   unread_messages_count: number;

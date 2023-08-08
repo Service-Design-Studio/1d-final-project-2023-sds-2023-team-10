@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { APIGetUserInformation } from "@/components/api";
+import { APIGetUserInformation, BACKEND_URL } from "@/components/api";
 import axios from "axios";
 
 export default async function handler(
@@ -16,7 +16,7 @@ export default async function handler(
 
   if (req.method === "GET") {
     const result = await axios.get(
-      `https://rubybackend-xnabw36hha-as.a.run.app/users/${id}`,
+      `${BACKEND_URL}/users/${id}`,
       {
         headers: {
           Authorization: req.headers.authorization,

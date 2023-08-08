@@ -9,6 +9,8 @@ import { Box, Spinner, Text } from "@chakra-ui/react";
 import useUser from "@/components/useUser";
 import AddChatButton from "./components/AddChatButton";
 import AddChatModal from "./components/AddChatModal";
+import ChatBotPanel from "./components/ChatBotPanel";
+import withAuth from "@/components/withAuth";
 export const ADMIN_USER_ID = 1;
 
 function Messages() {
@@ -34,7 +36,7 @@ function Messages() {
       setChatRooms(fetchedChatRooms);
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.log("error in trying to get chatrooms for user");
     }
   };
 
@@ -45,19 +47,13 @@ function Messages() {
   }, [userId]);
 
   const handleAddChat = () => {
-    console.log("handleAddChat", isAddChatModalOpen);
     setAddChatModalOpen(true);
   };
 
   const handleCloseModal = () => {
+    console.log("handleCloseModal", selectedChatId);
     setAddChatModalOpen(false);
   };
-
-  useEffect(() => {
-    if (userId) {
-      fetchChatRooms();
-    }
-  }, [userId]);
 
   useEffect(() => {
     console.log("change in selectedChatId", selectedChatId);
@@ -77,6 +73,24 @@ function Messages() {
   }
 
   if (selectedChatId) {
+    const selectedChatRoom = chatrooms.find(
+      (chatroom) => chatroom.id === selectedChatId
+    );
+    console.log("selectedChatRoom", selectedChatRoom);
+    if (selectedChatRoom?.is_ai_chat) {
+      return (
+        <AppLayout>
+          <Box className="animate-slideIn">
+            <ChatBotPanel
+              selectedChatId={selectedChatId}
+              setSelectedChatId={setSelectedChatId} // set to undefined when the user presses back
+              fetchChatRooms={fetchChatRooms} // passed down so that we can update chatrooms when the user presses back
+            />
+          </Box>
+        </AppLayout>
+      );
+    }
+
     return (
       <AppLayout>
         <Box className="animate-slideIn">
@@ -110,10 +124,12 @@ function Messages() {
           isOpen={isAddChatModalOpen}
           onClose={handleCloseModal}
           setSelectedChatId={setSelectedChatId}
+          setChatRooms={setChatRooms}
         />
+        <Box marginBottom={100}></Box>
       </AppLayout>
     );
   }
 }
 
-export default Messages;
+export default withAuth(Messages);

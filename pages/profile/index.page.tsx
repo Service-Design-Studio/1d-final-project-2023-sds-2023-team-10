@@ -11,11 +11,17 @@ import {
   Button,
 } from "@chakra-ui/react";
 import PrivacyPanel from "./PrivacyPanel";
+import useUser from "@/components/useUser";
+import withAuth from "@/components/withAuth";
+import DataUsagePanel from "./DataUsagePanel";
+import HelpPanel from "./HelpPanel";
+import NotificationsPanel from "./NotificationsPanel";
 
 function Account() {
   return (
     <AppLayout>
       <ProfilePanel />
+      <Box marginBottom={100}></Box>
     </AppLayout>
   );
 }
@@ -23,6 +29,7 @@ function Account() {
 function ProfilePanel() {
   const [isAnonymous, setAnonymous] = React.useState(false);
   const [selected, setSelected] = useState<string>();
+  const [user, isLoadingUser] = useUser();
 
   const toggleAnonymous = () => {
     setAnonymous(!isAnonymous);
@@ -39,7 +46,7 @@ function ProfilePanel() {
     <Flex justifyContent={"center"}>
       <Box padding="5" bg="white" maxW="md" borderRadius="lg">
         <Text fontSize="2xl" mb="5">
-          Sarah Wang
+          {user?.first_name} {user?.second_name}
         </Text>
 
         <Box borderWidth={1} borderRadius="md" padding="3" bg={"gray.200"}>
@@ -73,14 +80,14 @@ function ProfilePanel() {
 
           <Divider my="5" />
 
-          <HStack justifyContent="space-between">
+          {/* <HStack justifyContent="space-between">
             <Text fontSize="xl">Anonymous</Text>
             <Switch
               colorScheme="pink"
               isChecked={isAnonymous}
               onChange={toggleAnonymous}
             />
-          </HStack>
+          </HStack> */}
         </Box>
 
         <VStack align="start" spacing="5" mt="5">
@@ -98,7 +105,6 @@ function ProfilePanel() {
           </Button>
         </VStack>
       </Box>
-      <Box marginBottom={275}></Box>
     </Flex>
   );
 }
@@ -115,16 +121,20 @@ const DisplayComponent = ({
   };
   switch (selected) {
     case "notifications":
-      return <Box>Render notifications component here</Box>;
+      return (
+        <NotificationsPanel handleBackButtonPressed={handleBackButtonPressed} />
+      );
     case "dataUsage":
-      return <Box>Render data usage component here</Box>;
+      return (
+        <DataUsagePanel handleBackButtonPressed={handleBackButtonPressed} />
+      );
     case "privacyPolicy":
       return <PrivacyPanel handleBackButtonPressed={handleBackButtonPressed} />;
     case "help":
-      return <Box>Render help component here</Box>;
+      return <HelpPanel handleBackButtonPressed={handleBackButtonPressed} />;
     default:
       return null;
   }
 };
 
-export default Account;
+export default withAuth(Account);

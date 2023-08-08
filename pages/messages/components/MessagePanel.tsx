@@ -17,6 +17,24 @@ import {
 import { sendMessageToAPI } from "@/pages/api/messages/index.page";
 import useUser from "@/components/useUser";
 
+export const createNewMessage = (
+  sender_id: number,
+  receiver_id: number,
+  inputMessage: string,
+  chatId: number
+): MessageBeforeSend => {
+  return {
+    sender_id: sender_id,
+    receiver_id: receiver_id,
+    timestamp: new Date().toISOString(),
+    sentiment_analysis_score: null,
+    content: inputMessage,
+    message_type: "string",
+    chat_room_id: chatId,
+    read: false,
+  };
+};
+
 type MessagePanelProps = {
   selectedChatId: number;
   setSelectedChatId: (id: number | undefined) => void;
@@ -34,6 +52,7 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
   const [opponentUser, setOpponentUser] = useState<User>();
   const [loadingMessages, setLoadingMessages] = useState(true);
   const [inputMessage, setInputMessage] = useState<string>("");
+<<<<<<< HEAD
 
   const [lastChatId, setLastChatId] = useState<number | undefined>(undefined);
 
@@ -64,6 +83,9 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
     </Button>
   );
 
+=======
+  const [isChatWithBot, setIsChatWithBot] = useState(false);
+>>>>>>> 6853ce97dbdee67d867406f2d7d8bd10eb7224ec
   const [user, isLoadingUser] = useUser();
   const userId = user?.id;
 
@@ -86,7 +108,6 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
       const response = await axios.get(
         `/api/chat_rooms_with_messages/${selectedChatId}`
       );
-      console.log("get chat room with messages", response.data);
       setChatRoom(response.data);
       setMessages(response.data.messages);
     } catch (error) {
@@ -108,27 +129,16 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
     setLoadingMessages(false);
   };
 
-  const createNewMessage = (
-    sender_id: number,
-    inputMessage: string
-  ): MessageBeforeSend => {
-    return {
-      sender_id: userId!,
-      receiver_id: opponentUser!.id,
-      timestamp: new Date().toISOString(),
-      sentiment_analysis_score: null,
-      content: inputMessage,
-      message_type: "string",
-      chat_room_id: selectedChatId,
-      read: false,
-    };
-  };
-
   const handleSendMessage = () => {
     if (!inputMessage.trim().length) {
       return;
     }
-    const newMessage = createNewMessage(userId!, inputMessage);
+    const newMessage = createNewMessage(
+      userId!,
+      opponentUser!.id,
+      inputMessage,
+      selectedChatId
+    );
 
     console.log("new message", newMessage);
 
@@ -147,7 +157,9 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
   };
 
   const handleBackButtonPressed = () => {
+    // change back the selectedChatId to undefined, so that index knows to render contacts panel
     setSelectedChatId(undefined);
+    // refresh the chat rooms
     fetchChatRooms();
   };
 
@@ -170,6 +182,7 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
       p="0"
       boxSizing="border-box"
     >
+<<<<<<< HEAD
       <ToggleButton onClick={handleChatBotButtonClick} />
       {/* Conditionally render the ChatBotPanel */}
       {showChatBotPanel ? (
@@ -193,6 +206,32 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
           />
         </Flex>
       )}
+=======
+      {/* <ToggleButton onClick={handleGoToBotChat} /> */}
+
+      {/* {isChatWithBot ? (
+        <ChatBotPanel
+          selectedChatId={selectedChatId}
+          handleGoToBotChat={handleGoToBotChat}
+        /> // Might need to pass any necessary props.
+      ) : ( */}
+      <Flex w="100%" h="100%" flexDir="column">
+        <Header
+          onBackButtonPressed={handleBackButtonPressed}
+          opponentUser={opponentUser}
+        />
+        <Divider />
+        <Messages messages={messages} opponentUser={opponentUser} />
+
+        <Divider />
+        <Footer
+          inputMessage={inputMessage}
+          setInputMessage={setInputMessage}
+          handleSendMessage={handleSendMessage}
+        />
+      </Flex>
+      {/* )} */}
+>>>>>>> 6853ce97dbdee67d867406f2d7d8bd10eb7224ec
     </Flex>
   );
 };

@@ -103,7 +103,7 @@ const Login = () => {
             >
               Log In
             </Button>
-            <Link href="/signup">
+            <Link href="/">
               <Text textDecoration={"underline"}>Or signup now!</Text>
             </Link>
           </Stack>

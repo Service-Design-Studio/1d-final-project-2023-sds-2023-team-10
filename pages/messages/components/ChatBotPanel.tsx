@@ -15,29 +15,65 @@ import {
 } from "@/types";
 import { sendMessageToAPI } from "@/pages/api/messages/index.page";
 import useUser from "@/components/useUser";
+import { chatbotAvatarUrl } from "./ContactPanel";
 
 const { Configuration, OpenAIApi } = require("openai");
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
+const chatBotUserInfo: User = {
+  id: -1,
+  first_name: "ChatBot",
+  second_name: "",
+  email: "",
+  password: "",
+  created_at: "",
+  updated_at: "",
+  age: 0,
+  gender: "",
+  is_anonymous_login: false,
+  marital_status: "",
+  occupation: "Counsellor",
+  password_digest: "",
+  phone_number: "",
+  username: "",
+  pregnancy_week: 0,
+  pregnant: false,
+  profile: chatbotAvatarUrl,
+  survey_result: "string",
+  user_type: "admin",
+};
 
 type ChatBotPanelProps = {
   selectedChatId: number;
+<<<<<<< HEAD
   onBackButtonPressed: () => void; // New prop to handle navigation back
+=======
+  // handleGoToBotChat: () => void; // Add handleGoToBotChat function as a prop
+  setSelectedChatId: (id: number | undefined) => void;
+  fetchChatRooms: () => void;
+>>>>>>> 6853ce97dbdee67d867406f2d7d8bd10eb7224ec
 };
 
 const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
   selectedChatId,
+<<<<<<< HEAD
   onBackButtonPressed,
 }) => {
   const [chatTitle, setChatTitle] = useState<string>("Chat-Bot");
 
+=======
+  // handleGoToBotChat, // Add handleGoToBotChat function as a prop
+  setSelectedChatId,
+  fetchChatRooms,
+}) => {
+>>>>>>> 6853ce97dbdee67d867406f2d7d8bd10eb7224ec
   const [chatRoom, setChatRoom] = useState<ChatRoomWithMessages>();
   const [messages, setMessages] = useState<Message[]>([]);
-  const [opponentUser, setOpponentUser] = useState<User>();
   const [loadingMessages, setLoadingMessages] = useState(true);
   const [inputMessage, setInputMessage] = useState<string>("");
+<<<<<<< HEAD
 
   const [lastChatId, setLastChatId] = useState<number | undefined>(undefined);
 
@@ -69,47 +105,44 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
     </Button>
   );
 
+=======
+  const [currentContext, setCurrentContext] = useState<Array<any>>([]);
+  const [chatLog, setChatLog] = useState([
+    {
+      role: "system",
+      content:
+        "You are a counsellor that talks to people going through unplanned pregnancies (Please give an appropriate response if you feel the message isn't anything related to the scope of assistance you can provide as an unplanned pregnancy counsellor)",
+    },
+  ]);
+>>>>>>> 6853ce97dbdee67d867406f2d7d8bd10eb7224ec
   const [user, isLoadingUser] = useUser();
   const userId = user?.id;
+  const [isLoadingChatBotMessage, setIsLoadingChatBotMessage] =
+    useState<boolean>(false);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
+      console.log("fetching messages for chat id: ", selectedChatId);
       if (selectedChatId) {
-        fetchChatRoomsWithMessages();
+        fetchChatRoomsWithMessages(selectedChatId);
       }
+<<<<<<< HEAD
     }, 10000); // in milliseconds
+=======
+    }, 2000); // in milliseconds
+>>>>>>> 6853ce97dbdee67d867406f2d7d8bd10eb7224ec
     return () => clearInterval(intervalId);
   }, [selectedChatId]);
-  useEffect(() => {
-    if (userId && chatRoom) {
-      fetchOpponentUser();
-    }
-  }, [userId, chatRoom]);
 
-  const fetchChatRoomsWithMessages = async () => {
+  const fetchChatRoomsWithMessages = async (selectedChatId: number) => {
     try {
-      const response = await axios.get(`/api/chat_rooms_with_messages/-1`);
+      const response = await axios.get(
+        `/api/chat_rooms_with_messages/${selectedChatId}}`
+      );
 
       setChatRoom(response.data);
       setMessages(response.data.messages);
-    } catch (error) {
-      console.log(error);
-    }
-    setLoadingMessages(false);
-  };
-
-  const fetchOpponentUser = async () => {
-    try {
-      // Instead of getting the id from chatRoom, assign a hardcoded user id of -1
-      const opponentUserId = -1;
-
-      // Fetch the user as usual
-      const response = await axios.get(`/api/users/${opponentUserId}`);
-
-      setOpponentUser(response.data);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
     setLoadingMessages(false);
   };
 
@@ -129,11 +162,10 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
     };
   };
 
-  const handleSendMessage = async () => {
+  async function handleSendMessage() {
     if (!inputMessage.trim().length) {
       return;
     }
-
     // User's message
     const newMessage = createNewMessage(userId!, inputMessage);
 
@@ -144,34 +176,83 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
     setInputMessage("");
 
     // Get the Chatbot response
-    const botResponse = await getChatbotResponse(inputMessage);
+    const newLog = {
+      role: "user",
+      content: inputMessage,
+    };
+
+    var botResponse = await getChatbotResponse(
+      [...chatLog, newLog],
+      newMessage
+    );
+
+    setCurrentContext((prevContext) => [
+      ...prevContext,
+      "User: " + inputMessage,
+      "Bot: " + botResponse,
+    ]);
 
     // Create a new message for the bot's response
+    if (botResponse === "") {
+      botResponse =
+        "I do not understand your input, could you word that differently for me?";
+    }
+
+    const newBotLog = {
+      role: "assistant",
+      content: botResponse,
+    };
+
+    setChatLog((prevChatLog) => [...prevChatLog, newLog, newBotLog]);
+
+    console.log("CHATLOG WITH BOT RESPONSE", chatLog);
+
     const botMessage = createNewMessage(-1, botResponse);
 
     // Add the new message to your state
     setMessages((old) => [...old, botMessage]);
-  };
+  }
 
-  // Helper function to send a request to your API which will in turn communicate with GPT-3. You'll need to implement this.
-  const getChatbotResponse = async (message) => {
+  // Helper function to send a request to your API which will in turn communicate with GPT-3.
+  const getChatbotResponse = async (
+    chatLog: { role: string; content: string }[],
+    newMessage: MessageBeforeSend
+  ) => {
+    setIsLoadingChatBotMessage(true);
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("token") : null;
+
     try {
-      const response = await axios.post("/api/chat_room_bot", {
-        message:
-          "You are a counsellor that talks to people going through unplanned pregnancies (Please give an appropriate response if you feel the message isn't anything related to the scope of assistance you can provide as an unplanned pregnancy counsellor ) : " +
-          message,
-      });
-
-      console.log(response.data.message);
+      const response = await axios.post(
+        "/api/chat_room_bot",
+        {
+          chatLog: chatLog,
+          newMessage: newMessage,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
       // Right here we are assuming the server will respond with a JSON that has the bot response in a property named 'message'
+      setIsLoadingChatBotMessage(false);
       return response.data.message;
     } catch (error) {
+<<<<<<< HEAD
       console.log("ChatBotError:", error);
+=======
+      console.log("error", error);
+      setIsLoadingChatBotMessage(false);
+>>>>>>> 6853ce97dbdee67d867406f2d7d8bd10eb7224ec
       return "An error occurred while talking with the chat bot.";
     }
   };
 
   const handleBackButtonPressed = () => {
+<<<<<<< HEAD
     if (selectedChatId !== -1) {
       setLastChatId(selectedChatId);
       onBackButtonPressed(); // Call onBackButtonPressed to switch back to MessagePanel
@@ -181,6 +262,11 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
       // For now, let's just call onBackButtonPressed to switch back to MessagePanel.
       onBackButtonPressed();
     }
+=======
+    // handleGoToBotChat();
+    setSelectedChatId(undefined);
+    fetchChatRooms();
+>>>>>>> 6853ce97dbdee67d867406f2d7d8bd10eb7224ec
   };
 
   if (loadingMessages) {
@@ -202,20 +288,24 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
       p="0"
       boxSizing="border-box"
     >
-      <ToggleButton onClick={handleToggle} />
+      {/* <ToggleButton onClick={handleToggle} /> */}
       <Flex w="100%" h="100%" flexDir="column">
         <Header
           onBackButtonPressed={handleBackButtonPressed}
-          opponentUser={opponentUser}
+          opponentUser={chatBotUserInfo}
         />
         <Divider />
-        <Messages messages={messages} opponentUser={opponentUser} />
+        <Messages
+          messages={messages}
+          opponentUser={chatBotUserInfo}
+          isLoadingChatBotMessages={isLoadingChatBotMessage}
+        />
         <Divider />
         ww
         <Footer
           inputMessage={inputMessage}
           setInputMessage={setInputMessage}
-          handleSendMessage={handleSendMessage}
+          handleSendMessage={handleSendMessage} // Pass the function reference to Footer
         />
       </Flex>
     </Flex>

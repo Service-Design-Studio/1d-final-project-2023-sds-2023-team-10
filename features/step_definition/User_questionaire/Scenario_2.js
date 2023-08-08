@@ -5,7 +5,7 @@ const puppeteer = require('puppeteer');
 let browser, page;
 
 Given("a user is at the start page", async () => {
-  browser = await puppeteer.launch();
+  browser = await puppeteer.launch({headless:false });
   page = await browser.newPage();
   await page.goto(`http://localhost:3000/`);
 });
@@ -33,8 +33,16 @@ When("the user clicks 'Skip' again", async () => {
   ]);
 });
 
-Then("the user will land on the Log in Page",  async () => {
-  const expectedUrl = 'http://localhost:3000/login'; // replace with your dashboard page url
+Then("the user will land on the Log in Page", async () => {
+  await page.type('#email', '1');
+  await page.type('#password', '2');
+  const loginButtonSelector = '[data-testid="login-button"]';
+  await Promise.all([
+    page.click(loginButtonSelector), // Triggers navigation
+    page.waitForNavigation({ waitUntil: 'networkidle0' }) // Waits until navigation finishes
+  ]);
+
+  const expectedUrl = 'http://localhost:3000/home'; // replace with your dashboard page url
   const currentUrl = await page.url();
   expect(currentUrl).to.equal(expectedUrl);
 });
