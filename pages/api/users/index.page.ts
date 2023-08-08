@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from "axios";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
-    console.log("backend received", req.body);
+
 
     const result = await axios.post(
       "https://rubybackend-xnabw36hha-as.a.run.app/users",

@@ -19,10 +19,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       );
 
       const data = response.data;
-      console.log("getchatrooms for user", data);
+
       return res.status(200).json(data);
     } catch (error) {
-      console.log(error);
+
       return res.status(500).json({ error: error });
     }
   } else {

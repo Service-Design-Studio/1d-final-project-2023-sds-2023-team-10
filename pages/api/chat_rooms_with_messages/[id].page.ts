@@ -17,12 +17,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         }
       );
-      console.log(response);
+
 
       const data = await response.data;
       return res.status(200).json(data);
     } catch (error) {
-      console.log(error);
+
       return res.status(500).json({ error: error });
     }
   } else {

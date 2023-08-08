@@ -211,6 +211,7 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
         <Divider />
         <Messages messages={messages} opponentUser={opponentUser} />
         <Divider />
+        ww
         <Footer
           inputMessage={inputMessage}
           setInputMessage={setInputMessage}
