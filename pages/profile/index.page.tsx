@@ -16,6 +16,7 @@ import withAuth from "@/components/withAuth";
 import DataUsagePanel from "./DataUsagePanel";
 import HelpPanel from "./HelpPanel";
 import NotificationsPanel from "./NotificationsPanel";
+import { Router, useRouter } from "next/router";
 
 function Account() {
   return (
@@ -30,6 +31,7 @@ function ProfilePanel() {
   const [isAnonymous, setAnonymous] = React.useState(false);
   const [selected, setSelected] = useState<string>();
   const [user, isLoadingUser] = useUser();
+  const router = useRouter();
 
   const toggleAnonymous = () => {
     setAnonymous(!isAnonymous);
@@ -88,6 +90,9 @@ function ProfilePanel() {
               onChange={toggleAnonymous}
             />
           </HStack> */}
+          <Button onClick={() => router.push("/login")}>
+            Log Out
+          </Button>
         </Box>
 
         <VStack align="start" spacing="5" mt="5">

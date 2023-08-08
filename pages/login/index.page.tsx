@@ -38,12 +38,6 @@ const Login = () => {
       localStorage.setItem("userId", userId);
 
       await logIn(email, password);
-      toast({
-        title: "Login Successful",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
       router.push("/home");
     } catch (error: any) {
       toast({

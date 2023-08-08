@@ -275,7 +275,7 @@ function App() {
   const handleSubmit = (event) => {
     event.preventDefault();
     sendToAPI(form, userData);
-    router.push("/home");
+    router.push("/login");
   };
 
   const handleSubmit2 = (event) => {
