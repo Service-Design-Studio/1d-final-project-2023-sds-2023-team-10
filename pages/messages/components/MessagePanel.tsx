@@ -164,12 +164,14 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
   };
 
   if (loadingMessages) {
-    <div className="flex h-screen w-full items-center justify-center">
-      <div className="flex flex-col items-center justify-center">
-        <Spinner size="large" />
-        <h1 className="text-4xl">Loading your chats...</h1>
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <div className="flex flex-col items-center justify-center">
+          <Spinner size="large" />
+          <h1 className="text-4xl">Loading your chats...</h1>
+        </div>
       </div>
-    </div>;
+    );
   }
 
   return (

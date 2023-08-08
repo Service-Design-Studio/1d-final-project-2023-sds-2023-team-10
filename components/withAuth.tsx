@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import jwtDecode from "jwt-decode";
-import { Toast } from "@chakra-ui/react";
+import { Toast, useToast } from "@chakra-ui/react";
 
 interface DecodedToken {
   exp: number;
@@ -12,6 +12,7 @@ const withAuth = (WrappedComponent: React.ElementType) => {
   return (props: any) => {
     const Router = useRouter();
     const [token, setToken] = useState<string | null>(null);
+    const toast = useToast();
 
     useEffect(() => {
       // Next.js server side code will not run this useEffect hook
