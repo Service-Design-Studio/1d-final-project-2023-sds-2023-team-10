@@ -11,12 +11,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const { email, password } = req.body;
 
     try {
-      const result = await axios.post(`${baseUrl}/users`, {
-        email,
-        password,
-      });
+      const result = await axios.post(
+        `${baseUrl}/users`,
+        {
+          email,
+          password,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.RUBY_SIGNUP_TOKEN}`,
+          },
+        }
+      );
 
-      if (result.status === 200) {
+      if (result.status === 201) {
         const { token } = result.data;
         const userId = result.data.user_id;
         const { status } = result.data;

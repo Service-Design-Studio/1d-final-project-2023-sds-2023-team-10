@@ -30,6 +30,7 @@ import { ADMIN_USER_ID } from "./index.page";
 import useMessages from "../../../components/useMessages";
 import { determineWhoIsOpponent } from "./AnalysisBar";
 import useAsync from "../../../components/useAsync";
+import useUser from "../../../components/useUser";
 
 const { Text, Title } = Typography;
 const { TextArea } = Input;
@@ -49,9 +50,11 @@ const useChatRoomMessages = (selectedChatId: string) => {
     execute();
   }, [execute, selectedChatId]);
 
+  const [user] = useUser();
+
   // eslint-disable-next-line no-nested-ternary, no-extra-boolean-cast
   const opponentId = !!chatRoomMessagesData
-    ? chatRoomMessagesData.user1_id === 1
+    ? chatRoomMessagesData.user1_id === user?.id
       ? chatRoomMessagesData.user2_id
       : chatRoomMessagesData.user1_id
     : "";
@@ -387,6 +390,7 @@ const MessagesBar = ({ selectedChatId }: any) => {
   const elementRef = useRef<HTMLDivElement>(null);
   useEffect(() => elementRef.current?.scrollIntoView(), [messages]);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [user] = useUser();
 
   const memoizedMessageList = useMemo(() => {
     const messagesToDisplay = messages.map(
@@ -395,7 +399,7 @@ const MessagesBar = ({ selectedChatId }: any) => {
           key={chatMessage.id}
           message={chatMessage.content}
           timestamp={chatMessage.created_at}
-          isNotMyself={chatMessage.sender_id !== ADMIN_USER_ID}
+          isNotMyself={chatMessage.sender_id !== user?.id}
         />
       )
     );
@@ -440,7 +444,7 @@ const MessagesBar = ({ selectedChatId }: any) => {
             onSend={() => {
               if (!inputValue) return;
               handleSendMessage({
-                sender_id: ADMIN_USER_ID,
+                sender_id: user?.id,
                 content: inputValue,
                 receiver_id: opponentId,
                 timestamp: new Date().toISOString(),

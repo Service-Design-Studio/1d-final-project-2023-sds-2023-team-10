@@ -27,11 +27,11 @@ const ContactsBar = ({
       const bUnread = b.last_message.sender_id !== user!.id;
 
       if (aUnread && !bUnread) {
-        return 1; // a is unread, b is not, a should come first
+        return -1; // a is unread, b is not, a should come first
       }
 
       if (!aUnread && bUnread) {
-        return -1; // b is unread, a is not, b should come first
+        return 1; // b is unread, a is not, b should come first
       }
 
       // If both messages are unread or both are read, sort by last updated date
@@ -72,7 +72,8 @@ const ContactsBar = ({
             formattedTime = lastMessageDate.toLocaleDateString("en-GB");
           }
           const notificationBadge =
-            chatroom.last_message.sender_id === user!.id ? (
+            chatroom.last_message.sender_id !== user!.id &&
+            chatroom.last_message.sender_id !== -1 ? (
               <Badge dot offset={[-10, 10]} />
             ) : null;
 

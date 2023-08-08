@@ -27,6 +27,7 @@ import { ADMIN_USER_ID } from "./index.page";
 import useMessages from "../../../components/useMessages";
 import { determineWhoIsOpponent } from "./AnalysisBar";
 import useAsync from "../../../components/useAsync";
+import useUser from "../../../components/useUser";
 
 const { Text, Title } = Typography;
 const { TextArea } = Input;
@@ -45,6 +46,8 @@ const useChatRoomMessages = (selectedChatId: string) => {
   useEffect(() => {
     execute();
   }, [execute, selectedChatId]);
+
+  const [user] = useUser();
 
   // eslint-disable-next-line no-nested-ternary, no-extra-boolean-cast
   const opponentId = !!chatRoomMessagesData
@@ -371,6 +374,8 @@ const MessagesBar = ({ selectedChatId }: any) => {
   const elementRef = useRef<HTMLDivElement>(null);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   useEffect(() => elementRef.current?.scrollIntoView(), [messages]);
+  const [user] = useUser();
+
   const memoizedMessageList = useMemo(() => {
     return messages.map((chatMessage: any, index: number) => (
       <ChatListItem
@@ -378,8 +383,7 @@ const MessagesBar = ({ selectedChatId }: any) => {
         message={chatMessage.content}
         timestamp={chatMessage.created_at}
         isNotMyself={
-          chatMessage.sender_id !== -1 &&
-          chatMessage.sender_id !== ADMIN_USER_ID
+          chatMessage.sender_id !== -1 && chatMessage.sender_id !== user?.id
         }
       />
     ));
