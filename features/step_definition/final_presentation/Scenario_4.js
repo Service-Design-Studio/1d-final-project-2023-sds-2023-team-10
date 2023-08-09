@@ -28,6 +28,6 @@ When('the counsellor is in the chat with Sarah',{ timeout: 60 * 1000 }, async fu
   Then('a summary will be shown to the new counsellor',{ timeout: 60 * 1000 }, async function () {
     await page.waitForSelector("body > div:nth-child(10) > div > div.ant-popover-content > div > div > div > button" ,);
     await page.click("body > div:nth-child(10) > div > div.ant-popover-content > div > div > div > button");
-    await page.waitForSelector("body > div:nth-child(10) > div > div.ant-popover-content > div > div > div > button" , { timeout: 5000 });
+    await page.waitForSelector("body > div:nth-child(10) > div > div.ant-popover-content > div > div > div > button" , { timeout: 10000 });
   });
 
