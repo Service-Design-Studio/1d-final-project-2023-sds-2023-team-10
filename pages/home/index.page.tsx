@@ -11,17 +11,17 @@ function Home() {
   const [user, isLoadingUser] = useUser();
   const userId = user?.id;
 
-  const fetch = async () => {
-    const data = await axios.get(`/api/users/${userId}`);
-  };
+  // const fetch = async () => {
+  //   const data = await axios.get(`/api/users/${userId}`);
+  // };
 
-  useEffect(() => {
-    if (userId) {
-      fetch();
-    } else {
-      console.log("User is not set yet");
-    }
-  }, [userId]);
+  // useEffect(() => {
+  //   if (userId) {
+  //     fetch();
+  //   } else {
+  //     console.log("User is not set yet");
+  //   }
+  // }, [userId]);
 
   if (!user) {
     return (

@@ -21,6 +21,12 @@ import useUser from "@/components/useUser";
 import { ADMIN_USER_ID } from "../index.page";
 import ChatProfile from "./ChatProfile";
 
+const adminListDescriptions: { [key: number]: string } = {
+  0: "Chatbot: I am a chatbot. I am here to help you with your pregnancy related questions and direct you to the right resources.",
+  1: "I'm Joseph, the Admin of Guiding Hands. I'm here to help you with your pregnancy related questions and direct you to the right resources.",
+  2: "I'm Sarah, a dedicated counselor at a Social Service Agency, where I  assist and guide women undergoing unplanned pregnancies towards making informed decisions",
+};
+
 type AddChatModalProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -38,7 +44,16 @@ const AddChatModal: React.FC<AddChatModalProps> = ({
   const toast = useToast();
   const [user, isLoadingUser] = useUser();
   const [chatReady, setChatReady] = useState(false);
-  const [selectedID,setSelectedID] = useState(0);
+  const [selectedID, setSelectedID] = useState(0);
+
+  const AdminListItem: React.FC<{ adminId: number }> = ({ adminId }) => {
+    return (
+      <Stack>
+        <Text>{adminListDescriptions[adminId]}</Text>
+        <Button onClick={() => displayProfile(adminId)}>chat</Button>
+      </Stack>
+    );
+  };
 
   useEffect(() => {
     // Fetch all users when the Modal opens
@@ -53,32 +68,27 @@ const AddChatModal: React.FC<AddChatModalProps> = ({
     }
   }, [isOpen]);
 
-  const displayProfile = async (userID:number) => {
-    setSelectedID(userID)
+  const displayProfile = async (userID: number) => {
+    setSelectedID(userID);
     setChatReady(true);
     onClose();
 
-
     //handleStartChat(userID)
-
-  }
+  };
 
   const handleChatButtonClick = () => {
-    setChatReady(false)
-    handleStartChat(selectedID)
-
+    setChatReady(false);
+    handleStartChat(selectedID);
   };
 
   const handleBackClick = () => {
-    setChatReady(false)
-    console.log("BACK")
-  }
-
-
+    setChatReady(false);
+    console.log("BACK");
+  };
 
   const handleStartChat = async (userId: number) => {
     // your code to start a chat with the selected user
-    if (userId === 2) {
+    if (userId === 0) {
       // chat with bot
 
       // AI CHATBOT create a new chatroom with the bot here,
@@ -121,8 +131,8 @@ const AddChatModal: React.FC<AddChatModalProps> = ({
       }
     } else {
       const newChatRoom: ChatRoomBeforeSend = {
-        // No matter what, we will always start a chat with the admin with user id 1
-        user1_id: ADMIN_USER_ID,
+        // No matter what, we will always start a chat with the admin with user id 1 or 2
+        user1_id: userId === 1 ? ADMIN_USER_ID : 2,
         // user1_id: userId,
         user2_id: user!.id,
         date_created: new Date().toISOString(),
@@ -155,7 +165,13 @@ const AddChatModal: React.FC<AddChatModalProps> = ({
 
   return (
     <>
-      {chatReady && <ChatProfile onChatButtonClick={handleChatButtonClick} onBackButtonClick={handleBackClick}/>}
+      {chatReady && (
+        <ChatProfile
+          userId={selectedID}
+          onChatButtonClick={handleChatButtonClick}
+          onBackButtonClick={handleBackClick}
+        />
+      )}
       {isOpen && (
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
@@ -164,27 +180,29 @@ const AddChatModal: React.FC<AddChatModalProps> = ({
             <ModalCloseButton />
             <ModalBody>
               <VStack spacing={4}>
-                <Stack key={0}>
+                {/* <Stack key={0}>
                   <Text>
                     Chatbot: I am a chatbot. I am here to help you with your
                     pregnancy related questions and direct you to the right
                     resources.
                   </Text>
                   <Button onClick={() => handleStartChat(2)}>chat</Button>
-                </Stack>
+                </Stack> */}
+                <AdminListItem adminId={0} />
                 {users.map((user) =>
                   user.user_type === "admin" ? (
-                    <Stack key={user.id}>
-                      <Text>
-                        I'm Sarah, a dedicated counselor at a Social Service
-                        Agency, where I assist and guide women undergoing
-                        unplanned pregnancies towards making informed decisions
-                      </Text>
-                      <Button onClick={() => displayProfile(user.id)}>
-                        chat
-                      </Button>
-                    </Stack>
-                  ) : null
+                    <AdminListItem adminId={user.id} />
+                  ) : // <Stack key={user.id}>
+                  //   <Text>
+                  //     I'm Sarah, a dedicated counselor at a Social Service
+                  //     Agency, where I assist and guide women undergoing
+                  //     unplanned pregnancies towards making informed decisions
+                  //   </Text>
+                  //   <Button onClick={() => displayProfile(user.id)}>
+                  //     chat
+                  //   </Button>
+                  // </Stack>
+                  null
                 )}
               </VStack>
             </ModalBody>

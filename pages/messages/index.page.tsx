@@ -80,27 +80,27 @@ function Messages() {
     if (selectedChatRoom?.is_ai_chat) {
       return (
         <AppLayout>
-          <Box className="animate-slideIn">
-            <ChatBotPanel
-              selectedChatId={selectedChatId}
-              setSelectedChatId={setSelectedChatId} // set to undefined when the user presses back
-              fetchChatRooms={fetchChatRooms} // passed down so that we can update chatrooms when the user presses back
-            />
-          </Box>
+          {/* <Box className="animate-slideIn"> */}
+          <ChatBotPanel
+            selectedChatId={selectedChatId}
+            setSelectedChatId={setSelectedChatId} // set to undefined when the user presses back
+            fetchChatRooms={fetchChatRooms} // passed down so that we can update chatrooms when the user presses back
+          />
+          {/* </Box> */}
         </AppLayout>
       );
     }
 
     return (
+      // <Box className="animate-slideIn" width="100%" height="100%">
       <AppLayout>
-        <Box className="animate-slideIn">
-          <MessagePanel
-            selectedChatId={selectedChatId}
-            setSelectedChatId={setSelectedChatId} // set to undefined when the user presses back
-            fetchChatRooms={fetchChatRooms} // passed down so that we can update chatrooms when the user presses back
-          />
-        </Box>
+        <MessagePanel
+          selectedChatId={selectedChatId}
+          setSelectedChatId={setSelectedChatId} // set to undefined when the user presses back
+          fetchChatRooms={fetchChatRooms} // passed down so that we can update chatrooms when the user presses back
+        />
       </AppLayout>
+      // </Box>
     );
   } else {
     return (
@@ -126,7 +126,6 @@ function Messages() {
           setSelectedChatId={setSelectedChatId}
           setChatRooms={setChatRooms}
         />
-        <Box marginBottom={100}></Box>
       </AppLayout>
     );
   }
