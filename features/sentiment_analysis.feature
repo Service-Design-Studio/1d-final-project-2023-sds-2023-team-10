@@ -1,56 +1,42 @@
-Feature: Sentiment Analysis
+Feature: AI features
+    As a medical practitioner/professional/counsellor
+    With the help of AI data
+    I can make more informed decisions when chatting to a particular client
 
-    Scenario: Alice thinks she has an unplanned pregnancy
-        Given Alice is on the home page of the user dashboard
-        When she clicks on the 'Message' icon
-        And selects her usual counsellor
-        When she types hello
-        When clicks the Send button
-        When she types I'm panicking
-        And clicks the Send button
-        When she types I'm worried about my health
-        And clicks the Send button
-        Then the admin sees a graph
+    Scenario: Alice is excited to tell her counsellor that her pregnancy test is actually negative
+        Given Alice just found out her pregnancy test is negative
+        When Alice wants to tell her counsellor and thank her for her help
 
-    # Scenario: Admin sees Alice's call for help
-    #     Given the admin is in Alice's chat
-    #     When the admin clicks on the 'Next Analysis' button
-    #     Then the admin sees an 'Average Score Overall' low value
-    #     And the admin replies with 'I'm here for you'
-    #     And clicks a 'Send' button
+    Scenario: The counsellor replies to Alice's message
+        Given the counsellor will receives the messages from Alice
+        And the counsellor will see from the sentiment analysis data that she is in a good mood
+        Then the counsellor will send her a reply
 
-    Scenario: Alice is happy having found out her pregnancy test result is negative
-        Given Alice is on the home page of the user dashboard
-        When she clicks on the 'Message' icon
-        And selects her usual counsellor
-        When she types 'Thank you counsellor'
-        And clicks the Send button
-        When she types 'I'm feeling much better today'
-        And clicks the Send button
-        Then the admin sees a graph
 
-    # Scenario: PregnantMary is unstable because she just broke up with her boyfriend
-    #     Given Alice is on the home page of the user dashboard
-    #     When she clicks on the 'Message' icon
-    #     And selects her usual counsellor
-    #     When she types I'm so angry right now
-    #     And clicks the Send button
-    #     When she types But my parents are very supportive
-    #     And clicks the Send button
-    #     When she types I'm so angry with my boyfriend
-    #     And clicks the Send button
-    #     When she types But he is helpful sometimes
-    #     And clicks the Send button
-    #     When she types But if he ignores me again I'll kill him
-    #     And clicks the Send button
-    #     When she types I'm grateful for the weather tho
-    #     And clicks the Send button
-    #     When she types But sometimes it can get so depressing
-    #     And clicks the Send button
-    #     When she types Thank god there's only 5 weeks left
-    #     And clicks the Send button
-    #     When she types Once the baby is out, I'm getting rid of it
-    #     And clicks the Send button
-    #     When she types I'll finally be happy then
-    #     And clicks the Send button
-    #     Then the admin sees a graph
+    Scenario: Sarah has an emergencency and needed her counsellor's help
+        Given Sarah is feeling depressed from her unsupportive family
+        When Sarah wants to talk to someone about it
+        And She starts chat with a new counsellor
+
+    Scenario: The counsellor replies to Sarah's message
+        Given the counsellor receives the messages from Sarah
+        And the counsellor will see from the sentiment analysis data that she is in a bad mood
+        Then the counsellor will seek solutions to help Sarah
+
+
+    #Sad Path
+    Scenario: Melissa is emotionally very unstable after an encounter with her boyfriend
+        Given Melissa is emotionally unstable
+        When Melissa text the AI Chatbot
+    #Sad Path
+    Scenario: The counsellor replies to Sarah's message
+        Given the counsellor is able to see their conversation
+        When the counsellor can tell that the graph flunctuates a lot
+        Then the counsellor sees that the standard deviation of the sentiment analysis is very high
+        Then the counsellor will step in and talk to her
+
+     Scenario: A new counsellor is assigned to Sarah
+        Given a new counsellor is assigned to Sarah
+        When the counsellor is in the chat with Sarah
+        And the new counsellor wants to see a summary of the chat
+        Then a summary will be shown to the new counsellor
