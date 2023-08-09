@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "cucumber-js"
+    "test": "jest"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.19",
@@ -39,9 +39,15 @@
     "typescript": "5.1.3"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.22.10",
+    "@babel/preset-react": "^7.22.5",
+    "@babel/preset-typescript": "^7.22.5",
     "@cucumber/cucumber": "^9.2.0",
+    "@testing-library/react": "^14.0.0",
     "@types/cucumber": "^7.0.0",
+    "babel-jest": "^29.6.2",
     "chai": "^4.3.7",
+    "jest-environment-jsdom": "^29.6.2",
     "prettier": "^2.8.8",
     "puppeteer": "^20.7.3"
   }

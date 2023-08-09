@@ -1,96 +1,77 @@
-import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
-import { act } from "react-dom/test-utils";
-import axios from "../axiosFrontend";
-import Home from "./index.page";
-import { UserContext } from "../../components/UserContext";
-import { useRouter } from "next/router";
-import { NextRouter } from "next/dist/shared/lib/router/router";
-import { RouterContext } from "next/dist/shared/lib/router-context";
+import React from 'react';
+import { render, screen, waitFor } from '@testing-library/react';
+import { ChakraProvider } from '@chakra-ui/react';
+import Home from './index.page.tsx';
+import useUser from '@/components/useUser';
 
-jest.mock("../axiosFrontend");
-jest.mock("next/router", () => require("next-router-mock"));
+// Mocking the necessary modules
+jest.mock('@/components/useUser');
+jest.mock('@/components/AppLayout', () => ({ children }) => <div>{children}</div>);
+jest.mock('@/components/withAuth', () => (Component) => Component);
+jest.mock('./pregnantcard', () => () => <div data-testid="pregnant-card">PregnantCard</div>);
+jest.mock('./ArticleList', () => () => <div>ArticleList</div>);
 
-describe("Home component", () => {
-  let mockUser;
+const mockUser = {
+  id: 1,
+  first_name: 'John',
+  second_name: 'Doe',
+  pregnancy_week: 10,
+};
 
-  beforeEach(() => {
-    mockUser = {
-      id: "1",
-      first_name: "Test",
-      second_name: "User",
-      pregnancy_week: "25",
-    };
-    useRouter.mockReturnValue({
-      route: "/",
-      pathname: "",
-      query: "",
-      asPath: "",
-    });
-
-    axios.get.mockResolvedValueOnce({ data: mockUser });
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
-  test("renders greeting with user name when user data is loaded", async () => {
-    const contextValue = {
-      userId: 1, // or some mock id
-      isLoading: false,
-      user: mockUser,
-      logIn: jest.fn(), // mock this function as we are not testing it here
-    };
+describe('Home Component', () => {
+  test('renders loading spinner when user data is not yet loaded', () => {
+    useUser.mockReturnValue([null, true]); // Simulate loading
 
     render(
-      <UserContext.Provider value={contextValue}>
+      <ChakraProvider>
         <Home />
-      </UserContext.Provider>
+      </ChakraProvider>
+    );
+
+    expect(screen.getByRole('progressbar')).toBeInTheDocument();
+  });
+
+  test('renders greeting with user name when user data is loaded', async () => {
+    useUser.mockReturnValue([mockUser, false]);
+
+    render(
+      <ChakraProvider>
+        <Home />
+      </ChakraProvider>
     );
 
     await waitFor(() => {
       expect(
-        screen.getByText(
-          `Hello, ${mockUser.first_name} ${mockUser.second_name}!`
-        )
+        screen.getByText(`Hello, ${mockUser.first_name} ${mockUser.second_name}!`)
       ).toBeInTheDocument();
     });
   });
 
-  test("renders pregnant card when user is pregnant", async () => {
-    const contextValue = {
-      userId: 1, // or some mock id
-      isLoading: false,
-      user: mockUser,
-      logIn: jest.fn(), // mock this function as we are not testing it here
-    };
+  test('renders pregnant card when user is pregnant', async () => {
+    useUser.mockReturnValue([mockUser, false]);
 
     render(
-      <UserContext.Provider value={contextValue}>
+      <ChakraProvider>
         <Home />
-      </UserContext.Provider>
+      </ChakraProvider>
     );
 
     await waitFor(() => {
-      expect(screen.getByTestId("pregnant-card")).toBeInTheDocument();
+      expect(screen.getByTestId('pregnant-card')).toBeInTheDocument();
     });
   });
 
-  test("renders loading spinner when user data is not yet loaded", () => {
-    const contextValue = {
-      userId: 1, // or some mock id
-      isLoading: true,
-      user: null,
-      logIn: jest.fn(), // mock this function as we are not testing it here
-    };
+  test('does not render pregnant card when user is not pregnant', async () => {
+    useUser.mockReturnValue([{ ...mockUser, pregnancy_week: null }, false]);
 
     render(
-      <UserContext.Provider value={contextValue}>
+      <ChakraProvider>
         <Home />
-      </UserContext.Provider>
+      </ChakraProvider>
     );
 
-    expect(screen.getByRole("status")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByTestId('pregnant-card')).not.toBeInTheDocument();
+    });
   });
 });

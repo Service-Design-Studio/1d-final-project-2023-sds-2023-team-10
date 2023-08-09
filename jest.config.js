@@ -1,11 +1,12 @@
 module.exports = {
   // ...other configs
-
-  moduleNameMapper: {
-    "^@/(.*)$":
-      "c:/Users/joshu/Documents/Github_Repositories/60004 SDS/nextjs-new-frontend/$1",
+  testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/'],
+  transform: {
+    '^.+\\.(js|jsx|ts|tsx)$': '<rootDir>/node_modules/babel-jest',
   },
-  testEnvironment: "jsdom",
-
+  moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/$1",
+  },
+  testEnvironment: 'jest-environment-jsdom',
   // ...other configs
 };
