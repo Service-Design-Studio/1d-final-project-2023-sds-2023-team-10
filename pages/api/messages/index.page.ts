@@ -5,11 +5,6 @@ import { Message, MessageBeforeSend } from "@/types";
 import { headers } from "next/dist/client/components/headers";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 6853ce97dbdee67d867406f2d7d8bd10eb7224ec
   if (req.method === "POST") {
     console.log("messages api 9: req.body : ", req.body);
     try {

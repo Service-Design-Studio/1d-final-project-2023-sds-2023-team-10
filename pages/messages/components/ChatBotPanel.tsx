@@ -47,33 +47,26 @@ const chatBotUserInfo: User = {
 
 type ChatBotPanelProps = {
   selectedChatId: number;
-<<<<<<< HEAD
   onBackButtonPressed: () => void; // New prop to handle navigation back
-=======
   // handleGoToBotChat: () => void; // Add handleGoToBotChat function as a prop
   setSelectedChatId: (id: number | undefined) => void;
   fetchChatRooms: () => void;
->>>>>>> 6853ce97dbdee67d867406f2d7d8bd10eb7224ec
 };
 
 const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
   selectedChatId,
-<<<<<<< HEAD
   onBackButtonPressed,
-}) => {
-  const [chatTitle, setChatTitle] = useState<string>("Chat-Bot");
 
-=======
   // handleGoToBotChat, // Add handleGoToBotChat function as a prop
   setSelectedChatId,
   fetchChatRooms,
 }) => {
->>>>>>> 6853ce97dbdee67d867406f2d7d8bd10eb7224ec
+  const [chatTitle, setChatTitle] = useState<string>("Chat-Bot");
+
   const [chatRoom, setChatRoom] = useState<ChatRoomWithMessages>();
   const [messages, setMessages] = useState<Message[]>([]);
   const [loadingMessages, setLoadingMessages] = useState(true);
   const [inputMessage, setInputMessage] = useState<string>("");
-<<<<<<< HEAD
 
   const [lastChatId, setLastChatId] = useState<number | undefined>(undefined);
 
@@ -105,7 +98,6 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
     </Button>
   );
 
-=======
   const [currentContext, setCurrentContext] = useState<Array<any>>([]);
   const [chatLog, setChatLog] = useState([
     {
@@ -114,7 +106,6 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
         "You are a counsellor that talks to people going through unplanned pregnancies (Please give an appropriate response if you feel the message isn't anything related to the scope of assistance you can provide as an unplanned pregnancy counsellor)",
     },
   ]);
->>>>>>> 6853ce97dbdee67d867406f2d7d8bd10eb7224ec
   const [user, isLoadingUser] = useUser();
   const userId = user?.id;
   const [isLoadingChatBotMessage, setIsLoadingChatBotMessage] =
@@ -126,11 +117,7 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
       if (selectedChatId) {
         fetchChatRoomsWithMessages(selectedChatId);
       }
-<<<<<<< HEAD
-    }, 10000); // in milliseconds
-=======
     }, 2000); // in milliseconds
->>>>>>> 6853ce97dbdee67d867406f2d7d8bd10eb7224ec
     return () => clearInterval(intervalId);
   }, [selectedChatId]);
 
@@ -241,32 +228,16 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
       setIsLoadingChatBotMessage(false);
       return response.data.message;
     } catch (error) {
-<<<<<<< HEAD
-      console.log("ChatBotError:", error);
-=======
       console.log("error", error);
       setIsLoadingChatBotMessage(false);
->>>>>>> 6853ce97dbdee67d867406f2d7d8bd10eb7224ec
       return "An error occurred while talking with the chat bot.";
     }
   };
 
   const handleBackButtonPressed = () => {
-<<<<<<< HEAD
-    if (selectedChatId !== -1) {
-      setLastChatId(selectedChatId);
-      onBackButtonPressed(); // Call onBackButtonPressed to switch back to MessagePanel
-    } else {
-      // You might want to add a logic here to handle the toggle behavior.
-      // If needed, update the state or do anything specific based on the toggle.
-      // For now, let's just call onBackButtonPressed to switch back to MessagePanel.
-      onBackButtonPressed();
-    }
-=======
     // handleGoToBotChat();
     setSelectedChatId(undefined);
     fetchChatRooms();
->>>>>>> 6853ce97dbdee67d867406f2d7d8bd10eb7224ec
   };
 
   if (loadingMessages) {
@@ -301,7 +272,7 @@ const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
           isLoadingChatBotMessages={isLoadingChatBotMessage}
         />
         <Divider />
-        ww
+
         <Footer
           inputMessage={inputMessage}
           setInputMessage={setInputMessage}

@@ -20,13 +20,6 @@ function Messages() {
   const [user, isLoadingUser] = useUser();
   const [isAddChatModalOpen, setAddChatModalOpen] = useState(false);
 
-  useEffect(() => {
-    console.log("User is set to ", user);
-  }, [user]);
-  useEffect(() => {
-    console.log("Chatrooms is set to ", chatrooms);
-  }, [chatrooms]);
-
   const userId = user?.id;
 
   const fetchChatRooms = async () => {
@@ -55,9 +48,7 @@ function Messages() {
     setAddChatModalOpen(false);
   };
 
-  useEffect(() => {
-    console.log("change in selectedChatId", selectedChatId);
-  }, [selectedChatId]);
+  useEffect(() => {}, [selectedChatId]);
 
   if (loading) {
     return (

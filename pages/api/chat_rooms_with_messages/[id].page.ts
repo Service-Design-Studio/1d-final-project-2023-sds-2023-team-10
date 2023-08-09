@@ -17,20 +17,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         }
       );
-<<<<<<< HEAD
-
-=======
->>>>>>> 6853ce97dbdee67d867406f2d7d8bd10eb7224ec
 
       const data = await response.data;
       return res.status(200).json(data);
     } catch (error) {
-<<<<<<< HEAD
-
-      return res.status(500).json({ error: error });
-=======
       return res.status(error.response?.status || 500).json(error.response?.data || { error: "An error occurred" });
->>>>>>> 6853ce97dbdee67d867406f2d7d8bd10eb7224ec
     }
   } else {
     return res.status(405).json({ error: "Method not allowed" });

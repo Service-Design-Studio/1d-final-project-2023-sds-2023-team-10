@@ -18,21 +18,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                     params: req.query,
                 }
             );
-<<<<<<< HEAD
 
-=======
->>>>>>> 6853ce97dbdee67d867406f2d7d8bd10eb7224ec
 
             const data = await response.data;
             return res.status(200).json(data);
         } catch (error) {
-<<<<<<< HEAD
-   
-            return res.status(500).json({ error: error });
-=======
             console.log("error in api/chat_rooms/index.page.ts: post");
             return res.status(error.response.status).json({ error: error });
->>>>>>> 6853ce97dbdee67d867406f2d7d8bd10eb7224ec
         }
     } else {
         return res.status(405).json({ error: "Method not allowed" });
@@ -51,10 +43,6 @@ export const APICreateChatRoom = async (
             },
         });
 
-<<<<<<< HEAD
-    
-=======
->>>>>>> 6853ce97dbdee67d867406f2d7d8bd10eb7224ec
         return response;
     } catch (error) {
 

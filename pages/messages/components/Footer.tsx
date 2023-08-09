@@ -20,7 +20,7 @@ const Footer: React.FC<FooterProps> = ({
   };
 
   return (
-    <Flex w="100%" mt="5">
+    <Flex w="100%" mt="5" mb="70px">
       <Input
         placeholder="Type Something..."
         border="none"
@@ -52,4 +52,3 @@ const Footer: React.FC<FooterProps> = ({
 };
 
 export default Footer;
-

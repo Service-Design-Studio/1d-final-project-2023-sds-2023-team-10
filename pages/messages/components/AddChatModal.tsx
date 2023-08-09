@@ -191,7 +191,7 @@ const AddChatModal: React.FC<AddChatModalProps> = ({
                 <AdminListItem adminId={0} />
                 {users.map((user) =>
                   user.user_type === "admin" ? (
-                    <AdminListItem adminId={user.id} />
+                    <AdminListItem key={user.id} adminId={user.id} />
                   ) : // <Stack key={user.id}>
                   //   <Text>
                   //     I'm Sarah, a dedicated counselor at a Social Service

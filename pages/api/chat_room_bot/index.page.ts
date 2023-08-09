@@ -1,34 +1,3 @@
-<<<<<<< HEAD
-import {NextApiRequest, NextApiResponse} from 'next';
-const {Configuration, OpenAIApi} = import('openai');
-const openai = new OpenAIApi(new Configuration({
-  apiKey: "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"
-}));
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const {message} = req.body;
-  
-  if (req.method === 'POST') {
-  
-    try {
-      // Call the OpenAI API
-      const response = await openai.createCompletion({
-        model: 'text-davinci-003',
-        prompt: message,
-        max_tokens: 60,
-        temperature: 1.0
-      });
-
-  
-
-      const botMessage = response.data.choices[0].text;
-      
-      // Send the bot's message in the response
-      res.status(200).json({message: botMessage});
-    } catch (error) {
-
-        res.status(500).json({message: 'Error in OpenAI API call'});
-=======
 import { BACKEND_URL } from '@/components/api';
 import { createNewMessage } from '@/pages/messages/components/MessagePanel';
 import axios, { AxiosResponse } from 'axios';
@@ -149,7 +118,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(200).json({ message: botMessage });
     } catch (error) {
       res.status(500).json({ message: 'Error in processing the request' });
->>>>>>> 6853ce97dbdee67d867406f2d7d8bd10eb7224ec
     }
 
   } else {

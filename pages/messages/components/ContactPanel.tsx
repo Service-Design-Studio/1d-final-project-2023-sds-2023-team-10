@@ -95,6 +95,7 @@ const ContactPanel: React.FC<ContactPanelProps> = ({
           if (chatroom.is_ai_chat === true) {
             return (
               <ChatroomRow
+                key={chatroom.id}
                 id={chatroom.id}
                 opponentFirstName={"Chatbot"}
                 opponentSecondName={""}
@@ -115,6 +116,7 @@ const ContactPanel: React.FC<ContactPanelProps> = ({
           if (chatroom.opponent_user_type === "admin") {
             return (
               <ChatroomRow
+                key={chatroom.id}
                 id={chatroom.id}
                 opponentFirstName={
                   chatroom.opponent_first_name || `Guest user ${chatroom.id}`

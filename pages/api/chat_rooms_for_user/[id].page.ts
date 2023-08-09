@@ -19,10 +19,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       );
 
       const data = response.data;
-<<<<<<< HEAD
 
-=======
->>>>>>> 6853ce97dbdee67d867406f2d7d8bd10eb7224ec
       return res.status(200).json(data);
     } catch (error) {
 

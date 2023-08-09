@@ -52,40 +52,7 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
   const [opponentUser, setOpponentUser] = useState<User>();
   const [loadingMessages, setLoadingMessages] = useState(true);
   const [inputMessage, setInputMessage] = useState<string>("");
-<<<<<<< HEAD
-
-  const [lastChatId, setLastChatId] = useState<number | undefined>(undefined);
-
-  const handleChatBotButtonClick = () => {
-    setShowChatBotPanel(true);
-  };
-
-  const handleToggle = () => {
-    if (selectedChatId !== -1) {
-      setLastChatId(selectedChatId);
-      setSelectedChatId(-1);
-    } else {
-      setSelectedChatId(lastChatId);
-      setLastChatId(undefined);
-    }
-  };
-
-  const ToggleButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
-    <Button
-      position="fixed"
-      top="0"
-      right="0"
-      zIndex="1000"
-      mr="10"
-      onClick={onClick}
-    >
-      Chat-Bot
-    </Button>
-  );
-
-=======
   const [isChatWithBot, setIsChatWithBot] = useState(false);
->>>>>>> 6853ce97dbdee67d867406f2d7d8bd10eb7224ec
   const [user, isLoadingUser] = useUser();
   const userId = user?.id;
 
@@ -184,31 +151,6 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
       p="0"
       boxSizing="border-box"
     >
-<<<<<<< HEAD
-      <ToggleButton onClick={handleChatBotButtonClick} />
-      {/* Conditionally render the ChatBotPanel */}
-      {showChatBotPanel ? (
-        <ChatBotPanel
-          selectedChatId={selectedChatId}
-          onBackButtonPressed={() => setShowChatBotPanel(false)} // Pass the function to hide the chat bot panel
-        />
-      ) : (
-        <Flex w="100%" h="100%" flexDir="column">
-          <Header
-            onBackButtonPressed={handleBackButtonPressed}
-            opponentUser={opponentUser}
-          />
-          <Divider />
-          <Messages messages={messages} opponentUser={opponentUser} />
-          <Divider />
-          <Footer
-            inputMessage={inputMessage}
-            setInputMessage={setInputMessage}
-            handleSendMessage={handleSendMessage}
-          />
-        </Flex>
-      )}
-=======
       {/* <ToggleButton onClick={handleGoToBotChat} /> */}
 
       {/* {isChatWithBot ? (
@@ -233,7 +175,6 @@ const MessagePanel: React.FC<MessagePanelProps> = ({
         />
       </Flex>
       {/* )} */}
->>>>>>> 6853ce97dbdee67d867406f2d7d8bd10eb7224ec
     </Flex>
   );
 };
