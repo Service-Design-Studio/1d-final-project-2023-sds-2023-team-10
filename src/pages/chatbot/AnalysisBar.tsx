@@ -309,9 +309,15 @@ const AnalysisBar = ({ selectedChatId }: { selectedChatId: string }) => {
       <Card
         title={
           <div className="flex flex-row justify-between min-w-full items-center">
-            <Text>Sentiment Analysis</Text>
-            <div className="flex flex-row">
-              <Button type="primary" onClick={next}>
+            <Text data-testid={"sentiment-analysis-title"}>
+              Sentiment Analysis
+            </Text>
+            <div className="flex flex-row" data-testid={"next-analysis-button"}>
+              <Button
+                type="primary"
+                data-testid={"next-analysis-button"}
+                onClick={next}
+              >
                 Next Analysis
               </Button>
               <Button onClick={execute}>Refresh</Button>
@@ -321,7 +327,11 @@ const AnalysisBar = ({ selectedChatId }: { selectedChatId: string }) => {
         style={{ minHeight: "420px" }}
         loading={isLoadingOverall}
       >
-        <Carousel ref={carouselRef} className="bg-white">
+        <Carousel
+          ref={carouselRef}
+          data-testid={"pink-carousell"}
+          className="bg-white"
+        >
           <div>
             <ResponsiveContainer width="100%" height={320}>
               <AreaChart
@@ -352,6 +362,7 @@ const AnalysisBar = ({ selectedChatId }: { selectedChatId: string }) => {
             {statistics.map((item: any) => (
               <Statistic
                 key={item.name}
+                data-testid={item.name}
                 title={convertToName(item.name)}
                 value={item.value}
                 precision={3}
