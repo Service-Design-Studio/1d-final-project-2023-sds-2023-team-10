@@ -1,6 +1,15 @@
 /* eslint-disable indent */
 /* eslint-disable consistent-return */
-import { List, Card, Typography, Button, Carousel, Statistic } from "antd";
+import {
+  List,
+  Card,
+  Typography,
+  Button,
+  Carousel,
+  Statistic,
+  Popover,
+  Spin,
+} from "antd";
 
 import {
   LineChart,
@@ -14,14 +23,16 @@ import {
   ResponsiveContainer,
   AreaChart,
 } from "recharts";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Icon from "@ant-design/icons/lib/components/Icon";
 import {
   ArrowUpOutlined,
   SmileOutlined,
   FrownOutlined,
   MehOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
+import { GiBrain } from "@react-icons/all-files/gi/GiBrain";
 import useAsync from "../../../components/useAsync";
 import axios from "../axiosFrontend";
 
@@ -217,6 +228,65 @@ const convertToName = (item: any) => {
   return "Metrics";
 };
 
+// const transformUncleanedMetadata = (content: any) => {
+//   const transformed = [];
+//   transformed.push({
+//     role: "user",
+//     content: `${content}. Summarize this user metadata,
+//     your summary will be used by a pregnancy counselor to know what is the background of the victim.
+//       `,
+//   });
+// }
+
+export const useUserDescriptionCleaned = (uncleanedUserData: any) => {
+  const [cleanedUserData, setCleanedUserData] = useState<string>("");
+  const [loading, setLoading] = useState(true);
+
+  const desc = [
+    `Name: ${uncleanedUserData?.first_name} ${uncleanedUserData?.second_name}`,
+    `Email: ${uncleanedUserData?.email}`,
+    `Username: ${uncleanedUserData?.username}`,
+    `Occupation: ${uncleanedUserData?.occupation}`,
+    `Age: ${uncleanedUserData?.age}`,
+    `Gender: ${uncleanedUserData?.gender}`,
+    `Phone number: ${uncleanedUserData?.phone_number}`,
+    // ... and so on for other details
+  ];
+
+  const {
+    execute: executeMetadata,
+    status,
+    value,
+  } = useAsync(() => {
+    setLoading(true);
+    return axios
+      .post("/api/chatgpt", {
+        messages: [
+          {
+            role: "user",
+            content: `${desc.toString()}
+        Generate a summary of a pregnancy woman or a boyfriend/husband of the pregnancy woman. Do not add "Sure I can generate", you must go straight to the answer.
+        Explain the pregnant women thought on the baby "there is life growing inside me", her marital status, whether she want to keep the baby,
+        her pregnancy symptoms (nausea, vommiting, etc). You are explaining a person condition that will be read by a pregnancy counsellor. Start the answer with
+        "This user is ..., she/he is ... years old, she/he is ...". You can add more details about the user. Be slightly concise.
+          `,
+          },
+        ],
+      })
+      .then((res) => {
+        const summaryResponse = res.data;
+        setCleanedUserData(summaryResponse.content);
+        setLoading(false);
+      });
+  });
+
+  useEffect(() => {
+    if (!uncleanedUserData) return;
+    executeMetadata();
+  }, [executeMetadata, uncleanedUserData]);
+  return { loading, cleanedUserData };
+};
+
 const AnalysisBar = ({ selectedChatId }: { selectedChatId: string }) => {
   const { chatRoomMessagesStatus, chatRoomMessagesData, opponentId, execute } =
     useChatRoomMessages(selectedChatId);
@@ -234,6 +304,11 @@ const AnalysisBar = ({ selectedChatId }: { selectedChatId: string }) => {
     chatRoomMessagesStatus === "ERRORED" || userDataStatus === "ERRORED";
   const isLoadingOverall =
     chatRoomMessagesStatus === "LOADING" || userDataStatus === "LOADING";
+
+  const {
+    loading: loadingUserMetadataSummary,
+    cleanedUserData: cleanedUserMetadata,
+  } = useUserDescriptionCleaned(userData);
 
   if (isErrorOverall) {
     return <div>Error has occured.</div>;
@@ -299,6 +374,26 @@ const AnalysisBar = ({ selectedChatId }: { selectedChatId: string }) => {
         }
         renderItem={(item) => <List.Item>{item}</List.Item>}
       />
+      <Popover
+        className=""
+        placement="bottom"
+        content={
+          <div>
+            {loadingUserMetadataSummary ? (
+              <Spin>Loading User Survey Result...</Spin>
+            ) : (
+              <div style={{ maxWidth: "800px" }}>{cleanedUserMetadata}</div>
+            )}
+          </div>
+        }
+      >
+        <Button type="primary">
+          <div className="flex flex-row items-center pb-1">
+            <SearchOutlined className="mr-2" />
+            View Survey Result
+          </div>
+        </Button>
+      </Popover>
       {/* 
       <Card
         title={

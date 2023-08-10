@@ -1,6 +1,15 @@
 /* eslint-disable indent */
 /* eslint-disable consistent-return */
-import { List, Card, Typography, Button, Carousel, Statistic } from "antd";
+import {
+  List,
+  Card,
+  Typography,
+  Button,
+  Carousel,
+  Statistic,
+  Popover,
+  Spin,
+} from "antd";
 
 import {
   LineChart,
@@ -21,9 +30,11 @@ import {
   SmileOutlined,
   FrownOutlined,
   MehOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
 import useAsync from "../../../components/useAsync";
 import axios from "../axiosFrontend";
+import { useUserDescriptionCleaned } from "../chat/AnalysisBar";
 
 const { Text } = Typography;
 
@@ -235,6 +246,10 @@ const AnalysisBar = ({ selectedChatId }: { selectedChatId: string }) => {
   const isLoadingOverall =
     chatRoomMessagesStatus === "LOADING" || userDataStatus === "LOADING";
 
+  const {
+    loading: loadingUserMetadataSummary,
+    cleanedUserData: cleanedUserMetadata,
+  } = useUserDescriptionCleaned(userData);
   if (isErrorOverall) {
     return <div>Error has occured.</div>;
   }
@@ -304,6 +319,26 @@ const AnalysisBar = ({ selectedChatId }: { selectedChatId: string }) => {
         }
         renderItem={(item) => <List.Item>{item}</List.Item>}
       />
+      <Popover
+        className=""
+        placement="bottom"
+        content={
+          <div>
+            {loadingUserMetadataSummary ? (
+              <Spin>Loading User Survey Result...</Spin>
+            ) : (
+              <div style={{ maxWidth: "800px" }}>{cleanedUserMetadata}</div>
+            )}
+          </div>
+        }
+      >
+        <Button type="primary">
+          <div className="flex flex-row items-center pb-1">
+            <SearchOutlined className="mr-2" />
+            View Survey Result
+          </div>
+        </Button>
+      </Popover>
       {/* 
       <Card
         title={
