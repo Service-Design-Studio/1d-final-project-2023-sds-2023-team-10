@@ -9,6 +9,7 @@ import {
 import type { MenuProps } from "antd";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
 import Image from "next/image";
+import { LoginOutlined } from "@ant-design/icons";
 
 const { Header, Content, Footer } = Layout;
 
@@ -74,6 +75,14 @@ const items: MenuItem[] = [
     <LogoutOutlined data-testid="logout-icon" />,
     undefined,
     "logout-tab"
+  ),
+  getItem(
+    "Login/Sign Up",
+    "/login",
+    "12",
+    <LoginOutlined data-testid="logout-icon" />,
+    undefined,
+    "login-tab"
   ),
 ];
 

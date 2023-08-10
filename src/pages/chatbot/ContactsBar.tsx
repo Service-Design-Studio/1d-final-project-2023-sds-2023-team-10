@@ -23,8 +23,12 @@ const ContactsBar = ({
     .filter((chatroom: any) => chatroom.last_message != null)
     .sort((a: any, b: any) => {
       // Check for unread messages, if a message is unread it should appear first
-      const aUnread = a.last_message.sender_id !== user!.id;
-      const bUnread = b.last_message.sender_id !== user!.id;
+      const aUnread =
+        a.last_message.sender_id !== user!.id &&
+        a.last_message.sender_id !== -1;
+      const bUnread =
+        b.last_message.sender_id !== user!.id &&
+        b.last_message.sender_id !== -1;
 
       if (aUnread && !bUnread) {
         return -1; // a is unread, b is not, a should come first
