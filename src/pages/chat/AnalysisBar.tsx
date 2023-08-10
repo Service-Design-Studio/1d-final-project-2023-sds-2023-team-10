@@ -309,19 +309,31 @@ const AnalysisBar = ({ selectedChatId }: { selectedChatId: string }) => {
       <Card
         title={
           <div className="flex flex-row justify-between min-w-full items-center">
-            <Text>Sentiment Analysis</Text>
+            <Text data-testid="sentiment-analysis-title">
+              Sentiment Analysis
+            </Text>
             <div className="flex flex-row">
-              <Button type="primary" onClick={next}>
+              <Button
+                data-testid={"next-analysis-button"}
+                type="primary"
+                onClick={next}
+              >
                 Next Analysis
               </Button>
-              <Button onClick={execute}>Refresh</Button>
+              <Button data-testid="refresh-button" onClick={execute}>
+                Refresh
+              </Button>
             </div>
           </div>
         }
         style={{ minHeight: "420px" }}
         loading={isLoadingOverall}
       >
-        <Carousel ref={carouselRef} className="bg-white">
+        <Carousel
+          data-testid={"pink-carousell"}
+          ref={carouselRef}
+          className="bg-white"
+        >
           <div>
             <ResponsiveContainer width="100%" height={320}>
               <AreaChart

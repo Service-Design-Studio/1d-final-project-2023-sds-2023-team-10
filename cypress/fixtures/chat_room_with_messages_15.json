@@ -22,7 +22,7 @@
       "sender_id": 77,
       "receiver_id": 1,
       "timestamp": "2023-08-10T08:39:17.114Z",
-      "sentiment_analysis_score": 0,
+      "sentiment_analysis_score": 0.9,
       "content": "i hate my family so much",
       "message_type": "string",
       "chat_room_id": 304,

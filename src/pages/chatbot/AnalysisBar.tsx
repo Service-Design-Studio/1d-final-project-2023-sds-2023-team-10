@@ -312,7 +312,7 @@ const AnalysisBar = ({ selectedChatId }: { selectedChatId: string }) => {
             <Text data-testid={"sentiment-analysis-title"}>
               Sentiment Analysis
             </Text>
-            <div className="flex flex-row" data-testid={"next-analysis-button"}>
+            <div className="flex flex-row">
               <Button
                 type="primary"
                 data-testid={"next-analysis-button"}
@@ -320,7 +320,9 @@ const AnalysisBar = ({ selectedChatId }: { selectedChatId: string }) => {
               >
                 Next Analysis
               </Button>
-              <Button onClick={execute}>Refresh</Button>
+              <Button data-testid="refresh-button" onClick={execute}>
+                Refresh
+              </Button>
             </div>
           </div>
         }
