@@ -225,6 +225,7 @@ const AnalysisBar = ({ selectedChatId }: { selectedChatId: string }) => {
 
   // assuming messages are ordered by timestamp
   const messagesData = chatRoomMessagesData?.messages?.map((message: any) => ({
+    ...message,
     timestamp: new Date(message.timestamp).toLocaleDateString(),
     sentimentAnalysisScore: message.sentiment_analysis_score,
   }));
@@ -239,13 +240,21 @@ const AnalysisBar = ({ selectedChatId }: { selectedChatId: string }) => {
   }
 
   const processedAnalysisData = messagesData
-    ? messagesData.slice(-20).map((item: any) => {
-        return {
-          ...item,
-          "Sentiment Analysis Score":
-            Math.round(item.sentimentAnalysisScore * 1000) / 1000,
-        };
-      })
+    ? messagesData
+        .slice(-10)
+        .map((item: any) => {
+          return {
+            ...item,
+            "Sentiment Analysis Score":
+              Math.round(item.sentimentAnalysisScore * 1000) / 1000,
+          };
+        })
+        .filter(
+          (item: any) =>
+            item.sender_id !== 1 &&
+            item.sender_id !== 2 &&
+            item.sender_id !== -1
+        )
     : [];
 
   const {
