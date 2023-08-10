@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "cucumber-js",
-    "jest": "jest"
+    "jest": "jest",
+    "cypress": "cypress open"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.19",
@@ -22,6 +23,7 @@
     "@types/react-dom": "18.2.4",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
+    "cypress": "^12.17.3",
     "eslint": "8.42.0",
     "eslint-config-next": "13.4.4",
     "firebase": "^9.22.1",
