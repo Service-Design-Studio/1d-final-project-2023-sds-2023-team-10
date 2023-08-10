@@ -122,7 +122,7 @@ const ChatPage: React.FC = () => {
   //       </MainLayout>
   //     );
   //   }
-
+  console.log(contacts, selectedChatId)
   return (
     <MainLayout useFooter={false}>
       <Alert

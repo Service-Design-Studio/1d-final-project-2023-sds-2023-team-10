@@ -51,13 +51,18 @@ describe("Login Page", () => {
   });
 
   it("allows user to log in with correct credentials", () => {
-    // Enter correct credentials (replace with actual values)
-    cy.get("input#normal_login_email").type("admin");
-    cy.get("input#normal_login_password").type("admin");
-    cy.get("button#login-btn").click();
+    cy.get("input#normal_login_email").should("be.visible").type("admin");
+    cy.get("input#normal_login_password").should("be.visible").type("admin");
 
-    // Check if the user is redirected to the correct page after login
-    cy.url().should("eq", "http://localhost:3000/"); // Replace with the correct URL
+    cy.get("button#login-btn").should("be.visible").click();
+
+    // Wait for navigation to complete
+    cy.wait(2000); // Adjust the duration as needed (in milliseconds)
+
+    // Check for the existence of a specific element on the redirected page
+    cy.get(
+      "#__next > section > header > ul > li.ant-menu-overflow-item.ant-menu-item.ant-menu-item-selected"
+    ).should("be.visible");
   });
 
   it("has a link to reset password", () => {

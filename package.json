@@ -40,6 +40,7 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "http-proxy-middleware": "^2.0.6",
+    "i": "^0.3.7",
     "jwt-decode": "^3.1.2",
     "next": "13.4.7",
     "next-router-mock": "^0.9.7",
