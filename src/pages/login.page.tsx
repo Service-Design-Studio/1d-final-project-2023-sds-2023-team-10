@@ -15,7 +15,7 @@ const LoginPage: React.FC = () => {
 
   const onFinish = async (values: any) => {
     try {
-      const response = await axios.post("/api/login", {
+      const response = await axios.post("http://localhost:3000/api/login", {
         email: values.email,
         password: values.password,
       });
@@ -69,6 +69,7 @@ const LoginPage: React.FC = () => {
 
           <Form.Item>
             <Button
+              id="login-btn"
               type="primary"
               htmlType="submit"
               className="login-form-button w-full"

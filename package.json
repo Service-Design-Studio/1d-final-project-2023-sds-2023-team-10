@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "cucumber-js"
+    "test": "cucumber-js",
+    "cypress": "cypress open"
   },
   "dependencies": {
     "@ant-design/icons": "^5.1.4",
@@ -26,6 +27,7 @@
     "babel-eslint": "^10.0.3",
     "babel-plugin-module-resolver": "^5.0.0",
     "cors": "^2.8.5",
+    "cypress-localstorage-commands": "^2.2.3",
     "eslint": "8.43.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-next": "13.4.7",
@@ -40,6 +42,7 @@
     "http-proxy-middleware": "^2.0.6",
     "jwt-decode": "^3.1.2",
     "next": "13.4.7",
+    "next-router-mock": "^0.9.7",
     "openai": "^3.3.0",
     "postcss": "8.4.24",
     "rc-virtual-list": "^3.5.2",
@@ -58,6 +61,7 @@
     "@types/cors": "^2.8.13",
     "@types/cucumber": "^7.0.0",
     "chai": "^4.3.7",
+    "cypress": "^12.17.3",
     "puppeteer": "^20.7.3"
   }
 }
