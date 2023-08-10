@@ -7,7 +7,7 @@ let browser, page;
 Given("user is loged in again", async () => {
   browser = await puppeteer.launch({ headless: false });
   page = await browser.newPage();
-  await page.goto("http://localhost:3000/login", {
+  await page.goto("https://clientfrontend-xnabw36hha-as.a.run.app/login", {
     waitUntil: "networkidle0",
     timeout: 60000,
   }); // replace with your login/signup page url
@@ -21,7 +21,7 @@ Given("user is loged in again", async () => {
 });
 
 Given("a user is at the home page", async () => {
-  const expectedUrl = "http://localhost:3000/home"; // replace with your dashboard page url
+  const expectedUrl = "https://clientfrontend-xnabw36hha-as.a.run.app/home"; // replace with your dashboard page url
   const currentUrl = await page.url();
   expect(currentUrl).to.equal(expectedUrl);
 });

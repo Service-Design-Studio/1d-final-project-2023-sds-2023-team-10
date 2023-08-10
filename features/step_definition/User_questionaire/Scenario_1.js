@@ -7,7 +7,7 @@ let browser, page;
 Given("a user is at the welcome page", async () => {
   browser = await puppeteer.launch({ headless: false });
   page = await browser.newPage();
-  await page.goto(`http://localhost:3000/`);
+  await page.goto(`https://clientfrontend-xnabw36hha-as.a.run.app/`);
 });
 
 When("the user clicks on 'Start!'", async () => {
@@ -229,8 +229,7 @@ Then("user clicks on 'Submit'", async () => {
   ]);
 });
 
-Then("User lands on Log In page", async () => {
-  await page.waitForNavigation({ waitUntil: "networkidle0" }); // Waits until navigation finishes
+Then("User lands on Log In page", { timeout: 60 * 1000 },async () => {
   const currentUrl = await page.url();
-  expect(currentUrl).to.equal("http://localhost:3000/login");
+  expect(currentUrl).to.equal("https://clientfrontend-xnabw36hha-as.a.run.app/login");
 });

@@ -15,7 +15,7 @@ Given("the counsellor will receives the messages from Alice", { timeout: 60 * 10
 });
 
 Given("the counsellor will see from the sentiment analysis data that she is in a good mood", { timeout: 60 * 1000 },async () => {
-    await page.waitForSelector("#__next > section > main > div > div:nth-child(1) > div > div > div > div > div > li:nth-child(1)");
+  await page.waitForSelector("#__next > section > main > div > div:nth-child(1) > div > div > div > div > div > li:nth-child(1)");
   await page.click("#__next > section > main > div > div:nth-child(1) > div > div > div > div > div > li:nth-child(1)");
   });
 
