@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Article } from "../../types";
 import axios from "../axiosFrontend";
 import {
+  Badge,
   Card,
   CardBody,
   Heading,
@@ -11,6 +12,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import RecommendedArticle from "./RecommendedArticle";
+import useUser from "@/components/useUser";
 
 const handleUrlButton = (url: string) => {
   window.open(url, "_blank");
@@ -22,11 +24,10 @@ const alifeImgUrl =
 const ArticleList: React.FC = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [user, isLoadingUser] = useUser();
 
   useEffect(() => {
     fetchArticles();
-
-
 
     return () => {
       setArticles([]);
@@ -68,15 +69,27 @@ const ArticleList: React.FC = () => {
     );
   }
 
+  const filteredArticleBasedOnUserGroup = (articles: any) => {
+    const realOccupation =
+      user?.occupation && user?.occupation !== "string"
+        ? user?.occupation
+        : "Pregnant Teens";
+
+    const filteredArticles = articles.filter((article: any) => {
+      return article.user_group.includes(realOccupation);
+    });
+    return filteredArticles;
+  };
+
   // Create a function to render the articles as a list of Card components.
-  const renderArticles = () => {
+  const renderArticles = (articles: any) => {
     return (
       <>
         <div
           className="flex flex-col items-center justify-center"
           data-testid="articlelist"
         >
-          {articles.map((article, index) => {
+          {articles.map((article: any, index: any) => {
             if (index === 0) {
               return null;
             }
@@ -124,8 +137,14 @@ const ArticleList: React.FC = () => {
     <>
       {!isLoading && (
         <>
-          <Heading as="h3" size={"lg"} textAlign={"left"} className="p-4" data-testid="recommendedarticle">
-            Recommended Article
+          <Heading
+            as="h3"
+            size={"lg"}
+            textAlign={"left"}
+            className="p-4"
+            data-testid="recommendedarticle"
+          >
+            Recent Article
           </Heading>
           <RecommendedArticle
             article={articles[0]}
@@ -133,11 +152,34 @@ const ArticleList: React.FC = () => {
           />
         </>
       )}
+      {!isLoading && (
+        <>
+          <Heading
+            as="h3"
+            size={"lg"}
+            textAlign={"left"}
+            className="p-4"
+            data-testid="basedonyourprofile"
+          >
+            Articles based on your profile
+            <Badge colorScheme="green" className="ml-2">
+              NEW
+            </Badge>
+          </Heading>
+          <div>{renderArticles(filteredArticleBasedOnUserGroup(articles))}</div>
+        </>
+      )}
 
-      <Heading as="h3" size={"lg"} textAlign={"left"} className="p-4" data-testid="morearticle">
+      <Heading
+        as="h3"
+        size={"lg"}
+        textAlign={"left"}
+        className="p-4"
+        data-testid="morearticle"
+      >
         More Articles
       </Heading>
-      <div>{renderArticles()}</div>
+      <div>{renderArticles(articles)}</div>
       <Heading as="h3" size={"lg"} textAlign={"left"} className="p-4">
         Links to SSA
       </Heading>

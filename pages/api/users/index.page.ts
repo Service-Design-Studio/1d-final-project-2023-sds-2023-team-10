@@ -4,25 +4,28 @@ import { BACKEND_URL } from "@/components/api";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
-
-
+    console.log(
+      "%cindex.page.ts line:8 process.env.RUBY_SIGNUP_TOKEN",
+      "color: #007acc;",
+      process.env.RUBY_SIGNUP_TOKEN
+    );
     try {
       const result = await axios.post(
         `${BACKEND_URL}/users`,
         JSON.stringify(req.body),
         {
           headers: {
-            'accept': 'application/json',
-            'Content-Type': 'application/json',
+            accept: "application/json",
+            "Content-Type": "application/json",
             Authorization: `Bearer ${process.env.RUBY_SIGNUP_TOKEN}`,
           },
         }
       );
 
-      console.log("trying to signup")
+      console.log("trying to signup");
 
       const data = await result.data;
-      console.log("signup successful", data)
+      console.log("signup successful", data);
       return res.status(200).json(data);
     } catch (error) {
       console.log("failed to signup");
@@ -31,15 +34,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (req.method === "GET") {
-    const result = await axios.get(
-      `${BACKEND_URL}/users?admin=true`,
-      {
-        headers: {
-          Authorization: req.headers.authorization,
-          accept: "application/json",
-        },
-      }
-    );
+    const result = await axios.get(`${BACKEND_URL}/users?admin=true`, {
+      headers: {
+        Authorization: req.headers.authorization,
+        accept: "application/json",
+      },
+    });
 
     const data = await result.data;
     return res.status(200).json(data);

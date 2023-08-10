@@ -29,15 +29,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   // }
 
   if (req.method === "GET") {
-    const result = await axios.get(
-      `${BACKEND_URL}/articles`,
-      {
-        headers: {
-          Authorization: req.headers.authorization,
-          accept: "application/json",
-        },
-      }
-    );
+    const result = await axios.get(`${BACKEND_URL}/articles`, {
+      headers: {
+        Authorization: req.headers.authorization,
+        accept: "application/json",
+      },
+    });
 
     const data = await result.data;
     return res.status(200).json(data);
