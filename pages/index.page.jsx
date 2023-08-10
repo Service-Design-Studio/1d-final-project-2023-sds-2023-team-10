@@ -37,9 +37,6 @@ const sendToAPI = async (formData, userData) => {
         Accept: "application/json",
       },
     });
-
-
-  
   } catch (error) {
     console.log("There was an error!", error);
   }
@@ -842,15 +839,26 @@ function App() {
                           <br />
                         </div>
                         <div>
-                          <input
+                          <select
                             className={styles.submitBlank}
-                            type="text"
                             id="occupation"
                             name="occupation"
-                            placeholder="Occupation"
                             onChange={handleChange}
-                          />
-                          <br />
+                          >
+                            <option value="" disabled selected>
+                              Which of the following best describes you?
+                            </option>
+                            <option value="Pregnant teens">
+                              Pregnant teens
+                            </option>
+                            <option value="Pregnant adults">
+                              Pregnant adults
+                            </option>
+                            <option value="Partners">Partners</option>
+                            <option value="Parents">Parents</option>
+                            <option value="Friends">Friends</option>
+                            <option value="New Parents">New Parents</option>
+                          </select>
                         </div>
 
                         <div>
@@ -1049,15 +1057,26 @@ function App() {
                           <br />
                         </div>
                         <div>
-                          <input
+                          <select
                             className={styles.submitBlank}
-                            type="text"
                             id="occupation"
                             name="occupation"
-                            placeholder="Occupation"
                             onChange={handleChange}
-                          />
-                          <br />
+                          >
+                            <option value="" disabled selected>
+                              Select Occupation
+                            </option>
+                            <option value="Pregnant teens">
+                              Pregnant teens
+                            </option>
+                            <option value="Pregnant adults">
+                              Pregnant adults
+                            </option>
+                            <option value="Partners">Partners</option>
+                            <option value="Parents">Parents</option>
+                            <option value="Friends">Friends</option>
+                            <option value="New Parents">New Parents</option>
+                          </select>
                         </div>
 
                         <div>
