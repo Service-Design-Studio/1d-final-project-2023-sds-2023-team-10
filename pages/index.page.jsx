@@ -564,6 +564,17 @@ function App() {
               Start!
             </button>
           </div>
+          <div>
+            <button
+              type="button"
+              className={styles.letsgoButton}
+              onClick={() => {
+                router.push("/login");
+              }}
+            >
+              Sign in with your account
+            </button>
+          </div>
 
           <button className={styles.privacyPolicyButton}>
             Terms & Privacy Policy
@@ -846,7 +857,7 @@ function App() {
                             onChange={handleChange}
                           >
                             <option value="" disabled selected>
-                              Which of the following best describes you?
+                              User group
                             </option>
                             <option value="Pregnant teens">
                               Pregnant teens
@@ -1064,7 +1075,7 @@ function App() {
                             onChange={handleChange}
                           >
                             <option value="" disabled selected>
-                              Select Occupation
+                              User Group
                             </option>
                             <option value="Pregnant teens">
                               Pregnant teens
