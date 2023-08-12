@@ -38,3 +38,7 @@ service_account.json
 
 ./service_account.json
 .env
+environments/serviceAccount.json
+.env*
+
+service_account.json
