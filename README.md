@@ -57,6 +57,7 @@ Post four Agile sprints, Team Echolestia is proud to unveil two web applications
 ---
 
 **Link to the official website**: [Team Echolestia](https://sites.google.com/view/team10-echolestia/home)
+
 **Link to the design workbook**: [Team Echolestia Design Workbook](https://docs.google.com/document/d/1r61bJOzon-5f-KmudBfD-3ivwjCnkWRdb2UzV6ZBEL8/edit?usp=sharing)
 
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/PW-Vmbf6)
