@@ -4,7 +4,7 @@
 
 **[Design Workbook](https://docs.google.com/document/d/1r61bJOzon-5f-KmudBfD-3ivwjCnkWRdb2UzV6ZBEL8/edit?usp=sharing)**
 
-![Guiding Hand](assets/Screen%20Shot%202021-07-11%20at%2011.27.27%20PM.png)
+![Guiding Hand](echolestia-2023/assets/Screenshot%202023-08-13%20225841.png)
 
 ## Valuing Women's Choices, No Matter the Road
 
