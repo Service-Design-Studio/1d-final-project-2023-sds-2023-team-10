@@ -1,0 +1,32 @@
+[
+  {
+    "id": 0,
+    "published_date": "2023-07-01T05:36:34.600Z",
+    "created_date": "2023-07-01T05:36:34.600Z",
+    "title": "string",
+    "author": "string",
+    "img_url": "string",
+    "url": "string",
+    "user_group": ["string"]
+  },
+  {
+    "id": 1,
+    "published_date": "2023-07-01T05:36:34.600Z",
+    "created_date": "2023-07-01T05:36:34.600Z",
+    "title": "string",
+    "author": "string",
+    "img_url": "string",
+    "url": "string",
+    "user_group": ["string"]
+  },
+  {
+    "id": 2,
+    "published_date": "2023-07-01T05:36:34.600Z",
+    "created_date": "2023-07-01T05:36:34.600Z",
+    "title": "string",
+    "author": "string",
+    "img_url": "string",
+    "url": "string",
+    "user_group": ["string"]
+  }
+]

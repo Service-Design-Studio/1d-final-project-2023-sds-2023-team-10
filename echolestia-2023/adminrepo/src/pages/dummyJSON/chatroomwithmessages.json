@@ -1,0 +1,43 @@
+{
+  "id": 1,
+  "overall_sentiment_analysis_score": 0.85,
+  "date_created": "2023-07-01T06:10:14.109Z",
+  "is_ai_chat": false,
+  "is_group_chat": false,
+  "user1_id": 1,
+  "user2_id": 2,
+  "created_at": "2023-07-01T06:10:14.133Z",
+  "updated_at": "2023-07-01T06:10:14.133Z",
+  "opponent_id": 1,
+  "opponent_first_name": "John",
+  "opponent_second_name": "Doe",
+  "opponent_picture": "url1",
+  "messages": [
+    {
+      "id": 1,
+      "sender_id": 1,
+      "receiver_id": 2,
+      "timestamp": "2023-07-01T06:10:14.153Z",
+      "sentiment_analysis_score": 0.85,
+      "content": "Hello Jane",
+      "message_type": "text",
+      "chat_room_id": 1,
+      "read": null,
+      "created_at": "2023-07-01T06:10:14.167Z",
+      "updated_at": "2023-07-01T06:10:14.167Z"
+    },
+    {
+      "id": 2,
+      "sender_id": 2,
+      "receiver_id": 1,
+      "timestamp": "2023-07-02T06:10:14.173Z",
+      "sentiment_analysis_score": 0.95,
+      "content": "Hi John",
+      "message_type": "text",
+      "chat_room_id": 1,
+      "read": null,
+      "created_at": "2023-07-01T06:10:14.176Z",
+      "updated_at": "2023-07-01T06:10:14.176Z"
+    }
+  ]
+}

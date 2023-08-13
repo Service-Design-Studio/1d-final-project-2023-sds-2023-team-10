@@ -1,0 +1,1391 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API V1"
+  },
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "Bearer": [
+
+      ]
+    }
+  ],
+  "paths": {
+    "/articles": {
+      "get": {
+        "summary": "Retrieve all articles",
+        "tags": [
+          "Articles"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userGroup",
+            "in": "query",
+            "type": "string",
+            "description": "Retrieve articles related to a specific user group"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "articles found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "published_date": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "created_date": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "author": {
+                    "type": "string"
+                  },
+                  "img_url": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  },
+                  "user_group": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "published_date",
+                  "title",
+                  "author"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create an article",
+        "tags": [
+          "Articles"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "article",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "published_date": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "created_date": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "author": {
+                  "type": "string"
+                },
+                "img_url": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "user_group": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "published_date",
+                "title",
+                "author"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Article created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "published_date": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "created_date": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "author": {
+                  "type": "string"
+                },
+                "img_url": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "user_group": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid request"
+          }
+        }
+      }
+    },
+    "/articles/{id}": {
+      "get": {
+        "summary": "Retrieve an article",
+        "tags": [
+          "Articles"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Article retrieved",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "published_date": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "created_date": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "author": {
+                  "type": "string"
+                },
+                "img_url": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "user_group": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Article not found"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update an article",
+        "tags": [
+          "Articles"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "article",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "published_date": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "created_date": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "author": {
+                  "type": "string"
+                },
+                "img_url": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "user_group": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Article updated",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "published_date": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "created_date": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "author": {
+                  "type": "string"
+                },
+                "img_url": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "user_group": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid request"
+          },
+          "404": {
+            "description": "Article not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete an article",
+        "tags": [
+          "Articles"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Article deleted"
+          },
+          "404": {
+            "description": "Article not found"
+          }
+        }
+      }
+    },
+    "/chat_rooms": {
+      "get": {
+        "summary": "Retrieve chat rooms",
+        "tags": [
+          "Chat Rooms"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "ai",
+            "in": "query",
+            "type": "boolean",
+            "description": "Retrieve only AI chat rooms if set to true"
+          },
+          {
+            "name": "user",
+            "in": "query",
+            "type": "integer",
+            "description": "Retrieve chat rooms related to a specific user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "chat rooms found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "overall_sentiment_analysis_score": {
+                    "type": "number"
+                  },
+                  "date_created": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "is_ai_chat": {
+                    "type": "boolean"
+                  },
+                  "is_group_chat": {
+                    "type": "boolean"
+                  },
+                  "opponent_id": {
+                    "type": "integer"
+                  },
+                  "opponent_first_name": {
+                    "type": "string"
+                  },
+                  "opponent_second_name": {
+                    "type": "string"
+                  },
+                  "opponent_picture": {
+                    "type": "string"
+                  },
+                  "last_message": {
+                    "type": "string"
+                  },
+                  "unread_messages_count": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "id",
+                  "date_created",
+                  "is_ai_chat",
+                  "is_group_chat"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a chat room",
+        "tags": [
+          "Chat Rooms"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "chat_room",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user1_id": {
+                  "type": "integer"
+                },
+                "user2_id": {
+                  "type": "integer"
+                },
+                "overall_sentiment_analysis_score": {
+                  "type": "number"
+                },
+                "date_created": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "is_ai_chat": {
+                  "type": "boolean"
+                },
+                "is_group_chat": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "user1_id"
+              ]
+            }
+          },
+          {
+            "name": "ai",
+            "in": "query",
+            "type": "boolean",
+            "description": "Create an AI chat room"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Chat room created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "user1_id": {
+                  "type": "integer"
+                },
+                "user2_id": {
+                  "type": "integer"
+                },
+                "overall_sentiment_analysis_score": {
+                  "type": "number"
+                },
+                "date_created": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "is_ai_chat": {
+                  "type": "boolean"
+                },
+                "is_group_chat": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid request"
+          }
+        }
+      }
+    },
+    "/chat_rooms/{id}": {
+      "get": {
+        "summary": "Retrieve a chat room",
+        "tags": [
+          "Chat Rooms"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "withMessages",
+            "in": "query",
+            "type": "boolean",
+            "description": "Include messages in the response if set to true"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Chat room retrieved",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user1_id": {
+                  "type": "integer"
+                },
+                "user1_first_name": {
+                  "type": "string"
+                },
+                "user1_second_name": {
+                  "type": "string"
+                },
+                "user1_picture": {
+                  "type": "string"
+                },
+                "unread_messages_count_user1": {
+                  "type": "integer"
+                },
+                "user2_id": {
+                  "type": "integer"
+                },
+                "user2_first_name": {
+                  "type": "string"
+                },
+                "user2_second_name": {
+                  "type": "string"
+                },
+                "user2_picture": {
+                  "type": "string"
+                },
+                "unread_messages_count_user2": {
+                  "type": "integer"
+                },
+                "messages": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a chat room",
+        "tags": [
+          "Chat Rooms"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "chat_room",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user1_id": {
+                  "type": "integer"
+                },
+                "user2_id": {
+                  "type": "integer"
+                },
+                "overall_sentiment_analysis_score": {
+                  "type": "number"
+                },
+                "is_ai_chat": {
+                  "type": "boolean"
+                },
+                "is_group_chat": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          {
+            "name": "ai",
+            "in": "query",
+            "type": "boolean",
+            "description": "Update to an AI chat room"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Chat room updated",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "user1_id": {
+                  "type": "integer"
+                },
+                "user2_id": {
+                  "type": "integer"
+                },
+                "overall_sentiment_analysis_score": {
+                  "type": "number"
+                },
+                "is_ai_chat": {
+                  "type": "boolean"
+                },
+                "is_group_chat": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid request"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a chat room",
+        "tags": [
+          "Chat Rooms"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Chat room deleted"
+          }
+        }
+      }
+    },
+    "/messages": {
+      "get": {
+        "summary": "Retrieves all messages",
+        "tags": [
+          "Messages"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "messages found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "sender_id": {
+                    "type": "integer"
+                  },
+                  "receiver_id": {
+                    "type": "integer"
+                  },
+                  "timestamp": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "sentiment_analysis_score": {
+                    "type": "number"
+                  },
+                  "content": {
+                    "type": "string"
+                  },
+                  "message_type": {
+                    "type": "string"
+                  },
+                  "chat_room_id": {
+                    "type": "integer"
+                  },
+                  "read": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "id",
+                  "sender_id",
+                  "receiver_id",
+                  "content",
+                  "message_type"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a message",
+        "tags": [
+          "Messages"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "message",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "sender_id": {
+                  "type": "integer"
+                },
+                "receiver_id": {
+                  "type": "integer"
+                },
+                "timestamp": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "sentiment_analysis_score": {
+                  "type": "number"
+                },
+                "content": {
+                  "type": "string"
+                },
+                "message_type": {
+                  "type": "string"
+                },
+                "chat_room_id": {
+                  "type": "integer"
+                },
+                "read": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "sender_id",
+                "receiver_id",
+                "content",
+                "message_type"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "message created"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/messages/{id}": {
+      "get": {
+        "summary": "Retrieves a message",
+        "tags": [
+          "Messages"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "message found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "sender_id": {
+                  "type": "integer"
+                },
+                "receiver_id": {
+                  "type": "integer"
+                },
+                "timestamp": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "sentiment_analysis_score": {
+                  "type": "number"
+                },
+                "content": {
+                  "type": "string"
+                },
+                "message_type": {
+                  "type": "string"
+                },
+                "chat_room_id": {
+                  "type": "integer"
+                },
+                "read": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "id",
+                "sender_id",
+                "receiver_id",
+                "content",
+                "message_type"
+              ]
+            }
+          },
+          "404": {
+            "description": "message not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Updates a message",
+        "tags": [
+          "Messages"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "message",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "sender_id": {
+                  "type": "integer"
+                },
+                "receiver_id": {
+                  "type": "integer"
+                },
+                "timestamp": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "sentiment_analysis_score": {
+                  "type": "number"
+                },
+                "content": {
+                  "type": "string"
+                },
+                "message_type": {
+                  "type": "string"
+                },
+                "chat_room_id": {
+                  "type": "integer"
+                },
+                "read": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "sender_id",
+                "receiver_id",
+                "content",
+                "message_type"
+              ]
+            }
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "message updated"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes a message",
+        "tags": [
+          "Messages"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "message deleted"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "summary": "Create a new token",
+        "tags": [
+          "Tokens"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "session",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "email",
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Token created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "token": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "status",
+                "token"
+              ]
+            }
+          },
+          "422": {
+            "description": "Invalid credentials",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "error"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "summary": "Retrieves all users",
+        "tags": [
+          "Users"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "users found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "user_type": {
+                    "type": "string"
+                  },
+                  "profile": {
+                    "type": "string"
+                  },
+                  "first_name": {
+                    "type": "string"
+                  },
+                  "second_name": {
+                    "type": "string"
+                  },
+                  "age": {
+                    "type": "integer"
+                  },
+                  "occupation": {
+                    "type": "string"
+                  },
+                  "username": {
+                    "type": "string"
+                  },
+                  "phone_number": {
+                    "type": "string"
+                  },
+                  "gender": {
+                    "type": "string"
+                  },
+                  "pregnant": {
+                    "type": "boolean"
+                  },
+                  "marital_status": {
+                    "type": "string"
+                  },
+                  "pregnancy_week": {
+                    "type": "integer"
+                  },
+                  "is_anonymous_login": {
+                    "type": "boolean"
+                  },
+                  "survey_result": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "user_type",
+                  "profile",
+                  "first_name",
+                  "second_name",
+                  "age",
+                  "occupation",
+                  "username",
+                  "phone_number",
+                  "gender",
+                  "pregnant",
+                  "marital_status",
+                  "pregnancy_week",
+                  "is_anonymous_login",
+                  "survey_result"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a user",
+        "tags": [
+          "Users"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_type": {
+                  "type": "string"
+                },
+                "profile": {
+                  "type": "string"
+                },
+                "first_name": {
+                  "type": "string"
+                },
+                "second_name": {
+                  "type": "string"
+                },
+                "age": {
+                  "type": "integer"
+                },
+                "occupation": {
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                },
+                "phone_number": {
+                  "type": "string"
+                },
+                "gender": {
+                  "type": "string"
+                },
+                "pregnant": {
+                  "type": "boolean"
+                },
+                "marital_status": {
+                  "type": "string"
+                },
+                "pregnancy_week": {
+                  "type": "integer"
+                },
+                "is_anonymous_login": {
+                  "type": "boolean"
+                },
+                "survey_result": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "first_name",
+                "second_name",
+                "username"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "user created"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Retrieves a user",
+        "tags": [
+          "Users"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "user_type": {
+                  "type": "string"
+                },
+                "profile": {
+                  "type": "string"
+                },
+                "first_name": {
+                  "type": "string"
+                },
+                "second_name": {
+                  "type": "string"
+                },
+                "age": {
+                  "type": "integer"
+                },
+                "occupation": {
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                },
+                "phone_number": {
+                  "type": "string"
+                },
+                "gender": {
+                  "type": "string"
+                },
+                "pregnant": {
+                  "type": "boolean"
+                },
+                "marital_status": {
+                  "type": "string"
+                },
+                "pregnancy_week": {
+                  "type": "integer"
+                },
+                "is_anonymous_login": {
+                  "type": "boolean"
+                },
+                "survey_result": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "user_type",
+                "profile",
+                "first_name",
+                "second_name",
+                "age",
+                "occupation",
+                "username",
+                "phone_number",
+                "gender",
+                "pregnant",
+                "marital_status",
+                "pregnancy_week",
+                "is_anonymous_login",
+                "survey_result"
+              ]
+            }
+          },
+          "404": {
+            "description": "user not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Updates a user",
+        "tags": [
+          "Users"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_type": {
+                  "type": "string"
+                },
+                "profile": {
+                  "type": "string"
+                },
+                "first_name": {
+                  "type": "string"
+                },
+                "second_name": {
+                  "type": "string"
+                },
+                "age": {
+                  "type": "integer"
+                },
+                "occupation": {
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                },
+                "phone_number": {
+                  "type": "string"
+                },
+                "gender": {
+                  "type": "string"
+                },
+                "pregnant": {
+                  "type": "boolean"
+                },
+                "marital_status": {
+                  "type": "string"
+                },
+                "pregnancy_week": {
+                  "type": "integer"
+                },
+                "is_anonymous_login": {
+                  "type": "boolean"
+                },
+                "survey_result": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user updated"
+          },
+          "404": {
+            "description": "user not found"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes a user",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "user deleted"
+          },
+          "404": {
+            "description": "user not found"
+          }
+        }
+      }
+    }
+  }
+}
