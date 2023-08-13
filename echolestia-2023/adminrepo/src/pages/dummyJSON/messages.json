@@ -1,0 +1,12 @@
+[
+  {
+    "id": 0,
+    "sender_id": 0,
+    "receiver_id": 0,
+    "timestamp": "2023-07-01T05:34:43.903Z",
+    "sentiment_analysis_score": 0,
+    "content": "string",
+    "message_type": "string",
+    "chat_room_id": 0
+  }
+]
